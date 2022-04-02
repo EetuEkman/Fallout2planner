@@ -1,0 +1,699 @@
+:root {
+    --field-drab: rgb(108,84,30);
+    --transparent-gold: rgba(255,215,0,0.5);
+    --onyx: rgb(52,56,57);
+    --smoky-black: rgb(16,12,8);
+    --dark-charcoal: rgb(51,51,51);
+    --black-leather-jacket: rgb(37,53,41);
+    --raisin-black: rgb(36,33,36);
+    --jet: rgb(52,52,52);
+    --kombu-green: rgb(53,66,48);
+    --steel-gray: #71797E;
+    --olive-drab-7: #3c341f;
+    --zinwaldite-brown: #2c1608;
+}
+
+@font-face {
+    font-family: "Slater Industrial";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Slater Industrial"), url(./fonts/SlaterIndustrial.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Overseer";
+    font-style: normal;
+    src: local("Overseer"), url("./fonts/Overseer.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Monofonto";
+    font-style: normal;
+    src: local("Monofonto"), url("./fonts/monofonto.otf") format("opentype");
+}
+
+body {
+    background-color: var(--smoky-black);
+}
+
+.primary-stats {
+    grid-area: primary-stats;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+.primary-stat {
+    padding: 1%;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    border: 1px;
+    border-style: solid;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.primary-stat.unspent-stat-points {
+    justify-content: flex-end;
+    border: none;
+}
+
+.primary-stat-name {
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    width: 66%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.primary-stat-name.unspent-stat-points {
+    width: auto;
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.primary-stat-value {
+    background-color: black;
+    font-family: "Overseer";
+    color: white;
+    font-size: large;
+    text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.primary-stat-value.invalid {
+    color: red;
+}
+
+.primary-stat-value.unspent-stat-points {
+    background-color: black;
+    font-family: "Overseer";
+    color: white;
+    font-size: large;
+    text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.primary-stat-flavor-text {
+    font-family: "Monofonto";
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    background-color: black;
+    color: lawngreen;
+}
+
+.primary-stats-buttons {
+    min-width: 22px;
+    max-width: 22px;
+    display: inline-block;
+}
+
+.primary-stat-button {
+    background-color: var(--field-drab);
+    color: var(--transparent-gold);
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    text-align: center;
+    margin: auto;
+    font-family: "Slater Industrial";
+    display: flex;
+    justify-content: center;
+}
+
+.primary-stat-button:active {
+    filter:brightness(90%)
+}
+
+.level {
+    display: flex;
+    background-color: var(--field-drab);
+    justify-content: flex-end;
+    min-height: 60px;
+    align-items: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.level-text {
+    background-color: black;
+    color: lawngreen;
+    font-family: "Monofonto";
+    min-height: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.level-button-container {
+    min-width: 22px;
+    max-width: 22px;
+    display: inline-block;
+}
+
+.level-button {
+    background-color: var(--field-drab);
+    color: gold;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+    display: block;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    filter: brightness(110%);
+    text-align: center;
+    margin: auto;
+    font-family: "Slater Industrial";
+    display: flex;
+    justify-content: center;
+}
+
+.level-button:active {
+    filter: brightness(90%);
+}
+
+.derived-stats {
+    grid-area: derived-stats;
+    border: 2px;
+    border-style: solid;
+    border-color: var(--field-drab);
+    background-color: black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: flex-start;
+}
+
+.derived-stats > div {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding: 1px;
+    width: auto;
+    color:lawngreen;
+    font-family: "Monofonto";
+    justify-content: flex-start;
+}
+
+.derived-stat-name {
+    color: lawngreen;
+    font-family: "Monofonto";
+    width: auto;
+    min-width: 275px;
+    flex-wrap: nowrap;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.derived-stat-value {
+    color: lawngreen;
+    font-family: "Monofonto";
+    flex-wrap: nowrap;
+    width: 50px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.derived-stat-value.bad {
+    color: yellow;
+}
+
+.skills {
+    grid-area: skills;
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    min-width: 100%;
+    justify-content:flex-start;
+}
+
+.skill {
+    padding: 2px;
+    background-color: black;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 22px;
+    flex-wrap: nowrap;
+}
+
+.skill.skill-points {
+    justify-content: space-around;
+}
+
+.skill.skill-points > span {
+    display: flex;
+    color: lawngreen;
+    font-family: "Monofonto";
+    justify-content: center;
+    width: auto;
+}
+
+.skill.tag-points {
+    justify-content: space-around
+}
+
+.skill.tag-points > span {
+    display: flex;
+    color: lawngreen;
+    font-family: "Monofonto";
+    justify-content: center;
+    width: auto;
+}
+
+.skill-name {
+    color: lawngreen;
+    font-family: "Monofonto";
+    min-width: 120px;
+    margin-left: 2px;
+}
+
+.skill-name.tagged {
+    color:azure;
+}
+
+.skill-value {
+    width: 30px;
+    color: lawngreen;
+    font-family: "Monofonto";
+}
+
+.skill-value.tagged {
+    color: azure;
+}
+
+.tag-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 5%;
+    min-width: 40px;
+    order: 1;
+    background-color: var(--field-drab);
+}
+
+.tag-button-container {
+    height: 22px;
+    width: auto;
+    background-color: var(--field-drab);
+    box-shadow: 0px 1px var(--field-drab), 0px -1px var(--field-drab);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 2px;
+}
+
+.tag-button-container > button {
+    color: darkred;
+    background-color: var(--field-drab);
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 5px;
+    filter: brightness(110%);
+    width: 25px;
+    height: 20px;
+}
+
+.tag-button-container > button:active {
+    color: red;
+    filter: brightness(66%);
+}
+
+.skill-button-container {
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    height: 22px;
+    width: 44px;
+    background-color: var(--field-drab);
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 1px var(--field-drab), 0px -1px var(--field-drab);
+}
+
+.skill-button {
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: var(--field-drab);
+    color: var(--transparent-gold);
+    width: 20px;
+    height: 20px;
+}
+
+.skill-button:active {
+    filter: brightness(66%);
+}
+
+
+.skill-values {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    order: 2;
+    flex-wrap: nowrap;
+}
+
+.skill-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 5%;
+    min-width: 40px;
+    order: 3;
+}
+
+.level {
+    grid-area: level;
+}
+
+.traits-container {
+    grid-area: traits;
+    padding: 10px;
+    height: 400px;
+    margin-bottom: 75px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+    grid-template-areas:
+    "traits-header traits-header"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits"
+    "traits traits";
+}
+
+.traits-header {
+    grid-area: traits-header;
+    background-color: var(--field-drab);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    color: var(--transparent-gold);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding-top: 10px;
+    margin: 4px;
+    min-width: 200px;
+}
+
+.traits {
+    grid-area: traits;
+    background-color: black;
+    height: 390px;
+    padding: 10px;
+    margin-top: 9px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.traits > div {
+    color: lawngreen;
+    font-family: "Monofonto";
+    min-height: 20px;
+    max-width: 120px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+}
+
+.traits > div.selected {
+    color: azure;
+}
+
+.empty {
+    grid-area: empty;
+}
+
+.perks {
+    grid-area: perks;
+    width: auto;
+    min-width: 1200px;
+    background-color: var(--field-drab);
+    display: flex;
+    padding: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: var(--field-drab);
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+    grid-template-areas:
+    "players-perks-header players-perks-header available-perks-header available-perks-header perk-points-container"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+    "players-perks players-perks available-perks available-perks available-perks"
+}
+
+.perk-points-container {
+    grid-area: perk-points-container;
+    display: flex;
+    justify-content:space-evenly;
+    padding-top: 10px;
+    margin: 4px;
+}
+
+.available-perks {
+    grid-area: available-perks;
+    background-color: black;
+    width: auto;
+    display: flex;
+    padding: 5px;
+    height: 400px;
+    margin: 4px;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.available-perks-header {
+    grid-area: available-perks-header;
+    background-color: var(--field-drab);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    color: var(--transparent-gold);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding-top: 10px;
+    margin: 4px;
+    padding-left: 45%;
+}
+
+.available-perks > div {
+    color: lawngreen;
+    font-family: "Monofonto";
+    height: 20px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.perk-points-header {
+    background-color: var(--field-drab);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    padding: 2px;
+    color: var(--transparent-gold);
+    height: 20px;
+}
+
+.perk-points {
+    background-color: black;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 2px;
+    height: 20px;
+    font-family: "Overseer";
+    color: white;
+    font-size: large;
+    text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.players-perks {
+    grid-area: players-perks;
+    background-color: black;
+    height: 400px;
+    padding: 5px;
+    margin: 4px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.players-perks-header {
+    grid-area: players-perks-header;
+    background-color: var(--field-drab);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    color: var(--transparent-gold);
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    flex-wrap: nowrap;
+    margin: 4px;
+}
+
+.players-perks > div {
+    color: lawngreen;
+    font-family: "Monofonto";
+}
+
+.container {
+    padding: 2px;
+    background-color: var(--field-drab);
+    display: grid;
+    width: auto;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+    grid-template-areas:
+    "primary-stats derived-stats derived-stats skills ."
+    "primary-stats derived-stats derived-stats skills ."
+    "primary-stats derived-stats derived-stats skills ."
+    "primary-stats derived-stats derived-stats skills ."
+    "level derived-stats derived-stats skills ."
+    "traits perks perks perks tooltip"
+    "traits perks perks perks tooltip"
+    "traits perks perks perks tooltip"
+    "traits perks perks perks tooltip"
+    ". . . . print-button";
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.print-button-container {
+    grid-area: print-button;
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px;
+    height: 40px;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.print-button-container > div {
+    background-color: var(--field-drab);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    color: var(--transparent-gold);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-right: 5px;
+    align-items: center;
+    height: 26px;
+}
+
+.print-button-container > button {
+    background-color: darkred;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+}
+
+.print-button-container > button:active {
+    filter:brightness(80%)
+}
+
+.tooltip {
+    grid-area: tooltip;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    margin: 2px;
+    height: 370px;
+    margin-top: 59px;
+    margin-right: 10px;
+    background-color: black;
+    flex-direction: column;
+}
+
+.tooltip > h3 {
+    color: lawngreen;
+    font-family: "Monofonto";
+}
+
+.tooltip > p {
+    grid-area: tooltip;
+    color: lawngreen;
+    font-family: "Monofonto";
+    white-space: pre-line;
+}
