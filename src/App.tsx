@@ -3,7 +3,7 @@ import "./App.css";
 import PrimaryStats from "./components/primaryStats";
 import PlayerSkills from "./components/playerSkills";
 import DerivedStats from "./components/derivedStats";
-import { IPrimaryStats, IPlayerSkills, ITrait, TRAITS, IPrimaryStatsAction, getEmptyPlayerSkills, getDefaultPlayerSkills, PlayerSkillNames, IPerk, PERKS, PerkNames, TOOLTIPS } from "./models";
+import { IPrimaryStats, IPlayerSkills, ITrait, TRAITS, getEmptyPlayerSkills, getDefaultPlayerSkills, PlayerSkillNames, IPerk, PERKS, PerkNames, TOOLTIPS, TraitNames } from "./models";
 import calculateBaseSkills from "./calculateBaseSkills";
 import calculateDerivedStats, { derivedStatsDefault } from "./calculateDerivedStats";
 import { calculateFinalSkills } from "./calculateFinalSkills";
@@ -299,6 +299,16 @@ interface IRaisedSkillsAction {
     amount: number
 }
 
+/**
+ * Action for the primary stats reducer
+ */
+ interface IPrimaryStatsAction {
+    type: string,
+    payload: string,
+    traits: ITrait[],
+    gainPrimaryStatPerk?: string
+}
+
 // Complex state, use reducer
 
 function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction): IPrimaryStats {
@@ -345,7 +355,6 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
                 // Check undefined
 
                 if (action.gainPrimaryStatPerk) {
-
                     switch (action.gainPrimaryStatPerk) {
                         case PerkNames.gainStrength:
                             newState.strength += 1;
@@ -369,9 +378,7 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
                             newState.luck += 1;
                             break;
                     }
-
                 }
-
             }
 
             if (action.payload === "remove") {
@@ -417,10 +424,10 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
 }
 
 /**
- * Increases a primary stat
- * @param primaryStats current primary stats state
- * @param stat stat to increase
- * @returns new primary stats state
+ * Increases a primary stat.
+ * @param primaryStats character's current primary stats.
+ * @param stat primary stat to increase.
+ * @returns character's new primary stats.
  */
 
 function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: ITrait[]): IPrimaryStats {
@@ -488,11 +495,11 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
 }
 
 /**
- * Decreases a primary stat
- * @param primaryStats current primary stats state
- * @param stat stat to decrease
- * @param traits new primary stats state
- * @returns 
+ * Decreases a primary stat.
+ * @param primaryStats character's current primary stats.
+ * @param stat primary stat to decrease.
+ * @param traits character's current traits. Certain traits, such as Gifted, limit the minimum primary stat values.
+ * @returns character's new primary stats.
  */
 
 function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: ITrait[]): IPrimaryStats {
@@ -614,8 +621,8 @@ function decreaseAllPrimaryStats(primaryStats: IPrimaryStats) : IPrimaryStats {
 }
 
 /**
- * Returns primary stats state with default values
- * @returns new primary stats state
+ * Returns primary stats state with default values.
+ * @returns the default primary stats
  */
 
 function getDefaultPrimaryStats(): IPrimaryStats {
@@ -634,8 +641,8 @@ function getDefaultPrimaryStats(): IPrimaryStats {
 }
 
 /**
- * Calculates skill point cost to raise skill level
- * @param skillValue current skill level
+ * Calculates the skill point cost to raise the skill level
+ * @param skillValue the current skill level
  * @returns the cost
  */
 
@@ -1918,21 +1925,18 @@ function App() {
     const handleTraitClick = (event: MouseEvent<HTMLDivElement>) => {
         handleTooltipClick(event);
 
-        // Prevent changing traits after level 1 without tag! perk selected
+        // Prevent changing traits after level 1
+        // and without the Mutate! perk selected.
+
+        // Get the Mutate! perk
 
         const mutate = playersPerks.find((perk) => perk.name === PerkNames.mutate);
 
         if (mutate) {
+            // Check the rank of the Mutate! perk.
 
             if (playerLevel > 1 && mutate.ranks === 0) { return; }
-
-        } else {
-
-            if (playerLevel > 1) { return; }
-
         }
-
-        // Get trait name from data-name html button element attribute
 
         let traitName = event.currentTarget.getAttribute("data-name");
 
@@ -1940,11 +1944,9 @@ function App() {
 
         if (!traitName) { return; }
 
-        // Initialize
-
         let selectedTraits: ITrait[] = [];
 
-        // Find the trait to be added to the selected traits from all the traits
+        // Find the trait to be added to the selected traits from all the traits.
 
         const trait: ITrait = TRAITS.find((trait) => trait.name === traitName)!;
 
@@ -1952,27 +1954,27 @@ function App() {
 
         if (!trait) { return; }
 
-        // Check if the trait already exists in the player's traits
+        // Check if the trait already exists in the character's traits.
 
         const found = traits.find((element) => trait.name === element.name);
 
         if (found) {
             
-            // Remove the primary stat effects
+            // Remove the primary stat effects.
 
-            if (trait.name === "Small frame") {
+            if (trait.name === TraitNames.smallFrame) {
                 primaryStatsDispatch({type: "small frame", payload: "remove", traits: traits});
             }
 
-            if (trait.name === "Gifted") {
+            if (trait.name === TraitNames.gifted) {
                 primaryStatsDispatch({type: "gifted", payload: "remove", traits: traits});
             }
 
-            if (trait.name === "Bruiser") {
+            if (trait.name === TraitNames.bruiser) {
                 primaryStatsDispatch({type: "bruiser", payload: "remove", traits: traits});
             }
 
-            // Remove the trait from the selected traits
+            // Remove the trait from the character's traits.
 
             setTraits(traits => traits.filter((trait) => trait.name !== traitName));
 
@@ -1984,16 +1986,19 @@ function App() {
         }
 
         if (!found) {
-            // Max traits 2
+            // Maximum traits 2.
+
             if (traits.length >= 2) { return; };
 
-            // Combine selected traits with existing traits to a new array
+            // Combine the selected traits with existing traits to a new array.
+
             selectedTraits = selectedTraits.concat(traits);
 
-            // Push the new trait into the selected traits
+            // Push the new trait into the selected traits.
+
             selectedTraits.push(trait);
 
-            // Primary stats effects
+            // Primary stats effects.
 
             if(trait.name === "Small frame")
             {
@@ -2036,30 +2041,29 @@ function App() {
         primaryStatsDispatch(action);
     }
 
+    // Called when user clicks on an available perk.
+
+    // Try to add a rank to the perk in the character's perks
+    // and remove a rank from the perk in the available perks.
+
     const handleAvailablePerkClick = (event: MouseEvent) => {
         const perkName = event.currentTarget.getAttribute("data-perk-name")!;
 
-        if (perkName === undefined) {
-            return;
-        }
+        if (perkName === undefined) { return; }
 
-        if (perkPoints <= 0) {
-            return;
-        }
+        if (perkPoints <= 0) { return; }
 
         const index = availablePerks.findIndex((availablePerk) => availablePerk.name === perkName);
 
-        if (index === -1) {
-            return;
-        }
+        if (index === -1) { return; }
 
-        // Remove a rank from the perk in available perks
+        // Remove a rank from the perk in the available perks.
 
         const removeAction : IAvailablePerksAction = { type: "remove", perkName: perkName}
 
         availablePerksDispatch(removeAction);
 
-        // Add perk to player's perks
+        // Add a rank to the perk in the character's perks.
 
         const addAction : IPlayersPerksAction = { type: "add", perkName: perkName, playerLevel: playerLevel}
 
@@ -2067,13 +2071,17 @@ function App() {
 
         setPerkPoints(perkPoints => perkPoints - 1);
 
-        if (perkName === PerkNames.hereAndNow) {
-            levelUp();
-        }
+        // Choosing a here and now perk grants an immediate character level.
+
+        if (perkName === PerkNames.hereAndNow) { levelUp(); }
+
+        // Choosing the Tag! perk grants a tag point.
 
         if (perkName === PerkNames.tag) {
             setTagPoints(tagPoint => tagPoint + 1);
         }
+
+        // Gain primary stat perks increase a primary stat.
 
         if (perkName.includes("Gain")) {
             let primaryStatsAction: IPrimaryStatsAction = {type: "gainPerk", payload: "add", gainPrimaryStatPerk: perkName, traits: traits};
@@ -2082,10 +2090,14 @@ function App() {
         }
     }
 
+    // Called when user clicks a perk.
+
     const handlePlayersPerkClick = (event: MouseEvent) => {
-        const perkName= event.currentTarget.getAttribute("data-perk-name")!;
+        const perkName = event.currentTarget.getAttribute("data-perk-name")!;
 
         if (perkName === undefined) { return; }
+
+        // Prevent certain perks from being removed.
 
         if (perkName === PerkNames.hereAndNow ||
             perkName === PerkNames.tag ||
@@ -2093,21 +2105,30 @@ function App() {
             return;
         }
 
+        // Find the index of the perk in the player's perks.
+
         const index = playersPerks.findIndex((playersPerk) => playersPerk.name === perkName);
 
-        if (index === undefined) { return; }
+        if (index === -1) { return; }
 
-        // Remove a rank from the perk in player's perks
+        // Remove a rank from the perk in the player's perks.
 
         const removeAction : IPlayersPerksAction = { type: "remove", perkName: perkName, playerLevel: playerLevel}
 
         playersPerksDispatch(removeAction);
 
+        // Add a rank to the perk in the available perks.
+
         const addAction : IAvailablePerksAction = { type: "add", perkName: perkName}
 
         availablePerksDispatch(addAction);
 
+        // Refund a perk point
+
         setPerkPoints(perkPoints => perkPoints + 1);
+
+        // "Gain"-perks, such as Gain strength, increase a primary stat.
+        // Removing the "Gain"-perk decreases a primary stat.
 
         if (perkName.includes("Gain")) {
             let primaryStatsAction: IPrimaryStatsAction = {type: "gainPerk", payload: "remove", gainPrimaryStatPerk: perkName, traits: traits};
@@ -2116,22 +2137,32 @@ function App() {
         }
     }
 
+    // Create and download a text file containing character's primary stats, traits and perks.
+
     const print = () => {
+        // Get primary stats, traits and perks in printable form
+
         const printablePrimaryStats = getPrintablePrimaryStats(primaryStats);
 
         const printableTraits = getPrintableTraits(traits);
 
         const printablePerks = getPrintablePerks(playersPerks);
 
+        // Create downloadable file
+
         const blob = new Blob([printablePrimaryStats, printableTraits, printablePerks], { type: "text/plain;charset=utf-8", endings: "native"});
 
         const fileDownloadUrl = URL.createObjectURL(blob);
+
+        // Create an anchor element used for download
 
         let element = document.createElement("a");
 
         element.setAttribute("href", fileDownloadUrl);
 
         element.style.display = "none";
+
+        // Use a date in naming the text file
 
         const date = new Date();
 
@@ -2150,10 +2181,14 @@ function App() {
         document.body.removeChild(element);
     }
 
+    // Called when user clicks a primary stat, trait, derived stat, perk or skill to provide information
+
     const handleTooltipClick = (event: MouseEvent) => {
         const name = event.currentTarget.getAttribute("data-tooltip");
 
         if (!name) { return; }
+
+        // Find a tooltip for specific item
 
         const tooltip = TOOLTIPS.find(tooltip => tooltip.name === name);
 
@@ -2163,6 +2198,10 @@ function App() {
 
         setTooltipHeader(header => tooltip.header);
     }
+
+    // Base skills and derived stats are calculated from primary stats, traits, perks and tagged skills.
+
+    // Re-calculate on change.
 
     useEffect(() => {
         setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
