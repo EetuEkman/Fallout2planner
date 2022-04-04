@@ -1,6 +1,8 @@
 import React, { MouseEventHandler } from "react";
 import { IPrimaryStats, PrimaryStatNames } from "../models";
 
+// Primary stats have a matching flavor text.
+
 function getFlavorText(value: number): string {
     let text: string;
 
@@ -52,7 +54,7 @@ function getFlavorText(value: number): string {
     return text;
 }
 
-// Add a leading zero to displayed value
+// Add a leading zero to displayed value.
 
 function formatPrimaryStat(primaryStat: number) : string {
     let valueToDisplay : string;
@@ -78,7 +80,7 @@ function PrimaryStats({primaryStats, handleClick, handleTooltipClick}: IPrimaryS
         <div className="primary-stats">
             <div className="primary-stat">
                 <span className="primary-stat-name" data-tooltip={PrimaryStatNames.strength} onClick={handleTooltipClick}>Strength</span>
-                {primaryStats.strength > 10 ?
+                {primaryStats.strength > 10 ? // Render primary stats over 10 as red
                     <span className="primary-stat-value invalid">{formatPrimaryStat(primaryStats.strength)}</span>
                     :
                     <span className="primary-stat-value">{formatPrimaryStat(primaryStats.strength)}</span>

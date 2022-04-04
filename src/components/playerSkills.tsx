@@ -9,13 +9,14 @@ interface IFinalSkillsProps {
     raisedSkills: IPlayerSkills,
     handleTagClick: MouseEventHandler<HTMLButtonElement>,
     handleSkillValueClick: MouseEventHandler<HTMLButtonElement>,
+    handleTooltipClick: MouseEventHandler<HTMLDivElement>
     playerLevel: number,
     skillPoints: number,
     tagPoints: number,
     taggedSkills: string[]
 }
 
-export default function PlayerSkills({ baseSkills, raisedSkills, skillPoints, playerLevel, taggedSkills, tagPoints, handleTagClick, handleSkillValueClick }: IFinalSkillsProps): JSX.Element {
+export default function PlayerSkills({ baseSkills, raisedSkills, skillPoints, playerLevel, taggedSkills, tagPoints, handleTagClick, handleSkillValueClick, handleTooltipClick }: IFinalSkillsProps): JSX.Element {
 
     const finalSkills = calculateFinalSkills(baseSkills, raisedSkills);
 
@@ -32,108 +33,126 @@ export default function PlayerSkills({ baseSkills, raisedSkills, skillPoints, pl
             </div>
             <div className="skill-values">
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.SmallGuns}
                     value={finalSkills.smallGuns}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.BigGuns}
                     value={finalSkills.bigGuns}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.EnergyWeapons}
                     value={finalSkills.energyWeapons}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Unarmed}
                     value={finalSkills.unarmed}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.MeleeWeapons}
                     value={finalSkills.meleeWeapons}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Throwing}
                     value={finalSkills.throwing}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.FirstAid}
                     value={finalSkills.firstAid}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Doctor}
                     value={finalSkills.doctor}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Sneak}
                     value={finalSkills.sneak}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Lockpick}
                     value={finalSkills.lockpick}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Steal}
                     value={finalSkills.steal}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Traps}
                     value={finalSkills.traps}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Science}
                     value={finalSkills.science}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Repair}
                     value={finalSkills.repair}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Speech}
                     value={finalSkills.speech}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Barter}
                     value={finalSkills.barter}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Gambling}
                     value={finalSkills.gambling}
                     taggedSkills={taggedSkills}>
                 </PlayerSkill>
 
                 <PlayerSkill
+                    handleTooltipClick={handleTooltipClick}
                     skillName={PlayerSkillNames.Outdoorsman}
                     value={finalSkills.outdoorsman}
                     taggedSkills={taggedSkills}>

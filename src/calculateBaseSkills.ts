@@ -1,24 +1,33 @@
 import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlayerSkills, IPerk, PerkNames } from "./models";
 
 /**
- * Calculate base skills from primary stats and traits.
- * @param primaryStats primary stats
- * @param traits traits
- * @param taggedSkills tagged skills
- * @returns base skills
+ * Calculates base skills from primary stats, traits, perks and tagged skills.
+ * @param primaryStats primary stats for calculation.
+ * @param traits traits used in the calculation.
+ * @param taggedSkills tagged skills.
+ * @param playersPerks perks used in the calculation.
+ * @returns calculated base skills.
  */
 
 export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits: ITrait[], taggedSkills: string[], playersPerks: IPerk[]): IPlayerSkills {
     let newBaseSkills: IPlayerSkills = getDefaultPlayerSkills();
 
-    // Modifier applied to all skills
+    // Modifier applied to all skills.
 
     let modifier: number = 0;
 
+    // Gifted trait.
+
     const gifted = traits.find((trait) => trait.name === "Gifted");
 
-    if (gifted) {
-        modifier -= 10;
+    if (gifted) { modifier -= 10; }
+
+    // Good natured trait.
+
+    const goodNatured = traits.find((trait) => trait.name === "Good natured");
+
+    if (goodNatured) {
+        newBaseSkills = Object.assign(calculateGoodNatured(newBaseSkills));
     }
 
     newBaseSkills.smallGuns = calculateSmallGuns(primaryStats, taggedSkills) + modifier;
@@ -40,11 +49,7 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
     newBaseSkills.gambling = calculateGambling(primaryStats, taggedSkills) + modifier;
     newBaseSkills.outdoorsman = calculateOutdoorsman(primaryStats, taggedSkills) + modifier;
 
-    const goodNatured = traits.find((trait) => trait.name === "Good natured");
-
-    if (goodNatured) {
-        newBaseSkills = Object.assign(calculateGoodNatured(newBaseSkills));
-    }
+    // Perks affecting base skills.
 
     playersPerks.forEach((perk) => {
         switch (perk.name) {
@@ -119,14 +124,13 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
                     };
                 }
                 break;
-
         }
     });
 
     return newBaseSkills;
 }
 
-// Calculate invididual initial skills
+// Calculate invididual base skills.
 
 function calculateSmallGuns(primaryStats: IPrimaryStats, taggedSkills: string[]): number {
     // Formula 5 + 4 * agility

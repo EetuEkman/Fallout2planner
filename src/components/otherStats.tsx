@@ -7,6 +7,8 @@ interface IOtherStatsProps {
 }
 
 export default function OtherStats({ perks }: IOtherStatsProps): JSX.Element {
+    // Render a summary about other bonuses granted by the perks.
+
     return (
         <>
             <div className="derived-stat" style={{ "color": "orange" }}>Other stats</div>

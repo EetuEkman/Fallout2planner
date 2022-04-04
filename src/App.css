@@ -268,6 +268,12 @@ body {
     align-items: center;
     height: 22px;
     flex-wrap: nowrap;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .skill.skill-points {
@@ -464,7 +470,6 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    
 }
 
 .traits > div.selected {
@@ -499,14 +504,6 @@ body {
     "players-perks players-perks available-perks available-perks available-perks"
     "players-perks players-perks available-perks available-perks available-perks"
     "players-perks players-perks available-perks available-perks available-perks"
-}
-
-.perk-points-container {
-    grid-area: perk-points-container;
-    display: flex;
-    justify-content:space-evenly;
-    padding-top: 10px;
-    margin: 4px;
 }
 
 .available-perks {
@@ -547,24 +544,34 @@ body {
     user-select: none;
 }
 
-.perk-points-header {
-    background-color: var(--field-drab);
-    font-family: "Slater Industrial";
-    font-weight: 400;
-    padding: 2px;
-    color: var(--transparent-gold);
-    height: 20px;
-}
-
-.perk-points {
-    background-color: black;
+.perk-points-container {
+    grid-area: perk-points-container;
+    display: flex;
+    justify-content:space-evenly;
+    padding-top: 10px;
+    margin: 4px;
+    background-color: var(--olive-drab-7);
+    border: solid;
+    border-width: 1px;
+    border-color: black;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding: 2px;
+}
+
+.perk-points-header {
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    color: var(--transparent-gold);
+    height: 20px;
+}
+
+.perk-points {
+    background-color: black;
+    padding-bottom: 1px;
     height: 20px;
     font-family: "Overseer";
     color: white;
@@ -637,36 +644,44 @@ body {
 
 .print-button-container {
     grid-area: print-button;
-    display: flex;
+    display: inline-flex;
+    width: fit-content;
     justify-content: flex-end;
     margin: 2px;
     height: 40px;
     align-items: center;
     margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: var(--olive-drab-7);
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    justify-self: end;
 }
 
 .print-button-container > div {
-    background-color: var(--field-drab);
     font-family: "Slater Industrial";
     font-weight: 400;
     color: var(--transparent-gold);
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
-    margin-right: 5px;
+    margin-left: 8px;
     align-items: center;
     height: 26px;
 }
 
 .print-button-container > button {
     background-color: darkred;
-    border: 2px;
+    border: 1px;
     border-style: solid;
     border-color: black;
     border-radius: 50%;
     width: 24px;
     height: 24px;
-    margin-left: 5px;
+    margin-right: 8px;
+    outline: 2px solid grey;
 }
 
 .print-button-container > button:active {
@@ -686,14 +701,29 @@ body {
     flex-direction: column;
 }
 
-.tooltip > h3 {
+.tooltip > h2 {
     color: lawngreen;
     font-family: "Monofonto";
+    margin-bottom: -1px;
 }
+
+.tooltip > span {
+    color: lawngreen;
+    font-family: "Monofonto";
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1px;
+}
+
 
 .tooltip > p {
     grid-area: tooltip;
     color: lawngreen;
     font-family: "Monofonto";
     white-space: pre-line;
+}
+
+hr {
+    color: lawngreen;
+    width: 100%;
 }

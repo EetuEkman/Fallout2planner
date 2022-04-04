@@ -12,17 +12,17 @@ import Perks from "./components/perks";
 import { getPrintablePrimaryStats, getPrintableTraits, getPrintablePerks } from "./createPrints";
 
 /**
- * Returns supplied perks with ranks set to 0
- * @param perks supplied perks
- * @returns perks with ranks set to 0
+ * Returns supplied perks with ranks set to 0.
+ * @param perks supplied perks.
+ * @returns perks with ranks set to 0.
  */
 
 function getDefaultPlayerPerks(perks: IPerk[]): IPerk[] {
-    // Set all perk ranks to 0
+    // Set all perk ranks to 0.
 
-    const emptyPlayerPerks: IPerk[] = perks.map(perk => { return { ...perk, ranks: 0 } });
+    const defaultPlayerPerks: IPerk[] = perks.map(perk => { return { ...perk, ranks: 0 } });
 
-    return emptyPlayerPerks;
+    return defaultPlayerPerks;
 }
 
 interface IPlayersPerksAction {
@@ -34,11 +34,11 @@ interface IPlayersPerksAction {
 function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk[] {
     let newPlayersPerks: IPerk[] = [...state];
 
-    // Find the index of the perk to mutate
+    // Find the index of the perk to mutate.
 
     const index = newPlayersPerks.findIndex((perk) => perk.name === action.perkName);
 
-    // Perk not found
+    // Perk not found.
 
     if (index === -1) { return newPlayersPerks; }
 
@@ -46,7 +46,7 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
 
     switch (action.type) {
         case "add":
-            // Prevent ranks over the max rank
+            // Prevent ranks over the max rank.
 
             const maxRanks = newPlayersPerks[index].maxRanks;
 
@@ -56,7 +56,7 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
                 return newPlayersPerks;
             }
 
-            // Add rank
+            // Add rank to the perk.
 
             newPlayersPerks[index].ranks += 1;
 
@@ -64,17 +64,17 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
 
             break;
         case "remove":
-            // Prevent perk ranks below 1
+            // Prevent perk ranks below 0.
 
             rank = newPlayersPerks[index].ranks;
 
             if (rank < 0) { return newPlayersPerks; }
 
-            // Remove a rank from the perk
+            // Remove a rank from the perk.
 
             newPlayersPerks[index].ranks -= 1;
 
-            // Remove the latest level selected
+            // Remove the latest level selected.
 
             newPlayersPerks[index].levelSelected.pop();
 
@@ -93,28 +93,26 @@ interface IAvailablePerksAction {
 function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : IPerk[] {
     let newAvailablePerks = [...state];
 
-    // Find the index of the perk to mutate
+    // Find the index of the perk to mutate.
 
     const index = state.findIndex((perk) => perk.name === action.perkName);
 
-    // Perk not found
+    // Perk not found.
 
-    if (index === -1) {
-        return newAvailablePerks;
-    }
+    if (index === -1) { return newAvailablePerks; }
 
     let rank: number;
 
     switch (action.type) {
         case "add":
 
-            // Prevent adding the here and now perk
+            // Prevent adding the here and now perk.
 
             if (newAvailablePerks[index].name === PerkNames.hereAndNow) {
                 return newAvailablePerks;
             }
 
-            // Prevent ranks over max rank
+            // Prevent perk ranks over the max rank.
 
             const maxRanks = newAvailablePerks[index].maxRanks;
 
@@ -124,13 +122,13 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
                 return newAvailablePerks;
             }
 
-            // Add rank
+            // Add rank to the perk.
 
             newAvailablePerks[index].ranks += 1;
 
             break;
         case "remove":
-            // Prevent ranks below 1
+            // Prevent perk ranks below 0.
 
             rank = newAvailablePerks[index].ranks;
 
@@ -138,7 +136,7 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
                 return newAvailablePerks;
             }
 
-            // Remove rank
+            // Remove a rank from the perk.
 
             newAvailablePerks[index].ranks -= 1;
 
@@ -299,17 +297,12 @@ interface IRaisedSkillsAction {
     amount: number
 }
 
-/**
- * Action for the primary stats reducer
- */
  interface IPrimaryStatsAction {
     type: string,
     payload: string,
     traits: ITrait[],
     gainPrimaryStatPerk?: string
 }
-
-// Complex state, use reducer
 
 function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction): IPrimaryStats {
     let newState: IPrimaryStats = Object.assign(state);
@@ -352,7 +345,7 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
         case "gainPerk":
             if (action.payload === "add") {
 
-                // Check undefined
+                // Check undefined.
 
                 if (action.gainPrimaryStatPerk) {
                     switch (action.gainPrimaryStatPerk) {
@@ -641,9 +634,9 @@ function getDefaultPrimaryStats(): IPrimaryStats {
 }
 
 /**
- * Calculates the skill point cost to raise the skill level
- * @param skillValue the current skill level
- * @returns the cost
+ * Calculates the skill point cost to raise the skill level.
+ * @param skillValue the current skill level.
+ * @returns the skill point cost.
  */
 
 function getSkillCost(skillValue: number) : number {
@@ -684,7 +677,7 @@ function App() {
 
     const emptyTraits: Array<ITrait> = [];
 
-    // Traits are added or removed from an array
+    // Traits are added or removed from an array.
 
     const [traits, setTraits] = useState(emptyTraits);
 
@@ -692,7 +685,7 @@ function App() {
 
     const [skillPoints, setSkillPoints] = useState(0);
 
-    // Perks are not added or removed from an array, but invidual perks are changed
+    // Perks are not added or removed from an array, but invidual perks are changed.
 
     const [playersPerks, playersPerksDispatch] = useReducer(playersPerksReducer, getDefaultPlayerPerks(PERKS));
 
@@ -700,9 +693,11 @@ function App() {
 
     const [availablePerks, availablePerksDispatch] = useReducer(availablePerksReducer, PERKS);
 
-    const [tooltipParagraph, setTooltipParagraph] = useState(TOOLTIPS[0].paragraph);
+    const [tooltipHeading, setTooltipHeading] = useState(TOOLTIPS[0].heading);
 
-    const [tooltipHeader, setTooltipHeader] = useState(TOOLTIPS[0].header);
+    const [tooltipBaseFormula, setTooltipBaseFormula] = useState(TOOLTIPS[0].baseFormula);
+
+    const [tooltipBody, setTooltipBody] = useState(TOOLTIPS[0].body);
 
     const [, forceRender] = useState(false);
 
@@ -739,19 +734,21 @@ function App() {
     };
 
     const levelUp = () => {
-        // Get the skill rate
+        // Get the skill rate.
 
         const skillRate = derivedStats.skillRate;
 
-        // Add skill points
+        // Add skill points.
 
         setSkillPoints(skillPoints => skillPoints + skillRate);
 
-        // Update level
+        // Increase the player level.
 
         setplayerLevel(playerLevel => playerLevel + 1);
 
         const perkRate = derivedStats.perkRate;
+
+        // Add a perk point every third or fourth level depending on the perk rate.
 
         if ((playerLevel + 1) % perkRate === 0) {
             setPerkPoints(perkPoints => perkPoints + 1);
@@ -770,7 +767,7 @@ function App() {
 
         if (action === "increase") {
 
-            // Combine base and raised skills to calculate skill cost
+            // Combine base and raised skills to calculate skill cost.
 
             const finalSkills = calculateFinalSkills(baseSkills, raisedSkills);
 
@@ -779,13 +776,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.smallGuns);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.SmallGuns);
 
@@ -795,7 +792,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.SmallGuns, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -805,13 +802,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.bigGuns);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.BigGuns);
 
@@ -821,7 +818,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.BigGuns, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -831,13 +828,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.energyWeapons);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.EnergyWeapons);
 
@@ -847,7 +844,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.EnergyWeapons, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -857,13 +854,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.unarmed);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Unarmed);
 
@@ -873,7 +870,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Unarmed, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -883,13 +880,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.meleeWeapons);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.MeleeWeapons);
 
@@ -899,7 +896,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.MeleeWeapons, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -909,13 +906,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.throwing);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Throwing);
 
@@ -925,7 +922,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Throwing, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -935,13 +932,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.firstAid);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.FirstAid);
 
@@ -951,7 +948,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.FirstAid, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -961,13 +958,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.doctor);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Doctor);
 
@@ -977,7 +974,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Doctor, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -987,13 +984,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.sneak);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Sneak);
 
@@ -1003,7 +1000,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Sneak, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1013,13 +1010,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.lockpick);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Lockpick);
 
@@ -1029,7 +1026,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Lockpick, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1039,13 +1036,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.steal);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Steal);
 
@@ -1055,7 +1052,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Steal, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1065,13 +1062,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.traps);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Traps);
 
@@ -1081,7 +1078,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Traps, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1091,13 +1088,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.science);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Science);
 
@@ -1107,7 +1104,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Science, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1117,13 +1114,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.repair);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Repair);
 
@@ -1133,7 +1130,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Repair, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1143,13 +1140,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.speech);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Speech);
 
@@ -1159,7 +1156,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Speech, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1169,13 +1166,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.barter);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Barter);
 
@@ -1185,7 +1182,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Barter, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1195,13 +1192,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.gambling);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Gambling);
 
@@ -1211,7 +1208,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Gambling, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1221,13 +1218,13 @@ function App() {
 
                     skillCost = getSkillCost(finalSkills.outdoorsman);
 
-                    // Not enough skill points
+                    // Not enough skill points.
 
                     if (skillPoints - skillCost < 0) {
                         break;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Outdoorsman);
 
@@ -1237,7 +1234,7 @@ function App() {
                         raisedSkillsDispatch({ type: "increase", skillName: PlayerSkillNames.Outdoorsman, amount: 1 })
                     }
 
-                    // Deduct skill points
+                    // Deduct skill points.
 
                     setSkillPoints(skillPoints => skillPoints - skillCost);
 
@@ -1247,7 +1244,7 @@ function App() {
 
         if (action === "decrease") {
 
-            // Prevent overfunding of skill points at skill cost breakpoints by avoiding stale state
+            // Prevent overfunding of skill points at skill cost breakpoints by avoiding the stale state.
 
             let skillLevel: number;
 
@@ -1255,13 +1252,13 @@ function App() {
 
                 case PlayerSkillNames.SmallGuns:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.smallGuns <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.SmallGuns);
 
@@ -1289,13 +1286,13 @@ function App() {
 
                 case PlayerSkillNames.BigGuns:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.bigGuns <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.BigGuns);
 
@@ -1323,13 +1320,13 @@ function App() {
 
                 case PlayerSkillNames.EnergyWeapons:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.energyWeapons <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.EnergyWeapons);
 
@@ -1357,13 +1354,13 @@ function App() {
 
                 case PlayerSkillNames.Unarmed:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.unarmed <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Unarmed);
 
@@ -1391,13 +1388,13 @@ function App() {
 
                 case PlayerSkillNames.MeleeWeapons:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.meleeWeapons <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.MeleeWeapons);
 
@@ -1425,13 +1422,13 @@ function App() {
 
                 case PlayerSkillNames.Throwing:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.throwing <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Throwing);
 
@@ -1459,13 +1456,13 @@ function App() {
 
                 case PlayerSkillNames.FirstAid:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.firstAid <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.FirstAid);
 
@@ -1493,13 +1490,13 @@ function App() {
 
                 case PlayerSkillNames.Doctor:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.doctor <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Doctor);
 
@@ -1527,13 +1524,13 @@ function App() {
 
                 case PlayerSkillNames.Sneak:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.sneak <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Sneak);
 
@@ -1561,13 +1558,13 @@ function App() {
 
                 case PlayerSkillNames.Lockpick:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.lockpick <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Lockpick);
 
@@ -1595,13 +1592,13 @@ function App() {
 
                 case PlayerSkillNames.Steal:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.steal <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Steal);
 
@@ -1629,13 +1626,13 @@ function App() {
 
                 case PlayerSkillNames.Traps:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.traps <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Traps);
 
@@ -1663,13 +1660,13 @@ function App() {
 
                 case PlayerSkillNames.Science:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.science <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Science);
 
@@ -1697,13 +1694,13 @@ function App() {
 
                 case PlayerSkillNames.Repair:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.repair <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Repair);
 
@@ -1731,13 +1728,13 @@ function App() {
 
                 case PlayerSkillNames.Speech:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.speech <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Speech);
 
@@ -1765,13 +1762,13 @@ function App() {
 
                 case PlayerSkillNames.Barter:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.barter <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Barter);
 
@@ -1799,13 +1796,13 @@ function App() {
 
                 case PlayerSkillNames.Gambling:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.gambling <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Gambling);
 
@@ -1833,13 +1830,13 @@ function App() {
 
                 case PlayerSkillNames.Outdoorsman:
 
-                    // Prevent lowering beyond 0
+                    // Prevent lowering beyond 0.
 
                     if (raisedSkills.outdoorsman <= 0) {
                         return;
                     }
 
-                    // Tagged skills grow double
+                    // Tagged skills grow double.
 
                     isTagged = taggedSkills.find((tag) => tag === PlayerSkillNames.Outdoorsman);
 
@@ -1873,19 +1870,19 @@ function App() {
 
         if(!skillName) { return; }
 
-        // Check tagged skills for the skill
+        // Check tagged skills for the skill.
 
         const index = taggedSkills.findIndex((taggedSkill) => taggedSkill === skillName);
 
         if (index !== -1 ) {
 
-            // Prevent already tagged skills being removed with Tag! perk
+            // Prevent already tagged skills being removed with Tag! perk.
 
             if (taggedSkills.length === 3 && playerLevel > 1) {
                 return;
             }
 
-            // Already tagged, remove tag
+            // Skill is already tagged, remove the tag.
 
             setTaggedSkills(taggedSkills =>[
                 ...taggedSkills.slice(0, index),
@@ -1894,26 +1891,26 @@ function App() {
 
             setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
 
-            // Refund tag point
+            // Refund a tag point.
 
             setTagPoints(tagPoints => tagPoints + 1);
 
             return;
         }
 
-        // Max tags 3
+        // Max tags 3.
 
         if (taggedSkills.length >= 3 && playerLevel === 1) {
             return;
         }
 
-        // Add tag
+        // Add a skill tag.
 
         setTaggedSkills(taggedSkills => [
             ...taggedSkills, skillName
         ]);
 
-        // Spend tag point
+        // Spend a tag point.
 
         setTagPoints(tagPoints => tagPoints - 1)
 
@@ -2181,7 +2178,9 @@ function App() {
         document.body.removeChild(element);
     }
 
-    // Called when user clicks a primary stat, trait, derived stat, perk or skill to provide information
+    // Called when user clicks a primary stat, trait, derived stat, perk or skill to provide information.
+
+    // Find the tooltip by name from all the tooltips and update the state.
 
     const handleTooltipClick = (event: MouseEvent) => {
         const name = event.currentTarget.getAttribute("data-tooltip");
@@ -2194,9 +2193,13 @@ function App() {
 
         if (!tooltip) { return; }
 
-        setTooltipParagraph(paragraph => tooltip.paragraph);
+        setTooltipHeading(heading => tooltip.heading);
 
-        setTooltipHeader(header => tooltip.header);
+        setTooltipBaseFormula(formula => tooltip.baseFormula);
+
+        setTooltipBody(body => tooltip.body);
+
+        
     }
 
     // Base skills and derived stats are calculated from primary stats, traits, perks and tagged skills.
@@ -2227,7 +2230,8 @@ function App() {
                 playerLevel={playerLevel}
                 skillPoints={skillPoints}
                 taggedSkills={taggedSkills}
-                tagPoints={tagPoints}>
+                tagPoints={tagPoints}
+                handleTooltipClick={handleTooltipClick}>
             </PlayerSkills>
             <div className="level">
                 <span className="level-text">Level {playerLevel}</span>
@@ -2247,12 +2251,14 @@ function App() {
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
             <div className="print-button-container">
-                <div>Print</div>
                 <button onClick={print}></button>
+                <div>Print</div>
             </div>
             <div className="tooltip">
-                <h3>{tooltipHeader}</h3>
-                <p>{tooltipParagraph}</p>
+                <h2>{tooltipHeading}</h2>
+                { tooltipBaseFormula.length > 0 ? <span>{tooltipBaseFormula}</span> : <span>&nbsp;</span>}
+                <hr></hr>
+                <p>{tooltipBody}</p>
             </div>
         </div>
     );

@@ -60,16 +60,16 @@ export default function DerivedStats({ derivedStats, playersPerks, traits, onCli
 
             {
                 derivedStats.perkRate > 3 ?
-                    <div onClick={onClick} data-tooltip={DerivedStatsNames.criticalChance}><span className="derived-stat-name">Perk rate</span><span className="derived-stat-value bad">{derivedStats.perkRate}</span></div>
+                    <div onClick={onClick} data-tooltip={DerivedStatsNames.perkRate}><span className="derived-stat-name">Perk rate</span><span className="derived-stat-value bad">{derivedStats.perkRate}</span></div>
                     :
-                    <div onClick={onClick} data-tooltip={DerivedStatsNames.criticalChance}><span className="derived-stat-name">Perk rate</span><span className="derived-stat-value">{derivedStats.perkRate}</span></div>
+                    <div onClick={onClick} data-tooltip={DerivedStatsNames.perkRate}><span className="derived-stat-name">Perk rate</span><span className="derived-stat-value">{derivedStats.perkRate}</span></div>
             }
 
-            <div onClick={onClick}><span className="derived-stat-name">Skill rate</span><span className="derived-stat-value">{derivedStats.skillRate}</span></div>
-            <div onClick={onClick}><span className="derived-stat-name">Party limit</span><span className="derived-stat-value">{derivedStats.partyLimit}</span></div>
-            <div onClick={onClick}><span className="derived-stat-name">Chem addiction chance</span><span className="derived-stat-value">{derivedStats.chemAddictionChance + "x"}</span></div>
-            <div onClick={onClick}><span className="derived-stat-name">Chem addiction recovery</span><span className="derived-stat-value">{derivedStats.chemAddictionRecovery + "x"}</span></div>
-            <div onClick={onClick}><span className="derived-stat-name">Chem duration</span><span className="derived-stat-value">{derivedStats.chemDuration + "x"}</span></div>
+            <div onClick={onClick} data-tooltip={DerivedStatsNames.skillRate}><span className="derived-stat-name">Skill rate</span><span className="derived-stat-value">{derivedStats.skillRate}</span></div>
+            <div onClick={onClick} data-tooltip={DerivedStatsNames.partyLimit}><span className="derived-stat-name">Party limit</span><span className="derived-stat-value">{derivedStats.partyLimit}</span></div>
+            <div onClick={onClick} data-tooltip={DerivedStatsNames.chemAddictionChance}><span className="derived-stat-name">Chem addiction chance</span><span className="derived-stat-value">{derivedStats.chemAddictionChance + "x"}</span></div>
+            <div onClick={onClick} data-tooltip={DerivedStatsNames.chemAddictionRecovery}><span className="derived-stat-name">Chem addiction recovery</span><span className="derived-stat-value">{derivedStats.chemAddictionRecovery + "x"}</span></div>
+            <div onClick={onClick} data-tooltip={DerivedStatsNames.chemDuration}><span className="derived-stat-name">Chem duration</span><span className="derived-stat-value">{derivedStats.chemDuration + "x"}</span></div>
 
             <div className="break"></div>
 
