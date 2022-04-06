@@ -9,12 +9,15 @@ interface IPlayerPerksProps {
 export default function PlayersPerks({ playersPerks, handlePlayerPerkClick }: IPlayerPerksProps): JSX.Element {
     // Sort player's perks by the earliest level selected
 
-    const sortedPlayersPerks = playersPerks.sort(function (a, b) { return a.levelSelected[0] ? a.levelSelected[0] - b.levelSelected[0] : 1});
+    const sortedPlayersPerks = playersPerks.sort(function (a, b) { return a.levelSelected[0] ? a.levelSelected[0] - b.levelSelected[0] : 1 });
 
     return (
-        <>
-            <div className="players-perks-header">Selected perks</div>
-            <div className="players-perks">
+        <div className="players-perks">
+            <div className="players-perks-heading">
+                <h3>Selected perks</h3>
+            </div>
+            
+            <div className="players-perks-list">
 
                 {
                     // Go through the player's perks
@@ -29,7 +32,7 @@ export default function PlayersPerks({ playersPerks, handlePlayerPerkClick }: IP
                             // Render all the levels of the perk
 
                             jsx = perk.levelSelected.map((levelSelected, index) => {
-                                return <div key={index} style={{"color": "orange"}}>Level {levelSelected.toString()}</div>
+                                return <div key={index} style={{ "color": "orange" }}>Level {levelSelected.toString()}</div>
                             })
 
                             jsx.push(<div key={perk.name} onClick={handlePlayerPerkClick} data-perk-name={perk.name}>{perk.name + " " + perk.ranks.toString()}</div>)
@@ -40,8 +43,8 @@ export default function PlayersPerks({ playersPerks, handlePlayerPerkClick }: IP
                         return jsx;
                     })
                 }
-            </div>
-        </>
 
+            </div>
+        </div>
     )
 }

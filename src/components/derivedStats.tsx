@@ -25,8 +25,7 @@ function addTrailingPercentSign(value: number | string): string {
 export default function DerivedStats({ derivedStats, playersPerks, traits, onClick }: IDerivedStatsProps): JSX.Element {
     return (
         <div className="derived-stats">
-
-            <div><span className="derived-stat-name" style={{"color": "orange"}}> Defensive stats </span></div>
+            <h3> Defensive stats</h3>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.hitPoints}><span className="derived-stat-name">Hit points</span><span className="derived-stat-value">{derivedStats.hitPoints}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.armorClass}><span className="derived-stat-name">Armor class</span><span className="derived-stat-value">{derivedStats.armorClass}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.damageResistance}><span className="derived-stat-name">Damage resistance</span><span className="derived-stat-value">{addTrailingPercentSign(derivedStats.damageResistance)}</span></div>
@@ -34,7 +33,7 @@ export default function DerivedStats({ derivedStats, playersPerks, traits, onCli
             <div onClick={onClick} data-tooltip={DerivedStatsNames.radiationResistance}><span className="derived-stat-name">Radiation resistance</span><span className="derived-stat-value">{addTrailingPercentSign(derivedStats.radiationResistance)}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.healingRate}><span className="derived-stat-name">Healing rate</span><span className="derived-stat-value">{derivedStats.healingRate.toFixed(2)}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.hitPointsPerLevel}><span className="derived-stat-name">Hit points per level</span><span className="derived-stat-value">{derivedStats.hitPointsPerLevel}</span></div>
-            <div><span className="derived-stat-name" style={{"color": "orange"}}> Offensive stats </span></div>
+            <h3> Offensive stats</h3>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.actionPoints}><span className="derived-stat-name">Action points</span><span className="derived-stat-value">{derivedStats.actionPoints}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.criticalChance}><span className="derived-stat-name">Critical chance</span><span className="derived-stat-value">{addTrailingPercentSign(derivedStats.criticalChance)}</span></div>
             
@@ -55,7 +54,7 @@ export default function DerivedStats({ derivedStats, playersPerks, traits, onCli
             <div onClick={onClick} data-tooltip={DerivedStatsNames.meleeDamage}><span className="derived-stat-name">Melee damage</span><span className="derived-stat-value">{derivedStats.meleeDamage}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.sequence}><span className="derived-stat-name">Sequence</span><span className="derived-stat-value">{derivedStats.sequence}</span></div>
             
-            <div onClick={onClick}><span className="derived-stat-name" style={{"color": "orange"}}> Miscanellous stats </span></div>
+            <h3> Miscanellous stats</h3>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.carryWeight}><span className="derived-stat-name">Carry weight</span><span className="derived-stat-value">{derivedStats.carryWeight}</span></div>
 
             {
@@ -70,11 +69,6 @@ export default function DerivedStats({ derivedStats, playersPerks, traits, onCli
             <div onClick={onClick} data-tooltip={DerivedStatsNames.chemAddictionChance}><span className="derived-stat-name">Chem addiction chance</span><span className="derived-stat-value">{derivedStats.chemAddictionChance + "x"}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.chemAddictionRecovery}><span className="derived-stat-name">Chem addiction recovery</span><span className="derived-stat-value">{derivedStats.chemAddictionRecovery + "x"}</span></div>
             <div onClick={onClick} data-tooltip={DerivedStatsNames.chemDuration}><span className="derived-stat-name">Chem duration</span><span className="derived-stat-value">{derivedStats.chemDuration + "x"}</span></div>
-
-            <div className="break"></div>
-
-            <OtherStats perks={playersPerks} traits={traits}></OtherStats>
-
         </div>
     );
 }

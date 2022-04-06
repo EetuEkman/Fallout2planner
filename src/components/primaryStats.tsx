@@ -72,10 +72,12 @@ function formatPrimaryStat(primaryStat: number) : string {
 interface IPrimaryStatsProps {
     primaryStats: IPrimaryStats,
     handleClick: MouseEventHandler,
-    handleTooltipClick: MouseEventHandler
+    handleTooltipClick: MouseEventHandler,
+    playerLevel: number,
+    handlePlayerLevelUpClick: MouseEventHandler
 }
 
-function PrimaryStats({primaryStats, handleClick, handleTooltipClick}: IPrimaryStatsProps) : JSX.Element {
+function PrimaryStats({primaryStats, playerLevel, handleClick, handleTooltipClick, handlePlayerLevelUpClick}: IPrimaryStatsProps) : JSX.Element {
     return (
         <div className="primary-stats">
             <div className="primary-stat">
@@ -164,6 +166,12 @@ function PrimaryStats({primaryStats, handleClick, handleTooltipClick}: IPrimaryS
                     <button data-payload="luck" data-type="decrease" className="primary-stat-button" onClick={handleClick}>-</button>
                 </div></div>
             <div className="primary-stat unspent-stat-points"><span className="primary-stat-name unspent-stat-points">Unspent stat points</span><span className="primary-stat-value unspent-stat-points">{formatPrimaryStat(primaryStats.unspentPoints)}</span></div>
+            <div className="level">
+                <span className="level-text">Level {playerLevel}</span>
+                <div className="level-button-container">
+                    <button className="level-button" onClick={handlePlayerLevelUpClick}>+</button>
+                </div>
+            </div>
         </div>
     )
 }

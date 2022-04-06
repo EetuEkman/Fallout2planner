@@ -2215,8 +2215,13 @@ function App() {
     }, [primaryStats, traits, playersPerks, taggedSkills]);
 
     return (
-        <div className="container" id="App">
-            <PrimaryStats primaryStats={primaryStats} handleClick={handlePrimaryStatClick} handleTooltipClick={handleTooltipClick}></PrimaryStats>
+        <div className="flex-container" id="App">
+            <PrimaryStats
+                primaryStats={primaryStats}
+                playerLevel={playerLevel}
+                handleClick={handlePrimaryStatClick}
+                handleTooltipClick={handleTooltipClick}
+                handlePlayerLevelUpClick={handlePlayerLevelUpClick}></PrimaryStats>
             <DerivedStats
                 derivedStats={derivedStats}
                 playersPerks={playersPerks}
@@ -2233,12 +2238,6 @@ function App() {
                 tagPoints={tagPoints}
                 handleTooltipClick={handleTooltipClick}>
             </PlayerSkills>
-            <div className="level">
-                <span className="level-text">Level {playerLevel}</span>
-                <div className="level-button-container">
-                    <button className="level-button" onClick={handlePlayerLevelUpClick}>+</button>
-                </div>
-            </div>
             <Traits handleClick={handleTraitClick} traits={traits}></Traits>
             <Perks playersPerks={playersPerks}
                 availablePerks={availablePerks}
@@ -2250,15 +2249,18 @@ function App() {
                 handleAvailablePerkClick={handleAvailablePerkClick}
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
-            <div className="print-button-container">
-                <button onClick={print}></button>
-                <div>Print</div>
-            </div>
+            
             <div className="tooltip">
-                <h2>{tooltipHeading}</h2>
-                { tooltipBaseFormula.length > 0 ? <span>{tooltipBaseFormula}</span> : <span>&nbsp;</span>}
-                <hr></hr>
-                <p>{tooltipBody}</p>
+                <div className="tooltip-display">
+                    <h2>{tooltipHeading}</h2>
+                    {tooltipBaseFormula.length > 0 ? <span>{tooltipBaseFormula}</span> : <span>&nbsp;</span>}
+                    <hr></hr>
+                    <p>{tooltipBody}</p>
+                </div>
+                <div className="print-button-container">
+                    <button onClick={print}></button>
+                    <div>Print</div>
+                </div>
             </div>
         </div>
     );

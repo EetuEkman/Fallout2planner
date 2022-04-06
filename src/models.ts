@@ -1416,7 +1416,7 @@ export const TOOLTIPS: ITooltip[] = [
         name: PrimaryStatNames.luck,
         heading: PrimaryStatNames.luck,
         baseFormula: "",
-        body: "In Fallout 2, Luck primarily affects the chances with the virtual dice of the game: a high Luck increases the likelihood to succeed a roll, while the opposite is also true. Luck also affects the chance to score a critical hit on a target, with the standard being that the Critical Chance is equal to the subject's Luck (keep in mind, standard means without perks, traits, or aimed shots). It also determines the initial level of the gambling skill."
+        body: "In Fallout 2, luck primarily affects the chances with the virtual dice of the game: a high luck increases the likelihood to succeed a roll, while the opposite is also true. Luck also affects the chance to score a critical hit on a target, with the standard being that the Critical chance is equal to the subject's luck (keep in mind, standard means without perks, traits, or aimed shots). It also determines the initial level of the gambling skill."
     },
     {
         name: TraitNames.bloodyMess,
@@ -1628,67 +1628,67 @@ export const TOOLTIPS: ITooltip[] = [
     {
         name: DerivedStatsNames.actionPoints,
         heading: DerivedStatsNames.actionPoints,
-        baseFormula: "",
+        baseFormula: "Perks: action boy",
         body: "The number of actions that the character can take during one combat turn."
     },
     {
         name: DerivedStatsNames.armorClass,
         heading: DerivedStatsNames.armorClass,
-        baseFormula: "",
+        baseFormula: "Perks: dodger",
         body: "Modifies the chance to hit this particular character."
     },
     {
         name: DerivedStatsNames.carryWeight,
         heading: DerivedStatsNames.carryWeight,
-        baseFormula: "",
+        baseFormula: "Perks: pack rat",
         body: "The maximum amount of equipment your character can carry, in pounds."
     },
     {
         name: DerivedStatsNames.meleeDamage,
         heading: DerivedStatsNames.meleeDamage,
-        baseFormula: "",
+        baseFormula: "Traits: heavy handed",
         body: "The amount of bonus damage your character does in hand-to-hand combat."
     },
     {
         name: DerivedStatsNames.poisonResistance,
         heading: DerivedStatsNames.poisonResistance,
-        baseFormula: "",
+        baseFormula: "Perks: snakeater",
         body: "Reduces poison damage by this amount."
     },
     {
         name: DerivedStatsNames.radiationResistance,
         heading: DerivedStatsNames.radiationResistance,
-        baseFormula: "",
+        baseFormula: "Perks: rad resistance",
         body: "The amount of radiation you are exposed to is reduced by this percentage. Radiation resistance can be modified by the type of the armor worn, and anti-radiation drugs."
     },
     {
         name: DerivedStatsNames.sequence,
         heading: DerivedStatsNames.sequence,
-        baseFormula: "",
+        baseFormula: "Traits: kamikaze",
         body: "Determines how soon in a combat turn your character can react."
     },
     {
         name: DerivedStatsNames.healingRate,
         heading: DerivedStatsNames.healingRate,
-        baseFormula: "",
+        baseFormula: "Traits: fast metabolism. Perks: faster healing",
         body: "At the end of each day, your character will heal 1 HP for each points of healing rate. When you rest, you heal every six hours."
     },
     {
         name: DerivedStatsNames.hitPointsPerLevel,
         heading: DerivedStatsNames.hitPointsPerLevel,
-        baseFormula: "",
-        body: ""
+        baseFormula: "Perks: lifegiver",
+        body: "Maximum hit points gained at level up."
     },
     {
         name: DerivedStatsNames.damageResistance,
         heading: DerivedStatsNames.damageResistance,
-        baseFormula: "",
+        baseFormula: "Perks: toughness",
         body: "Any damage taken is reduced by this amount. Damage resistance can be increased by wearing armor."
     },
     {
         name: DerivedStatsNames.criticalChance,
         heading: DerivedStatsNames.criticalChance,
-        baseFormula: "",
+        baseFormula: "Traits: finesse. Perks: more criticals, sniper, slayer",
         body: "The chance to cause a critical hit in combat is increased by this amount."
     },
     {
@@ -1700,25 +1700,43 @@ export const TOOLTIPS: ITooltip[] = [
     {
         name: DerivedStatsNames.perkRate,
         heading: DerivedStatsNames.perkRate,
-        baseFormula: "",
+        baseFormula: "Traits: skilled",
         body: "Determines the character levels when a perk can be chosen. For example, perk rate of 3 means that a perk can be chosen every 3rd level, starting from level 3."
     },
     {
         name: DerivedStatsNames.chemAddictionChance,
         heading: DerivedStatsNames.chemAddictionChance,
-        baseFormula: "",
+        baseFormula: "Traits: chem reliant, chem resistant",
         body: "Modifies a chance to resist addiction."
     },
     {
         name: DerivedStatsNames.chemAddictionRecovery,
         heading: DerivedStatsNames.chemAddictionRecovery,
-        baseFormula: "",
+        baseFormula: "Traits: chem reliant",
         body: "Modifies the length of addiction."
     },
     {
         name: DerivedStatsNames.chemDuration,
         heading: DerivedStatsNames.chemDuration,
-        baseFormula: "",
+        baseFormula: "Traits: chem resistant",
         body: "Modifies the length of chem effects."
     },
+    {
+        name: DerivedStatsNames.partyLimit,
+        heading: DerivedStatsNames.partyLimit,
+        baseFormula: "",
+        body: "The maximum number of companions."
+    },
+    {
+        name: DerivedStatsNames.enemyDamageResistanceModifier,
+        heading: DerivedStatsNames.enemyDamageResistanceModifier,
+        baseFormula: "Traits: finesse",
+        body: "Modifier added to the enemy damage resistance."
+    },
+    {
+        name: DerivedStatsNames.skillRate,
+        heading: DerivedStatsNames.skillRate,
+        baseFormula: "Traits: gifted, skilled. Perks: educated",
+        body: "The number of skill points gained on a level up."
+    }
 ]

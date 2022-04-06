@@ -25,8 +25,13 @@ export default function Perks({ playersPerks, availablePerks, perkPoints, player
     return (
         <div className="perks">
             <PlayersPerks playersPerks={playersPerks} handlePlayerPerkClick={handlePlayersPerkClick}></PlayersPerks>
-            <div className="available-perks-header">Available perks</div>
             <div className="available-perks">
+                <div className="available-perks-heading">
+                    <h3>Available perks</h3>
+                    <span className="perk-points-heading">Perk points</span>
+                    <span className="perk-points">{perkPoints.toString()}</span>
+                </div>
+                <div className="available-perks-list">
                 {
                     offeredPerks.map((perk, index) => {
                         let jsx;
@@ -40,18 +45,17 @@ export default function Perks({ playersPerks, availablePerks, perkPoints, player
                             perk.requirementsMet ?
                                 jsx = <div key={index} onClick={handleAvailablePerkClick} data-perk-name={perk.name}>{perk.name} {perk.ranks}</div>
                                 :
-                                jsx = <div key={index} style={{"color": "darkgreen"}} data-perk-name={perk.name}>{perk.name} {perk.ranks}</div>
+                                jsx = <div key={index} style={{ "color": "darkgreen" }} data-perk-name={perk.name}>{perk.name} {perk.ranks}</div>
                             :
                             jsx = null;
 
                         return jsx;
                     })
                 }
+                </div>
             </div>
-            <div className="perk-points-container">
-                <div className="perk-points-header">Perk points</div>
-                <div className="perk-points">{perkPoints.toString()}</div>
-            </div>
+
+            
         </div>
     )
 }

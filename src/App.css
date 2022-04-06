@@ -32,38 +32,30 @@
     src: local("Monofonto"), url("./fonts/monofonto.otf") format("opentype");
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: var(--smoky-black);
 }
 
-.primary-stats {
-    grid-area: primary-stats;
-    display: flex;
-    flex-direction: column;
-    width: auto;
-}
-
-.primary-stat {
-    padding: 1%;
-    min-height: 40px;
+.flex-container {
     display: flex;
     flex-direction: row;
-    border: 1px;
-    border-style: solid;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--olive-drab-7);
+    margin: 10px;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: stretch;
 }
 
-.primary-stat.unspent-stat-points {
-    justify-content: flex-end;
-    border: none;
-}
-
-.primary-stat-name {
-    color: var(--transparent-gold);
-    font-family: "Slater Industrial";
-    width: 66%;
+.flex-container > div {
+    margin-right: 5px;
+    display: inline-flex;
+    padding: 10px;
+    margin-bottom: 5px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -72,12 +64,41 @@ body {
     user-select: none;
 }
 
+.primary-stats {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--field-drab);
+}
+
+.primary-stat {
+    padding-left: 2px;
+    padding-right: 2px;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.primary-stat.unspent-stat-points {
+    margin-top: 10px;
+    justify-content: space-around;
+}
+
+.primary-stat-name {
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    width: 50%;
+    margin-right: 5px;
+}
+
 .primary-stat-name.unspent-stat-points {
     width: auto;
     color: var(--transparent-gold);
     font-family: "Slater Industrial";
-    padding-right: 10px;
-    padding-left: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .primary-stat-value {
@@ -89,6 +110,8 @@ body {
     width: 20px;
     display: flex;
     justify-content: center;
+    margin-right: 5px;
+    padding-left: 1px;
 }
 
 .primary-stat-value.invalid {
@@ -98,12 +121,14 @@ body {
 .primary-stat-value.unspent-stat-points {
     background-color: black;
     font-family: "Overseer";
+    font-size: 1.5em;
     color: white;
-    font-size: large;
     text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
-    width: 20px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .primary-stat-flavor-text {
@@ -113,12 +138,14 @@ body {
     width: 100px;
     background-color: black;
     color: lawngreen;
+    margin-right: 5px;
 }
 
 .primary-stats-buttons {
     min-width: 22px;
     max-width: 22px;
     display: inline-block;
+    margin-right: 5px;
 }
 
 .primary-stat-button {
@@ -137,6 +164,8 @@ body {
     font-family: "Slater Industrial";
     display: flex;
     justify-content: center;
+    outline: 1px solid grey;
+    margin-bottom: 1px;
 }
 
 .primary-stat-button:active {
@@ -145,21 +174,18 @@ body {
 
 .level {
     display: flex;
-    background-color: var(--field-drab);
     justify-content: flex-end;
-    min-height: 60px;
+    height: 40px;
     align-items: center;
     padding-right: 10px;
-    padding-left: 10px;
 }
 
 .level-text {
     background-color: black;
     color: lawngreen;
     font-family: "Monofonto";
-    min-height: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
+    height: 20px;
+    margin-right: 5px;
     width: 100px;
     display: flex;
     justify-content: center;
@@ -179,16 +205,15 @@ body {
     border-color: black;
     border-radius: 5px;
     display: block;
-    min-width: 20px;
-    min-height: 20px;
-    max-width: 20px;
-    max-height: 20px;
+    width: 20px;
+    height: 20px;
     filter: brightness(110%);
     text-align: center;
     margin: auto;
     font-family: "Slater Industrial";
     display: flex;
     justify-content: center;
+    outline: 1px solid grey;
 }
 
 .level-button:active {
@@ -196,55 +221,64 @@ body {
 }
 
 .derived-stats {
-    grid-area: derived-stats;
-    border: 2px;
-    border-style: solid;
-    border-color: var(--field-drab);
-    background-color: black;
     padding: 10px;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: auto;
-    justify-content: flex-start;
-}
-
-.derived-stats > div {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    padding: 1px;
-    width: auto;
-    color:lawngreen;
-    font-family: "Monofonto";
-    justify-content: flex-start;
-}
-
-.derived-stat-name {
-    color: lawngreen;
-    font-family: "Monofonto";
-    width: auto;
-    min-width: 275px;
-    flex-wrap: nowrap;
+    background-color: black;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    font-family: "Monofonto";
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 5px var(--field-drab) solid;
+}
+
+
+
+.derived-stats > h3 {
+    color: orange;
+    white-space: nowrap;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 1.1em;
+    width: 320px;
+}
+
+.derived-stats > div {
+    display: flex;
+    width: 320px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding: 1px;
+    color:lawngreen;
+    justify-content: flex-start;
+    margin-right: 10px;
+}
+
+.derived-stats > div.other-stat {
+    flex-wrap: wrap;
+    white-space: normal;
+    max-width: 280px;
+}
+
+.derived-stat-name {
+    color: lawngreen;
+    font-family: "Monofonto";
+    min-width: 280px;
+    flex-wrap: nowrap;
 }
 
 .derived-stat-value {
     color: lawngreen;
     font-family: "Monofonto";
     flex-wrap: nowrap;
-    width: 50px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .derived-stat-value.bad {
@@ -252,12 +286,9 @@ body {
 }
 
 .skills {
-    grid-area: skills;
-    display: flex;
     flex-direction: row;
-    padding: 2px;
-    min-width: 100%;
-    justify-content:flex-start;
+    justify-content: flex-start;
+    background-color: var(--field-drab);
 }
 
 .skill {
@@ -324,33 +355,32 @@ body {
 .tag-buttons {
     display: flex;
     flex-direction: column;
-    width: 5%;
+    width: 40px;
     min-width: 40px;
     order: 1;
-    background-color: var(--field-drab);
 }
 
 .tag-button-container {
     height: 22px;
-    width: auto;
     background-color: var(--field-drab);
     box-shadow: 0px 1px var(--field-drab), 0px -1px var(--field-drab);
     justify-content: center;
     align-items: center;
     display: flex;
     padding: 2px;
+    padding-left: -2px;
+    padding-right: -2px;
 }
 
 .tag-button-container > button {
     color: darkred;
     background-color: var(--field-drab);
-    border: 1px;
-    border-color: black;
-    border-style: solid;
+    border: solid 1px black;
     border-radius: 5px;
     filter: brightness(110%);
     width: 25px;
     height: 20px;
+    outline: 1px solid grey;
 }
 
 .tag-button-container > button:active {
@@ -379,17 +409,17 @@ body {
     color: var(--transparent-gold);
     width: 20px;
     height: 20px;
+    outline: 1px solid grey;
+    margin-right: 1px;
 }
 
 .skill-button:active {
     filter: brightness(66%);
 }
 
-
 .skill-values {
     display: flex;
     flex-direction: column;
-    width: auto;
     order: 2;
     flex-wrap: nowrap;
 }
@@ -406,64 +436,39 @@ body {
     grid-area: level;
 }
 
-.traits-container {
-    grid-area: traits;
-    padding: 10px;
-    height: 400px;
-    margin-bottom: 75px;
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-    grid-template-areas:
-    "traits-header traits-header"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits"
-    "traits traits";
-}
-
-.traits-header {
-    grid-area: traits-header;
-    background-color: var(--field-drab);
-    font-family: "Slater Industrial";
-    font-weight: 400;
-    color: var(--transparent-gold);
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding-top: 10px;
-    margin: 4px;
-    min-width: 200px;
-}
-
 .traits {
-    grid-area: traits;
-    background-color: black;
-    height: 390px;
+    background-color: var(--field-drab);
     padding: 10px;
-    margin-top: 9px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
 
+.traits > h3 {
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+    display: flex;
+}
+
 .traits > div {
+    background-color: black;
     color: lawngreen;
     font-family: "Monofonto";
     min-height: 20px;
-    max-width: 120px;
+    min-width: 160px;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -476,188 +481,194 @@ body {
     color: azure;
 }
 
-.empty {
-    grid-area: empty;
-}
-
 .perks {
-    grid-area: perks;
-    width: auto;
-    min-width: 1200px;
+    height: fit-content !important;
     background-color: var(--field-drab);
-    display: flex;
+    display: inline-flex;
     padding: 5px;
-    border: 2px;
-    border-style: solid;
-    border-color: var(--field-drab);
-    display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-    grid-template-areas:
-    "players-perks-header players-perks-header available-perks-header available-perks-header perk-points-container"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-    "players-perks players-perks available-perks available-perks available-perks"
-}
-
-.available-perks {
-    grid-area: available-perks;
-    background-color: black;
-    width: auto;
-    display: flex;
-    padding: 5px;
-    height: 400px;
-    margin: 4px;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
-
-.available-perks-header {
-    grid-area: available-perks-header;
-    background-color: var(--field-drab);
-    font-family: "Slater Industrial";
-    font-weight: 400;
-    color: var(--transparent-gold);
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding-top: 10px;
-    margin: 4px;
-    padding-left: 45%;
-}
-
-.available-perks > div {
-    color: lawngreen;
-    font-family: "Monofonto";
-    height: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.perk-points-container {
-    grid-area: perk-points-container;
-    display: flex;
-    justify-content:space-evenly;
-    padding-top: 10px;
-    margin: 4px;
-    background-color: var(--olive-drab-7);
-    border: solid;
-    border-width: 1px;
-    border-color: black;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.perk-points-header {
-    font-family: "Slater Industrial";
-    font-weight: 400;
-    color: var(--transparent-gold);
-    height: 20px;
-}
-
-.perk-points {
-    background-color: black;
-    padding-bottom: 1px;
-    height: 20px;
-    font-family: "Overseer";
-    color: white;
-    font-size: large;
-    text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
-    width: 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .players-perks {
-    grid-area: players-perks;
-    background-color: black;
-    height: 400px;
-    padding: 5px;
-    margin: 4px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
+    margin-right: 5px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.players-perks-heading {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.players-perks-heading > h3 {
+    display: inline;
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    height: fit-content;
+    width: fit-content;
+    text-size-adjust: auto;
+    white-space: nowrap;
+}
+
+.players-perks-list {
+    background-color: black;
+    display: flex;
+    flex-flow: column wrap;
+    width: 190px;
+    height: 550px;
+    padding: 5px;
+}
+
+.players-perks-list > div {
+    color: lawngreen;
+    font-family: "Monofonto";
+    width: 180px;
+}
+
+.available-perks {
+    background-color: var(--field-drab);
+    display: inline-flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.available-perks-heading {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.available-perks-heading > h3 {
+    display: inline;
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    justify-self: flex-start;
+    height: fit-content;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: 10px
+}
+
+.perk-points-heading {
+    display: inline;
+    width: fit-content;
+    height: fit-content;
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    margin-right: 5px;
+    padding: 2px;
+}
+
+.perk-points {
+    margin-right: 10px;
+    display: flex;
+    width: 22px;
+    height: 22px;
+    background-color: black;
+    align-items: center;
+    justify-content: center;
+    font-family: "Overseer";
+    color: white;
+    font-size: large;
+    padding: 2px;
+    text-shadow: -1px 1px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
+}
+
+.available-perks-list {
+    background-color: black;
+    display: flex;
+    flex-flow: column wrap;
+    width: 550px;
+    height: 550px;
+    padding: 5px;
+}
+
+.available-perks-list > div {
+    color: lawngreen;
+    font-family: "Monofonto";
+    height: fit-content;
+    display: flex;
+    width: max-content;
+    flex-wrap: nowrap;
+}
+
+.flex-container > .tooltip {
+    display: inline-flex;
+    padding: 20px;
+    height: max-content;
+    margin-right: 10px;
+    background-color: var(--field-drab);
+    flex-direction: column;
+}
+
+.tooltip-display {
+    display: inline-flex;
+    padding: 20px;
+    height: 400px;
+    width: 600px;
+    margin-right: 10px;
+    background-color: black;
+    flex-direction: column;
+}
+
+.tooltip-display > h2 {
+    color: lawngreen;
+    font-family: "Monofonto";
+    margin-bottom: -1px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.tooltip-display > span {
+    color: lawngreen;
+    font-family: "Monofonto";
+    margin-top: -1px;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+
+.tooltip-display > p {
+    color: lawngreen;
+    font-family: "Monofonto";
+    white-space: pre-line;
+    width: fit-content;
+    white-space: normal;
     flex-wrap: wrap;
 }
 
-.players-perks-header {
-    grid-area: players-perks-header;
-    background-color: var(--field-drab);
-    font-family: "Slater Industrial";
-    font-weight: 400;
-    color: var(--transparent-gold);
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    flex-wrap: nowrap;
-    margin: 4px;
-}
-
-.players-perks > div {
+hr {
     color: lawngreen;
-    font-family: "Monofonto";
-}
-
-.container {
-    padding: 2px;
-    background-color: var(--field-drab);
-    display: grid;
-    width: auto;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-    grid-template-areas:
-    "primary-stats derived-stats derived-stats skills ."
-    "primary-stats derived-stats derived-stats skills ."
-    "primary-stats derived-stats derived-stats skills ."
-    "primary-stats derived-stats derived-stats skills ."
-    "level derived-stats derived-stats skills ."
-    "traits perks perks perks tooltip"
-    "traits perks perks perks tooltip"
-    "traits perks perks perks tooltip"
-    "traits perks perks perks tooltip"
-    ". . . . print-button";
-}
-
-.break {
-    flex-basis: 100%;
-    height: 0;
+    width: 100%;
 }
 
 .print-button-container {
-    grid-area: print-button;
     display: inline-flex;
     width: fit-content;
     justify-content: flex-end;
     margin: 2px;
-    height: 40px;
+    height: 40px !important;
     align-items: center;
-    margin-right: 10px;
     padding-left: 10px;
     padding-right: 10px;
     background-color: var(--olive-drab-7);
-    border: black;
-    border-style: solid;
-    border-width: 1px;
-    justify-self: end;
+    border: solid 1px black;
+    margin-top: 10px;
 }
 
 .print-button-container > div {
@@ -674,9 +685,7 @@ body {
 
 .print-button-container > button {
     background-color: darkred;
-    border: 1px;
-    border-style: solid;
-    border-color: black;
+    border: solid 1px black;
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -686,44 +695,4 @@ body {
 
 .print-button-container > button:active {
     filter:brightness(80%)
-}
-
-.tooltip {
-    grid-area: tooltip;
-    display: flex;
-    justify-content: flex-start;
-    padding: 20px;
-    margin: 2px;
-    height: 370px;
-    margin-top: 59px;
-    margin-right: 10px;
-    background-color: black;
-    flex-direction: column;
-}
-
-.tooltip > h2 {
-    color: lawngreen;
-    font-family: "Monofonto";
-    margin-bottom: -1px;
-}
-
-.tooltip > span {
-    color: lawngreen;
-    font-family: "Monofonto";
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -1px;
-}
-
-
-.tooltip > p {
-    grid-area: tooltip;
-    color: lawngreen;
-    font-family: "Monofonto";
-    white-space: pre-line;
-}
-
-hr {
-    color: lawngreen;
-    width: 100%;
 }

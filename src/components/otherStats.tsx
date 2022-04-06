@@ -11,7 +11,7 @@ export default function OtherStats({ perks }: IOtherStatsProps): JSX.Element {
 
     return (
         <>
-            <div className="derived-stat" style={{ "color": "orange" }}>Other stats</div>
+            <h3>Other stats</h3>
             {
                 perks.map((perk, index) => {
 
@@ -21,7 +21,7 @@ export default function OtherStats({ perks }: IOtherStatsProps): JSX.Element {
                         switch (perk.name) {
                             case PerkNames.bonusMove:
                                 if (perk.ranks === 1) {
-                                    jsx = <div key={index} className="derived-stat">+2 free action points for movement per turn</div>
+                                    jsx = <div key={index} className="derived-stat other-stat">+2 free action points for movement per turn</div>
                                 } else if (perk.ranks === 2) {
                                     jsx = <div key={index} className="derived-stat">+4 free action points for movement per turn</div>
                                 }
