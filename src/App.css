@@ -42,6 +42,7 @@ body {
 
 .flex-container {
     display: flex;
+    width: fit-content;
     flex-direction: row;
     flex-wrap: wrap;
     background-color: var(--olive-drab-7);
@@ -62,6 +63,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    border: solid 1px black;
 }
 
 .primary-stats {
@@ -608,9 +610,9 @@ body {
     flex-wrap: nowrap;
 }
 
-.flex-container > .tooltip {
+.tooltip {
     display: inline-flex;
-    padding: 20px;
+    padding: 10px;
     height: max-content;
     margin-right: 10px;
     background-color: var(--field-drab);
@@ -639,7 +641,7 @@ body {
     color: lawngreen;
     font-family: "Monofonto";
     margin-top: -1px;
-    white-space: nowrap;
+    white-space: wrap;
     align-self: flex-end;
 }
 
@@ -661,8 +663,7 @@ hr {
     display: inline-flex;
     width: fit-content;
     justify-content: flex-end;
-    margin: 2px;
-    height: 40px !important;
+    height: 40px;
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
@@ -695,4 +696,12 @@ hr {
 
 .print-button-container > button:active {
     filter:brightness(80%)
+}
+
+#footer {
+    display: inline-flex;
+    position: sticky;
+    bottom: 0px;
+    background-color: var(--field-drab);
+    border: solid 1px black;
 }

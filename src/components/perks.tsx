@@ -43,9 +43,9 @@ export default function Perks({ playersPerks, availablePerks, perkPoints, player
                             // Render perks where requirements are not met dark green and without an event handler
 
                             perk.requirementsMet ?
-                                jsx = <div key={index} onClick={handleAvailablePerkClick} data-perk-name={perk.name}>{perk.name} {perk.ranks}</div>
+                                jsx = <div key={index} onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"true"}>{perk.name} {perk.ranks}</div>
                                 :
-                                jsx = <div key={index} style={{ "color": "darkgreen" }} data-perk-name={perk.name}>{perk.name} {perk.ranks}</div>
+                                jsx = <div key={index} style={{ "color": "darkgreen" }} onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"false"}>{perk.name} {perk.ranks}</div>
                             :
                             jsx = null;
 

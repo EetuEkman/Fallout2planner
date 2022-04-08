@@ -1,6 +1,5 @@
 import React, { MouseEventHandler } from "react";
 import { IDerivedStats, IPerk, ITrait, DerivedStatsNames } from "../models";
-import OtherStats from "./otherStats";
 
 interface IDerivedStatsProps {
     derivedStats: IDerivedStats,

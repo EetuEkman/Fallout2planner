@@ -348,7 +348,6 @@ export enum PerkNames {
     livingAnatomy = "Living anatomy",
     masterThief = "Master thief",
     masterTrader = "Master trader",
-    nedic = "Medic",
     mrFixit = "Mr. Fixit",
     tag = "Tag!",
     weaponHandling = "Weapon handling",
@@ -1352,23 +1351,23 @@ export enum PrimaryStatNames {
  * 
  * Name is used for identification.
  * 
- * Header contains the heading for the tooltip.
+ * Heading contains the heading for the tooltip.
  * 
- * Paragraph contains the description.
+ * Body contains the description used in tooltip body.
  */
 
 export interface ITooltip {
     name: string,
     heading: string,
     body: string,
-    baseFormula: string
+    subHeading: string
 }
 
 export const emptyTooltip: ITooltip = {
     name: "",
     heading: "",
     body: "",
-    baseFormula: ""
+    subHeading: ""
 }
 
 /**
@@ -1379,364 +1378,830 @@ export const TOOLTIPS: ITooltip[] = [
     {
         name: PrimaryStatNames.strength,
         heading: PrimaryStatNames.strength,
-        baseFormula: "",
-        body: "Strength is primarily relevant to two in-game mechanics: carry weight and satisfying the minimum strength requirements on weapons. Each point of it grants 25 lbs. of carry weight (with the small frame trait, it is 15 instead). Not meeting a weapon's minimum strength requirement penalizes aim accuracy with that weapon by -20% for each missing point in strength.\n\nModifies: hit points, melee damage and carry weight."
+        subHeading: "Modifies: hit points, melee damage and carry weight",
+        body: "Raw physical strength. A high strength is good for physical characters."
     },
     {
         name: PrimaryStatNames.perception,
         heading: PrimaryStatNames.perception,
-        baseFormula: "",
-        body: "A player character with higher perception may notice things that allow them to open up new dialogue options on occasion. It also determines how far away they start from hostilities in random encounters. A combination of the traps skill and perception is used to detect traps on the ground. Perception is required for many perks, such as PE 8 for Sniper.\n\nModifies: sequence, ranged combat distance modifiers and the first aid, doctor, lockpick and traps skills."
+        subHeading: "Modifies: sequence and ranged combat distance modifiers",
+        body: "The ability to see, hear, taste and notice unusual things. A high perception is important for a sharpshooter."
     },
     {
         name: PrimaryStatNames.endurance,
         heading: PrimaryStatNames.endurance,
-        baseFormula: "",
-        body: "Stamina and physical toughness. A character with a high endurance will survive where others may not.\n\nModifies: hit points, poison & radiation resistance, healing rate, and the additional hit points per level."
+        subHeading: "Modifies: HPs, rad & psn resistances, healing rate and HPs per level",
+        body: "Stamina and physical toughness. A character with a high endurance will survive where others may not."
     },
     {
         name: PrimaryStatNames.charisma,
         heading: PrimaryStatNames.charisma,
-        baseFormula: "",
-        body: "A combination of appearance and charm. A high charisma is important for characters that want to influence people with words.\n\nModifies NPC reactions, prices, speech, barter, and party limit."
+        subHeading: "Modifies: NPC reactions, prices and party limit",
+        body: "A combination of appearance and charm. A high charisma is important for characters that want to influence people with words."
     },
     {
         name: PrimaryStatNames.intelligence,
         heading: PrimaryStatNames.intelligence,
-        baseFormula: "",
-        body: "One of the unique qualities of Fallout 2 is the difference in gameplay caused by creating a low-Intelligence character. With a dimwitted player character, many non-player characters will simply shrug one off, while others will insult or even attack them. On the other hand, certain characters will take pity on the character's stumped intellect, and might treat them as innocent children. In some cases, where a character with normal vocabulary would need to persuade them or offer a service in exchange, these characters will often give the character gifts or allow them entrance in certain areas for free out of pity.\n\nModifies: the number of new skill points per level, numerous dialogue options, and many skills."
+        subHeading: "Modifies: skill rate",
+        body: "Knowledge, wisdom and the ability to think quickly. A high intelligence is important for any character."
     },
     {
         name: PrimaryStatNames.agility,
         heading: PrimaryStatNames.agility,
-        baseFormula: "",
-        body: "Action point allocation is based on the AG stat. Therefore, a character that wishes to keep an enemy on its toes, or claws, needs to have a high agility in order to have multiple combat moves. Additionally, it allows the character to dodge better. It is a critical stat for anyone interested in more mobile and visceral skills, such as unarmed and small guns.\n\nModifies action points, armor class, small guns, big guns, energy weapons, melee weapons, unarmed, throwing, lockpick, steal, traps."
+        subHeading: "Modifies: action points and armor class",
+        body: "Coordination and the ability to move well. A high agility is important for any active character."
     },
     {
         name: PrimaryStatNames.luck,
         heading: PrimaryStatNames.luck,
-        baseFormula: "",
-        body: "In Fallout 2, luck primarily affects the chances with the virtual dice of the game: a high luck increases the likelihood to succeed a roll, while the opposite is also true. Luck also affects the chance to score a critical hit on a target, with the standard being that the Critical chance is equal to the subject's luck (keep in mind, standard means without perks, traits, or aimed shots). It also determines the initial level of the gambling skill."
+        subHeading: "Modifies: critical chance",
+        body: "Fate. Karma. An extremely high or low luck will affect the character - somehow. Events and situations will be changed by how lucky (or unlucky) your character is."
     },
     {
         name: TraitNames.bloodyMess,
         heading: "Bloody mess",
-        baseFormula: "",
-        body: "This trait does not alter gameplay other than the fact that violent death animations are seen more often.\n\nBloody Mess has a positive impact if you plan to use the super sledge, or related heavy melee weapons. If someone dies, the death is instant instead of first sliding down half of the game screen. " },
+        subHeading: "",
+        body: "By some strange twist of fate, people around you die violently. You always see the worst way a person can die."
+    },
     {
         name: TraitNames.bruiser,
         heading: "Bruiser",
-        baseFormula: "",
-        body: "Your Strength is increased by 2 points, but you lose 2 action points. The 2 stat points gained by this trait can be used on any SPECIAL stat, like with Small Frame and Gifted." },
+        subHeading: "",
+        body: "2+ to strength, -2 action points."
+    },
     {
         name: TraitNames.chemReliant,
         heading: "Chem reliant",
-        baseFormula: "",
-        body: "You are more easily addicted to chems. Your chance to become addicted to chems is twice the norm, but you recover faster from their ill effects." },
+        subHeading: "",
+        body: "You are more easily addicted to chems. Your chance to become addicted to chems is twice the norm, but you recover faster from their ill effects."
+    },
     {
         name: TraitNames.chemResistant,
         heading: "Chem resistant",
-        baseFormula: "",
+        subHeading: "",
         body: "The addiction chance of chems are halved, but so too is the effect duration of the chem."
     },
     {
         name: TraitNames.fastMetabolism,
         heading: "Fast metabolism",
-        baseFormula: "",
-        body: "This trait adds +2 to your Healing Rate, but your radiation and poison resistances start at 0%."
+        subHeading: "",
+        body: "+2 to healing rate, radiation and poison resistances start at 0%."
     },
     {
         name: TraitNames.fastMetabolism,
         heading: "Fast shot",
-        baseFormula: "",
+        subHeading: "",
         body: "Action point costs for all ranged weapons are reduced by 1 AP. The player cannot make called shots to body parts."
     },
     {
         name: TraitNames.finesse,
         heading: "Finesse",
-        baseFormula: "",
-        body: "All of your attacks do -30% damage, but your critical chance is increased by 10%. Technically, this is done by adding a +30 DR modifier to all attacks, which is ignored by armor-bypassing criticals. Because criticals have a chance to kill an enemy instantly anyway, this is a very good trait."
+        subHeading: "",
+        body: "+10% to critical change, +30% to enemy damage resistance."
     },
     {
         name: TraitNames.gifted,
         heading: "Gifted",
-        baseFormula: "",
-        body: "All seven primary statistics have a +1 modifier, but all skills are reduced by 10%. You also receive 5 less skill points per level. The 7 stat points received from this trait can be re-distributed, like with Small Frame and Bruiser."
+        subHeading: "",
+        body: "+1 to all primary stats, -10% to all skills, -5 skill rate."
     },
     {
         name: TraitNames.goodNatured,
         heading: "Good natured",
-        baseFormula: "",
-        body: "First Aid, Doctor, Speech, and Barter get a one-time +15% bonus. You get a -10% modifier to starting combat skills (Small Guns, Big Guns, Energy Weapons, Unarmed, Melee Weapons, and Throwing)."
+        subHeading: "",
+        body: "+15% to first aid, doctor, speech and barter, -10% to small guns, big guns, energy weapons, unarmed, melee weapons and throwing."
     },
     {
         name: TraitNames.heavyHanded,
         heading: "Heavy handed",
-        baseFormula: "",
-        body: "You get +4 points of melee damage, but your critical hits have a -30% modifier to the critical hit tables. "
+        subHeading: "",
+        body: "+4 damage to unarmed and melee weapon attacks, -30% to critical damage modifier."
     },
     {
         name: TraitNames.jinxed,
         heading: "Jinxed",
-        baseFormula: "",
-        body: "If you or a non-player character has a failure during combat, there is a greater likelihood that the failure will be upgraded (or is it downgraded?) to a critical failure. "
+        subHeading: "",
+        body: "All misses have a 50% chance to become critical misses."
     },
     {
         name: TraitNames.kamikaze,
         heading: "Kamikaze",
-        baseFormula: "",
-        body: "With this trait, your sequence gets a +5 bonus, but your natural armor class is decreased to zero."
+        subHeading: "",
+        body: "+5 to sequence, base armor class to 0."
     },
     {
         name: TraitNames.oneHander,
         heading: "One hander",
-        baseFormula: "",
-        body: "With this trait you have -40% chance to hit with two-handed weapons, and +20% to hit with weapons that only require one hand."
+        subHeading: "",
+        body: "-40% chance to hit with two-handed weapons, +20% to hit with one handed weapons."
     },
     {
         name: TraitNames.sexAppeal,
         heading: "Sex appeal",
-        baseFormula: "",
-        body: "The trait increases the disposition of characters of the opposite sex and reduces it for characters of the same. It has a marginal effect in the game, resulting in slightly better prices from shopkeepers."
+        subHeading: "",
+        body: "Opposite sex reacts more favorably. Annoys members of the same sex."
     },
     {
         name: TraitNames.skilled,
         heading: "Skilled",
-        baseFormula: "",
-        body: "You gain +5 skill points per level but gain a perk only every 4 levels instead of 3."
+        subHeading: "",
+        body: "+5 to skill rate, perk rate to 4 instead of 3."
     },
     {
         name: TraitNames.smallFrame,
         heading: "Small frame",
-        baseFormula: "",
-        body: "You are not quite as big as other people, but that never slowed you down. You can't carry as much, but you are more agile. You get a +1 bonus to your Agility, but your carry weight is equal to 25 + (15 lbs. x Strength), instead of 25 + (25 lbs. x Strength). The extra stat point gained by this trait can be set on any other SPECIAL stat, like with Bruiser and Gifted. "
+        subHeading: "",
+        body: "+1 to agility, carry weight is equal to 25 + (15 * Strength) pounds instead of 25 + (25 * strength) pounds."
     },
     {
         name: PlayerSkillNames.SmallGuns,
         heading: PlayerSkillNames.SmallGuns,
-        baseFormula: "Base: 5% + (4 * AG)",
+        subHeading: "Base: 5% + (4 * AG)",
         body: "The use, care and general knowledge of small firearms - pistols, SMGs and rifles."
     },
     {
         name: PlayerSkillNames.BigGuns,
         heading: PlayerSkillNames.BigGuns,
-        baseFormula: "Base: 0% + (2 * AG)",
+        subHeading: "Base: 0% + (2 * AG)",
         body: "The operation and maintenance of really big guns - miniguns, rocket launchers, flamethrowers and such."
     },
     {
         name: PlayerSkillNames.EnergyWeapons,
         heading: PlayerSkillNames.EnergyWeapons,
-        baseFormula: "Base: 0% + (2 * AG)",
+        subHeading: "Base: 0% + (2 * AG)",
         body: "The care and feeding of energy-based weapons. How to arm and operate weapons that use laser or plasma technology."
     },
     {
         name: PlayerSkillNames.Unarmed,
         heading: PlayerSkillNames.Unarmed,
-        baseFormula: "Base: 30% + (2 * (AG + ST))",
+        subHeading: "Base: 30% + (2 * (AG + ST))",
         body: "A combination of martial arts, boxing and other hand-to-hand martial arts. Combat with your hands and feet."
     },
     {
         name: PlayerSkillNames.MeleeWeapons,
         heading: PlayerSkillNames.MeleeWeapons,
-        baseFormula: "Base: 20 + (2 * (AG + ST))",
+        subHeading: "Base: 20 + (2 * (AG + ST))",
         body: "Using non-ranged weapons in hand-to-hand combat - knives, sledgehammers, spears, clubs and so on."
     },
     {
         name: PlayerSkillNames.Throwing,
         heading: PlayerSkillNames.Throwing,
-        baseFormula: "Base: 0% + (4* AG)",
+        subHeading: "Base: 0% + (4* AG)",
         body: "The skill of muscle-propelled ranged weapns, such as throwing knives, spears and grenades."
     },
     {
         name: PlayerSkillNames.FirstAid,
         heading: PlayerSkillNames.FirstAid,
-        baseFormula: "Base: 0% + (2 * (PE + IN))",
+        subHeading: "Base: 0% + (2 * (PE + IN))",
         body: "General healing skill. Used to heal small cuts, abrasions and other minor ills. In game terms, the use of first aid can heal more hit points over time than just rest."
     },
     {
         name: PlayerSkillNames.Doctor,
         heading: PlayerSkillNames.Doctor,
-        baseFormula: "Base: 5% + (PE + IN)",
+        subHeading: "Base: 5% + (PE + IN)",
         body: "The healing of major wounds and crippled limbs. Without this skill, it will take a much longer period of time to restore crippled limbs to use."
     },
     {
         name: PlayerSkillNames.Steal,
         heading: PlayerSkillNames.Steal,
-        baseFormula: "Base: 0% + (3 * AG)",
+        subHeading: "Base: 0% + (3 * AG)",
         body: "The ability to make the things of others your own. Can be used to steal from people or places."
     },
     {
         name: PlayerSkillNames.Sneak,
         heading: PlayerSkillNames.Sneak,
-        baseFormula: "Base: 5% + (3 * AG)",
+        subHeading: "Base: 5% + (3 * AG)",
         body: "Quiet movement, and the ability to remain unnoticed. If successful, you will be much harder to locate. You cannot run and sneak at the same time."
     },
     {
         name: PlayerSkillNames.Lockpick,
         heading: PlayerSkillNames.Lockpick,
-        baseFormula: "Base: 10% + (PE + AG)",
+        subHeading: "Base: 10% + (PE + AG)",
         body: "The skill of opening locks without the proper key. The use of lockpicks or electronic lockpicks will greatly enhance this skill."
     },
     {
         name: PlayerSkillNames.Traps,
         heading: PlayerSkillNames.Traps,
-        baseFormula: "Base: 10% + (PE + AG)",
+        subHeading: "Base: 10% + (PE + AG)",
         body: "The finding and removal of traps. Also the setting of explosives for demolition purposes."
     },
     {
         name: PlayerSkillNames.Repair,
         heading: PlayerSkillNames.Repair,
-        baseFormula: "Base: 0% + (3 * IN)",
+        subHeading: "Base: 0% + (3 * IN)",
         body: "The practical application of the Science skill for fixing broken equipment, machinery and electronics."
     },
     {
         name: PlayerSkillNames.Science,
         heading: PlayerSkillNames.Science,
-        baseFormula: "Base: 0% + (4 * IN)",
+        subHeading: "Base: 0% + (4 * IN)",
         body: "Covers a variety of high technology skills, such as computers, biology, physics and geology."
     },
     {
         name: PlayerSkillNames.Gambling,
         heading: PlayerSkillNames.Gambling,
-        baseFormula: "Base: 0% + (5 * LK)",
+        subHeading: "Base: 0% + (5 * LK)",
         body: "The knowledge and practical skills related to wagering. The skill at cards, dice and other games."
     },
     {
         name: PlayerSkillNames.Outdoorsman,
         heading: PlayerSkillNames.Outdoorsman,
-        baseFormula: "Base: 0% + (2 * (EN + IN))",
+        subHeading: "Base: 0% + (2 * (EN + IN))",
         body: "Practical knowledge of the outdoors, and the ability to live off the land. The knowledge of plants and animals."
     },
     {
         name: PlayerSkillNames.Speech,
         heading: PlayerSkillNames.Speech,
-        baseFormula: "Base: 0% + (5 * CH)",
+        subHeading: "Base: 0% + (5 * CH)",
         body: "The ability to communicate in a practical and efficient manner. The skill of convincing others that your position is correct. The ability to lie and not get caught."
     },
     {
         name: PlayerSkillNames.Barter,
         heading: PlayerSkillNames.Barter,
-        baseFormula: "Base: 0% + (4 * CH)",
+        subHeading: "Base: 0% + (4 * CH)",
         body: "Trading and trade-related tasks. The ability to get better prices for items you sell, and lower prices for the items you boy."
     },
     {
         name: DerivedStatsNames.hitPoints,
         heading: DerivedStatsNames.hitPoints,
-        baseFormula: "",
+        subHeading: "",
         body: "How much damage your character can take before dying. If you reach 0 HP or less, you are dead."
     },
     {
         name: DerivedStatsNames.actionPoints,
         heading: DerivedStatsNames.actionPoints,
-        baseFormula: "Perks: action boy",
+        subHeading: "Perks: action boy",
         body: "The number of actions that the character can take during one combat turn."
     },
     {
         name: DerivedStatsNames.armorClass,
         heading: DerivedStatsNames.armorClass,
-        baseFormula: "Perks: dodger",
+        subHeading: "Perks: dodger",
         body: "Modifies the chance to hit this particular character."
     },
     {
         name: DerivedStatsNames.carryWeight,
         heading: DerivedStatsNames.carryWeight,
-        baseFormula: "Perks: pack rat",
+        subHeading: "Perks: pack rat",
         body: "The maximum amount of equipment your character can carry, in pounds."
     },
     {
         name: DerivedStatsNames.meleeDamage,
         heading: DerivedStatsNames.meleeDamage,
-        baseFormula: "Traits: heavy handed",
+        subHeading: "Traits: heavy handed",
         body: "The amount of bonus damage your character does in hand-to-hand combat."
     },
     {
         name: DerivedStatsNames.poisonResistance,
         heading: DerivedStatsNames.poisonResistance,
-        baseFormula: "Perks: snakeater",
+        subHeading: "Perks: snakeater",
         body: "Reduces poison damage by this amount."
     },
     {
         name: DerivedStatsNames.radiationResistance,
         heading: DerivedStatsNames.radiationResistance,
-        baseFormula: "Perks: rad resistance",
+        subHeading: "Perks: rad resistance",
         body: "The amount of radiation you are exposed to is reduced by this percentage. Radiation resistance can be modified by the type of the armor worn, and anti-radiation drugs."
     },
     {
         name: DerivedStatsNames.sequence,
         heading: DerivedStatsNames.sequence,
-        baseFormula: "Traits: kamikaze",
+        subHeading: "Traits: kamikaze",
         body: "Determines how soon in a combat turn your character can react."
     },
     {
         name: DerivedStatsNames.healingRate,
         heading: DerivedStatsNames.healingRate,
-        baseFormula: "Traits: fast metabolism. Perks: faster healing",
+        subHeading: "Traits: fast metabolism. Perks: faster healing",
         body: "At the end of each day, your character will heal 1 HP for each points of healing rate. When you rest, you heal every six hours."
     },
     {
         name: DerivedStatsNames.hitPointsPerLevel,
         heading: DerivedStatsNames.hitPointsPerLevel,
-        baseFormula: "Perks: lifegiver",
+        subHeading: "Perks: lifegiver",
         body: "Maximum hit points gained at level up."
     },
     {
         name: DerivedStatsNames.damageResistance,
         heading: DerivedStatsNames.damageResistance,
-        baseFormula: "Perks: toughness",
+        subHeading: "Perks: toughness",
         body: "Any damage taken is reduced by this amount. Damage resistance can be increased by wearing armor."
     },
     {
         name: DerivedStatsNames.criticalChance,
         heading: DerivedStatsNames.criticalChance,
-        baseFormula: "Traits: finesse. Perks: more criticals, sniper, slayer",
+        subHeading: "Traits: finesse. Perks: more criticals, sniper, slayer",
         body: "The chance to cause a critical hit in combat is increased by this amount."
     },
     {
         name: DerivedStatsNames.criticalDamageModifier,
         heading: DerivedStatsNames.criticalDamageModifier,
-        baseFormula: "Traits: heavy handed. Perks: better criticals.",
-        body: "On a critical hit, a number between 1 and 100 is generated. A creature and body part specific critical hit table is then consulted. This modifier is added to the random number generated. A roll of under 20 hurts, but a modified roll of over 100 usually results in an instant death."
+        subHeading: "Traits: heavy handed. Perks: better criticals.",
+        body: "On a critical hit, a random number between 1 and 100 is generated. A creature and body part specific critical hit table is then consulted. This modifier is added to the random number generated. A roll of under 20 hurts, but a modified roll of over 100 usually results in an instant death."
     },
     {
         name: DerivedStatsNames.perkRate,
         heading: DerivedStatsNames.perkRate,
-        baseFormula: "Traits: skilled",
-        body: "Determines the character levels when a perk can be chosen. For example, perk rate of 3 means that a perk can be chosen every 3rd level, starting from level 3."
+        subHeading: "Traits: skilled",
+        body: "Determines the character levels when a perk can be chosen. For example, a perk rate of 3 means that a perk can be chosen every 3rd level, starting from level 3."
     },
     {
         name: DerivedStatsNames.chemAddictionChance,
         heading: DerivedStatsNames.chemAddictionChance,
-        baseFormula: "Traits: chem reliant, chem resistant",
+        subHeading: "Traits: chem reliant, chem resistant",
         body: "Modifies a chance to resist addiction."
     },
     {
         name: DerivedStatsNames.chemAddictionRecovery,
         heading: DerivedStatsNames.chemAddictionRecovery,
-        baseFormula: "Traits: chem reliant",
+        subHeading: "Traits: chem reliant",
         body: "Modifies the length of addiction."
     },
     {
         name: DerivedStatsNames.chemDuration,
         heading: DerivedStatsNames.chemDuration,
-        baseFormula: "Traits: chem resistant",
+        subHeading: "Traits: chem resistant",
         body: "Modifies the length of chem effects."
     },
     {
         name: DerivedStatsNames.partyLimit,
         heading: DerivedStatsNames.partyLimit,
-        baseFormula: "",
+        subHeading: "",
         body: "The maximum number of companions."
     },
     {
         name: DerivedStatsNames.enemyDamageResistanceModifier,
         heading: DerivedStatsNames.enemyDamageResistanceModifier,
-        baseFormula: "Traits: finesse",
+        subHeading: "Traits: finesse",
         body: "Modifier added to the enemy damage resistance."
     },
     {
         name: DerivedStatsNames.skillRate,
         heading: DerivedStatsNames.skillRate,
-        baseFormula: "Traits: gifted, skilled. Perks: educated",
+        subHeading: "Traits: gifted, skilled. Perks: educated",
         body: "The number of skill points gained on a level up."
-    }
+    },
+    {
+        name: PerkNames.actionBoy,
+        heading: PerkNames.actionBoy,
+        subHeading: "Requirements: level 12, AG 5",
+        body: "+1 action point per rank." 
+    },
+    {
+        name: PerkNames.adrenalineRush,
+        heading: PerkNames.adrenalineRush,
+        subHeading: "Requirements: level 6, ST < 10",
+        body: "+1 to strength when hit points < 50%." 
+    },
+    {
+        name: PerkNames.awareness,
+        heading: PerkNames.awareness,
+        subHeading: "Requirements: level 3, PE 5",
+        body: "Looking at the target shows target's hit points, equipped weapon and ammunition count." 
+    },
+    {
+        name: PerkNames.betterCriticals,
+        heading: PerkNames.betterCriticals,
+        subHeading: "Requirements: level 9, PE 6, AG 4, LK 6",
+        body: "+20% bonus to the critical hit table." 
+    },
+    {
+        name: PerkNames.bonusHthAttacks,
+        heading: PerkNames.bonusHthAttacks,
+        subHeading: "Requirements: level 15, AG 6",
+        body: "Unarmed and melee weapon attacks cost 1 less action point." 
+    },
+    {
+        name: PerkNames.bonusHthDamage,
+        heading: PerkNames.bonusHthDamage,
+        subHeading: "Requirements: level 3, ST 6, AG 6",
+        body: "+2 damage to unarmed and melee weapon attacks per rank." 
+    },
+    {
+        name: PerkNames.bonusMove,
+        heading: PerkNames.bonusMove,
+        subHeading: "Requirements: level 6, AG 5",
+        body: "+2 action points for movement per turn per rank." 
+    },
+    {
+        name: PerkNames.bonusRangedDamage,
+        heading: PerkNames.bonusRangedDamage,
+        subHeading: "Requirements: level 6, AG 6, LK 6",
+        body: "+2 damage to ranged attacks per rank." 
+    },
+    {
+        name: PerkNames.bonusRateOfFire,
+        heading: PerkNames.bonusRateOfFire,
+        subHeading: "Requirements: level 15, PE 6, IN 6, Ag 7",
+        body: "Ranged attacks cost 1 less action point." 
+    },
+    {
+        name: PerkNames.cautiousNature,
+        heading: PerkNames.cautiousNature,
+        subHeading: "Requirements: level 3, PE 6",
+        body: "+3 to perception during random encounters for determining placement." 
+    },
+    {
+        name: PerkNames.comprehension,
+        heading: PerkNames.comprehension,
+        subHeading: "Requirements: level 3, IN 6",
+        body: "+50% more skill points from books." 
+    },
+    {
+        name: PerkNames.cultOfPersonality,
+        heading: PerkNames.cultOfPersonality,
+        subHeading: "Requirements: level 12, CH 10",
+        body: "NPCs will always view the character favorably."
+    },
+    {
+        name: PerkNames.demolitionExpert,
+        heading: PerkNames.demolitionExpert,
+        subHeading: "Requirements: level 9, AG 4, traps 75%",
+        body: "Explosives do more damage and always detonate on time." 
+    },
+    {
+        name: PerkNames.dodger,
+        heading: PerkNames.dodger,
+        subHeading: "Requirements: level 9, AG 6",
+        body: "+5 to armor class." 
+    },
+    {
+        name: PerkNames.earlierSequence,
+        heading: PerkNames.earlierSequence,
+        subHeading: "Requirements: level 3, PE 6",
+        body: "+2 to sequence per rank." 
+    },
+
+    {
+        name: PerkNames.educated,
+        heading: PerkNames.educated,
+        subHeading: "Requirements: level 6, IN 6",
+        body: "+2 to skill points when leveling per rank." 
+    },
+    {
+        name: PerkNames.empathy,
+        heading: PerkNames.empathy,
+        subHeading: "Requirements: level 6, PE 7, IN 5",
+        body: "In conversation, dialog options are colored by reaction." 
+    },
+    {
+        name: PerkNames.explorer,
+        heading: PerkNames.explorer,
+        subHeading: "Requirements: level 9",
+        body: "Higher chance of special encounters." 
+    },
+    {
+        name: PerkNames.fasterHealing,
+        heading: PerkNames.fasterHealing,
+        subHeading: "Requirements: level 3, EN 6",
+        body: "+2 to healing rate per rank." 
+    },
+    {
+        name: PerkNames.fortuneFinder,
+        heading: PerkNames.fortuneFinder,
+        subHeading: "Requirements: level 6, LK 8",
+        body: "Find additional money in random encounters." 
+    },
+    {
+        name: PerkNames.gainAgility,
+        heading: PerkNames.gainAgility,
+        subHeading: "Requirements: level 12, AG < 10",
+        body: "+1 to agility." 
+    },
+    {
+        name: PerkNames.gainCharisma,
+        heading: PerkNames.gainCharisma,
+        subHeading: "Requirements: level 12, CH < 10",
+        body: "+1 to charisma." 
+    },
+    {
+        name: PerkNames.gainEndurance,
+        heading: PerkNames.gainEndurance,
+        subHeading: "Requirements: level 12, EN < 10",
+        body: "+1 to endurance." 
+    },
+    {
+        name: PerkNames.gainIntelligence,
+        heading: PerkNames.gainIntelligence,
+        subHeading: "Requirements: level 12, IN < 10",
+        body: "+1 to intelligence." 
+    },
+    {
+        name: PerkNames.gainLuck,
+        heading: PerkNames.gainLuck,
+        subHeading: "Requirements: level 12, LK < 10",
+        body: "+1 to luck." 
+    },
+    {
+        name: PerkNames.gainPerception,
+        heading: PerkNames.gainPerception,
+        subHeading: "Requirements: level 12, PE < 10",
+        body: "+1 to perception." 
+    },
+    {
+        name: PerkNames.gainStrength,
+        heading: PerkNames.gainStrength,
+        subHeading: "Requirements: level 12, ST < 10",
+        body: "+1 to strength." 
+    },
+    {
+        name: PerkNames.gambler,
+        heading: PerkNames.gambler,
+        subHeading: "Requirements: level 6, gambling 50%",
+        body: "+20% to gambling." 
+    },
+    {
+        name: PerkNames.ghost,
+        heading: PerkNames.ghost,
+        subHeading: "Requirements: level 6, sneak 60%",
+        body: "+20% to sneak in dark conditions." 
+    },
+    {
+        name: PerkNames.harmless,
+        heading: PerkNames.harmless,
+        subHeading: "Requirements: level 6, steal 50%, karma > 50",
+        body: "+20% to steal." 
+    },
+    {
+        name: PerkNames.healer,
+        heading: PerkNames.healer,
+        subHeading: "Requirements: level 3, PE 7, IN 5, AG 6, first aid 40%",
+        body: "4 to 10 more hit points restored using first aid and doctor skills." 
+    },
+    {
+        name: PerkNames.heaveHo,
+        heading: PerkNames.heaveHo,
+        subHeading: "Requirements: level 6, ST < 9",
+        body: "+2 to strength when determining range of a thrown weapon per rank." 
+    },
+    {
+        name: PerkNames.hereAndNow,
+        heading: PerkNames.hereAndNow,
+        subHeading: "Requirements: level 3",
+        body: "Immediatly gain an extra level." 
+    },
+    {
+        name: PerkNames.hthEvade,
+        heading: PerkNames.hthEvade,
+        subHeading: "Requirements: level 12, unarmed 75%",
+        body: "+2 for each unused action point, plus 1/12 of unarmed skill to armor class at the end of a combat turn." 
+    },
+    {
+        name: PerkNames.kamaSutraMaster,
+        heading: PerkNames.kamaSutraMaster,
+        subHeading: "Requirements: level 3, EN 5, AG 5",
+        body: "Some NPCs are more likely to have sex with the character." 
+    },
+    {
+        name: PerkNames.karmaBeacon,
+        heading: PerkNames.karmaBeacon,
+        subHeading: "Requirements: level 9, CH 6",
+        body: "Karma is doubled for the purposes of dialogue and reactions." 
+    },
+    {
+        name: PerkNames.lifegiver,
+        heading: PerkNames.lifegiver,
+        subHeading: "Requirements: level 12, EN 4",
+        body: "Additional 4 hit points per character level per perk rank. " 
+    },
+    {
+        name: PerkNames.lightStep,
+        heading: PerkNames.lightStep,
+        subHeading: "Requirements: level 9, AG 5, LK 5",
+        body: "Halves the chance to set off a trap." 
+    },
+    {
+        name: PerkNames.livingAnatomy,
+        heading: PerkNames.livingAnatomy,
+        subHeading: "Requirements: level 12, doctor 60%",
+        body: "+10% to doctor and +5 damage to all living creatures per attack." 
+    },
+    {
+        name: PerkNames.magneticPersonality,
+        heading: PerkNames.magneticPersonality,
+        subHeading: "Requirements: level 6, CH < 10",
+        body: "+1 to the party limit." 
+    },
+    {
+        name: PerkNames.masterThief,
+        heading: PerkNames.masterThief,
+        subHeading: "Requirements: level 12, lockpick 50%, steal 50%",
+        body: "+15% to lockpick and steal." 
+    },
+    {
+        name: PerkNames.masterTrader,
+        heading: PerkNames.masterTrader,
+        subHeading: "Requirements: level 12, CH 7, barter 75%",
+        body: "25% discount purchasing from stores and traders." 
+    },
+    {
+        name: PerkNames.medic,
+        heading: PerkNames.medic,
+        subHeading: "Requirements: level 12, first aid 40% or doctor 40%",
+        body: "+10% to first aid and doctor." 
+    },
+    {
+        name: PerkNames.moreCriticals,
+        heading: PerkNames.moreCriticals,
+        subHeading: "Requirements: level 6, LK 6",
+        body: "+5% to critical chance per rank." 
+    },
+    {
+        name: PerkNames.mrFixit,
+        heading: PerkNames.mrFixit,
+        subHeading: "Requirements: level 12, science 40% or repair 40%",
+        body: "+10% to repair and science." 
+    },
+    {
+        name: PerkNames.mutate,
+        heading: PerkNames.mutate,
+        subHeading: "Requirements: level 9",
+        body: "Change one of the character traits." 
+    },
+    {
+        name: PerkNames.mysteriousStranger,
+        heading: PerkNames.mysteriousStranger,
+        subHeading: "Requirements: level 9, LK 4",
+        body: "Change for a temporary ally in random encounters. Change: 30% + 2% * luck." 
+    },
+    {
+        name: PerkNames.negotiator,
+        heading: PerkNames.negotiator,
+        subHeading: "Requirements: level 6, barter 50%, speech 50%",
+        body: "+10% to speech and barter." 
+    },
+    {
+        name: PerkNames.nightVision,
+        heading: PerkNames.nightVision,
+        subHeading: "Requirements: level 3, PE 6",
+        body: "20% reduction in darkness level." 
+    },
+    {
+        name: PerkNames.packRat,
+        heading: PerkNames.packRat,
+        subHeading: "Requirements: level 6",
+        body: "Increase carry weight by 50 pounds." 
+    },
+    {
+        name: PerkNames.pathfinder,
+        heading: PerkNames.pathfinder,
+        subHeading: "Requirements: level 6, EN 6, outdoorsman 40%",
+        body: "25% reduction in travel time on the world map."
+    },
+    {
+        name: PerkNames.pickpocket,
+        heading: PerkNames.pickpocket,
+        subHeading: "Requirements: level 15, AG 8, steal 80%",
+        body: "Size and facing modifiers are ignored when stealing." 
+    },
+    {
+        name: PerkNames.presence,
+        heading: PerkNames.presence,
+        subHeading: "Requirements: level 3, CH 6",
+        body: "+10% to the initial reaction of NPCs per rank." 
+    },
+    {
+        name: PerkNames.pyromaniac,
+        heading: PerkNames.pyromaniac,
+        subHeading: "Requirements: level 9, big guns 75%",
+        body: "+5 damage with fire-based weapons, more violent fire death animations." 
+    },
+    {
+        name: PerkNames.quickPockets,
+        heading: PerkNames.quickPockets,
+        subHeading: "Requirements: level 3, AG 5",
+        body: "Accessing inventory during combat only costs 2 action points." 
+    },
+    {
+        name: PerkNames.quickRecovery,
+        heading: PerkNames.quickRecovery,
+        subHeading: "Requirements: level 6, AG 5",
+        body: "Getting up after getting knocked down only costs 1 action point." 
+    },
+    {
+        name: PerkNames.radResistance,
+        heading: PerkNames.radResistance,
+        subHeading: "Requirements: level 6, EN 6, IN 4",
+        body: "+15% to radiation resistance per rank." 
+    },
+    {
+        name: PerkNames.ranger,
+        heading: PerkNames.ranger,
+        subHeading: "Requirements: level 6, PE 6",
+        body: "+15% to outdoorsman." 
+    },
+    {
+        name: PerkNames.salesman,
+        heading: PerkNames.salesman,
+        subHeading: "Requirements: level 6, barter 50%",
+        body: "+20% to barter." 
+    },
+    {
+        name: PerkNames.scout,
+        heading: PerkNames.scout,
+        subHeading: "Requirements: level 3, PE 7",
+        body: "World map reveal radius increased by 1 tile and find special encounters easier." 
+    },
+    {
+        name: PerkNames.scrounger,
+        heading: PerkNames.scrounger,
+        subHeading: "Requirements: level 9, LK 8",
+        body: "Double the ammunition found in the random encounters." 
+    },
+    {
+        name: PerkNames.sharpshooter,
+        heading: PerkNames.sharpshooter,
+        subHeading: "Requirements: level 9, PE 7, IN 6",
+        body: "+2 to perception when determining range modifiers." 
+    },
+    {
+        name: PerkNames.silentDeath,
+        heading: PerkNames.silentDeath,
+        subHeading: "Requirements: level 18, sneak 80%, unarmed 80%",
+        body: "While sneaking, unarmed and melee weapon attacks from behind do double damage." 
+    },
+    {
+        name: PerkNames.silentRunning,
+        heading: PerkNames.silentRunning,
+        subHeading: "Requirements: level 6, AG 6, sneak 50%",
+        body: "Able to sneak and run at the same time." 
+    },
+    {
+        name: PerkNames.slayer,
+        heading: PerkNames.slayer,
+        subHeading: "Requirements: level 24, ST 8, AG 8, unarmed 80%",
+        body: "All attacks with unarmed and melee weapons are critical hits." 
+    },
+    {
+        name: PerkNames.smoothTalker,
+        heading: PerkNames.smoothTalker,
+        subHeading: "Requirements: level 3, IN 4",
+        body: "+1 to intelligence for the purposes of dialogue." 
+    },
+    {
+        name: PerkNames.snakeater,
+        heading: PerkNames.snakeater,
+        subHeading: "Requirements: level 6, EN 3",
+        body: "+25% to poison resistance per rank." 
+    },
+    {
+        name: PerkNames.sniper,
+        heading: PerkNames.sniper,
+        subHeading: "Requirements: level 24, PE 8, AG 8, small guns 80%",
+        body: "All attacks with ranged weapons are criticals hits on a successfull luck roll." 
+    },
+    {
+        name: PerkNames.speaker,
+        heading: PerkNames.speaker,
+        subHeading: "Requirements: level 9, speech 50%",
+        body: "+20% to speech." 
+    },
+    {
+        name: PerkNames.stonewall,
+        heading: PerkNames.stonewall,
+        subHeading: "Requirements: level 3, ST 6",
+        body: "Reduced chance of getting knocked down in combat." 
+    },
+    {
+        name: PerkNames.strongBack,
+        heading: PerkNames.strongBack,
+        subHeading: "Requirements: level 3, ST 6, EN 6",
+        body: "Increase carry weight by 50 pounds per rank." 
+    },
+    {
+        name: PerkNames.survivalist,
+        heading: PerkNames.survivalist,
+        subHeading: "Requirements: level 3, EN 6, IN 6, outdoorsman 40%",
+        body: "+25% to outdoorsman." 
+    },
+    {
+        name: PerkNames.swiftLearner,
+        heading: PerkNames.swiftLearner,
+        subHeading: "Requirements: level 3, IN 4",
+        body: "+5% experience gained per rank." 
+    },
+    {
+        name: PerkNames.tag,
+        heading: PerkNames.tag,
+        subHeading: "Requirements: level 12",
+        body: "+1 tag point." 
+    },
+    {
+        name: PerkNames.thief,
+        heading: PerkNames.thief,
+        subHeading: "Requirements: level 3",
+        body: "+10% to sneak, lockpick, steal and traps." 
+    },
+    {
+        name: PerkNames.toughness,
+        heading: PerkNames.toughness,
+        subHeading: "Requirements: level 3, EN 6, LK 6",
+        body: "+10% to damage resistance per rank." 
+    },
+    {
+        name: PerkNames.weaponHandling,
+        heading: PerkNames.weaponHandling,
+        subHeading: "Requirements: level 12, ST < 7, AG 5",
+        body: "+3 to strength for weapon requirements." 
+    },
 ]

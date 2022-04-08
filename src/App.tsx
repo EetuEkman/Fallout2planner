@@ -148,7 +148,7 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
 }
 
 function raisedSkillsReducer(state: IPlayerSkills, action: IRaisedSkillsAction) : IPlayerSkills {
-    let newState: IPlayerSkills = Object.assign(state);
+    let newState: IPlayerSkills = Object.assign({}, state);
 
     switch (action.type) {
         case "increase":
@@ -228,7 +228,7 @@ function increaseRaisedSkill(skillName: string, amount: number, raisedSkills: IP
 }
 
 function decreaseRaisedSkill(skillName: string, amount: number, raisedSkills: IPlayerSkills) : IPlayerSkills {
-    let newRaisedSkills = Object.assign(raisedSkills);
+    let newRaisedSkills = Object.assign({}, raisedSkills);
 
     switch (skillName) {
         case PlayerSkillNames.SmallGuns:
@@ -305,7 +305,7 @@ interface IRaisedSkillsAction {
 }
 
 function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction): IPrimaryStats {
-    let newState: IPrimaryStats = Object.assign(state);
+    let newState: IPrimaryStats = Object.assign({}, state);
 
     switch (action.type) {
         case "increase":
@@ -502,7 +502,7 @@ function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
 
     // Look for gifted trait
 
-    const gifted = traits?.find((trait) => trait.name === "Gifted");
+    const gifted = traits?.find((trait) => trait.name === TraitNames.gifted);
 
     if (gifted) {
 
@@ -519,7 +519,7 @@ function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
         case "strength":
             // Look for bruiser trait
 
-            const bruiser = traits.find((trait) => trait.name === "Bruiser");
+            const bruiser = traits.find((trait) => trait.name === TraitNames.bruiser);
 
             if (bruiser) {
                 // Raise minimum strength
@@ -695,7 +695,7 @@ function App() {
 
     const [tooltipHeading, setTooltipHeading] = useState(TOOLTIPS[0].heading);
 
-    const [tooltipBaseFormula, setTooltipBaseFormula] = useState(TOOLTIPS[0].baseFormula);
+    const [tooltipSubHeading, setTooltipSubHeading] = useState(TOOLTIPS[0].subHeading);
 
     const [tooltipBody, setTooltipBody] = useState(TOOLTIPS[0].body);
 
@@ -1997,16 +1997,16 @@ function App() {
 
             // Primary stats effects.
 
-            if(trait.name === "Small frame")
+            if(trait.name === TraitNames.smallFrame)
             {
                 primaryStatsDispatch({type: "small frame", payload: "add", traits: selectedTraits});
             }
 
-            if (trait.name === "Gifted") {
+            if (trait.name === TraitNames.gifted) {
                 primaryStatsDispatch({type: "gifted", payload: "add", traits: traits});
             }
 
-            if (trait.name === "Bruiser") {
+            if (trait.name === TraitNames.bruiser) {
                 primaryStatsDispatch({type: "bruiser", payload: "add", traits: traits});
             }
 
@@ -2038,7 +2038,7 @@ function App() {
         primaryStatsDispatch(action);
     }
 
-    // Called when user clicks on an available perk.
+    // Called when user clicks an available perk.
 
     // Try to add a rank to the perk in the character's perks
     // and remove a rank from the perk in the available perks.
@@ -2046,7 +2046,23 @@ function App() {
     const handleAvailablePerkClick = (event: MouseEvent) => {
         const perkName = event.currentTarget.getAttribute("data-perk-name")!;
 
-        if (perkName === undefined) { return; }
+        if (!perkName) { return; }
+
+        const requirementsMet = event.currentTarget.getAttribute("data-requirements-met");
+
+        if (!requirementsMet) { return; }
+
+        const tooltip = TOOLTIPS.find(tooltip => tooltip.name === perkName);
+
+        if (tooltip) {
+            setTooltipHeading(heading => tooltip.heading);
+
+            setTooltipSubHeading(subHeading => tooltip.subHeading);
+
+            setTooltipBody(body => tooltip.body);
+        }
+
+        if (requirementsMet === "false") { return; }
 
         if (perkPoints <= 0) { return; }
 
@@ -2087,7 +2103,7 @@ function App() {
         }
     }
 
-    // Called when user clicks a perk.
+    // Called when user clicks a selected perk.
 
     const handlePlayersPerkClick = (event: MouseEvent) => {
         const perkName = event.currentTarget.getAttribute("data-perk-name")!;
@@ -2095,6 +2111,12 @@ function App() {
         if (perkName === undefined) { return; }
 
         // Prevent certain perks from being removed.
+
+        // Enabling the removing of these perks while maintaining the integrity 
+        // of the app would require implementing a lot of logic.
+
+        // Perhaps implement a saving of a "snapshot" of the state of the primary stats, traits, level, skills, tags and perks
+        // to return to on perk removal.
 
         if (perkName === PerkNames.hereAndNow ||
             perkName === PerkNames.tag ||
@@ -2108,7 +2130,7 @@ function App() {
 
         if (index === -1) { return; }
 
-        // Remove a rank from the perk in the player's perks.
+        // Remove a rank from the perk in the character's perks.
 
         const removeAction : IPlayersPerksAction = { type: "remove", perkName: perkName, playerLevel: playerLevel}
 
@@ -2120,7 +2142,7 @@ function App() {
 
         availablePerksDispatch(addAction);
 
-        // Refund a perk point
+        // Refund a perk point.
 
         setPerkPoints(perkPoints => perkPoints + 1);
 
@@ -2137,7 +2159,7 @@ function App() {
     // Create and download a text file containing character's primary stats, traits and perks.
 
     const print = () => {
-        // Get primary stats, traits and perks in printable form
+        // Get primary stats, traits and perks in printable form.
 
         const printablePrimaryStats = getPrintablePrimaryStats(primaryStats);
 
@@ -2145,13 +2167,13 @@ function App() {
 
         const printablePerks = getPrintablePerks(playersPerks);
 
-        // Create downloadable file
+        // Create downloadable file.
 
         const blob = new Blob([printablePrimaryStats, printableTraits, printablePerks], { type: "text/plain;charset=utf-8", endings: "native"});
 
         const fileDownloadUrl = URL.createObjectURL(blob);
 
-        // Create an anchor element used for download
+        // Create an anchor element used for download.
 
         let element = document.createElement("a");
 
@@ -2159,7 +2181,7 @@ function App() {
 
         element.style.display = "none";
 
-        // Use a date in naming the text file
+        // Use a date in naming the text file.
 
         const date = new Date();
 
@@ -2195,11 +2217,9 @@ function App() {
 
         setTooltipHeading(heading => tooltip.heading);
 
-        setTooltipBaseFormula(formula => tooltip.baseFormula);
+        setTooltipSubHeading(subHeading => tooltip.subHeading);
 
         setTooltipBody(body => tooltip.body);
-
-        
     }
 
     // Base skills and derived stats are calculated from primary stats, traits, perks and tagged skills.
@@ -2250,18 +2270,21 @@ function App() {
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
             
-            <div className="tooltip">
-                <div className="tooltip-display">
-                    <h2>{tooltipHeading}</h2>
-                    {tooltipBaseFormula.length > 0 ? <span>{tooltipBaseFormula}</span> : <span>&nbsp;</span>}
-                    <hr></hr>
-                    <p>{tooltipBody}</p>
-                </div>
-                <div className="print-button-container">
-                    <button onClick={print}></button>
-                    <div>Print</div>
+            <div id="footer">
+                <div className="tooltip">
+                    <div className="tooltip-display">
+                        <h2>{tooltipHeading}</h2>
+                        {tooltipSubHeading.length > 0 ? <span>{tooltipSubHeading}</span> : <span>&nbsp;</span>}
+                        <hr></hr>
+                        <p>{tooltipBody}</p>
+                    </div>
+                    <div className="print-button-container">
+                        <button onClick={print}></button>
+                        <div>Print</div>
+                    </div>
                 </div>
             </div>
+            
         </div>
     );
 }
