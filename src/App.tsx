@@ -2123,7 +2123,12 @@ function App() {
 
         // No perk points. Some perks such as zeta scan are not gained by leveling up and do not require perk points.
 
-        if (perkPoints <= 0 && perkName !== PerkNames.zetaScan) { return; }
+        if (perkPoints <= 0
+            && perkName !== PerkNames.zetaScan
+            && perkName !== PerkNames.vaultCityTraining
+            && perkName !== PerkNames.vaultCityInoculations) {
+            return;
+        }
 
         const index = availablePerks.findIndex((availablePerk) => availablePerk.name === perkName);
 
@@ -2143,7 +2148,9 @@ function App() {
 
         // Some perks such as zeta scan are not gained by leveling up and do not require perk points.
 
-        if (perkName !== PerkNames.zetaScan && perkName !== PerkNames.vaultCityTraining && perkName !== PerkNames.vaultCityInoculations) {
+        if (perkName !== PerkNames.zetaScan
+            && perkName !== PerkNames.vaultCityTraining
+            && perkName !== PerkNames.vaultCityInoculations) {
             setPerkPoints(perkPoints => perkPoints - 1);
         }
 
@@ -2266,7 +2273,9 @@ function App() {
 
         // Some perks such as zeta scan are not gained by leveling up and do not require perk points so do not refund perk points.
 
-        if (perkName !== PerkNames.zetaScan && perkName !== PerkNames.vaultCityTraining && perkName !== PerkNames.vaultCityInoculations) {
+        if (perkName !== PerkNames.zetaScan
+            && perkName !== PerkNames.vaultCityTraining
+            && perkName !== PerkNames.vaultCityInoculations) {
             setPerkPoints(perkPoints => perkPoints + 1);
         }
 
