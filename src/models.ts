@@ -260,6 +260,9 @@ const emptyPrimaryStats: IPrimaryStats = {
  * levelSelected holds the player levels the perk was selected.
  * 
  * requirementsMet holds if the requirements for the perks are met.
+ * 
+ * baseValue can be used to hold the snapshot of the values they're modifying before they were picked,
+ * such as luck before zeta scan perk.
  */
 
  export interface IPerk {
@@ -268,7 +271,8 @@ const emptyPrimaryStats: IPrimaryStats = {
     ranks: number,
     maxRanks: number,
     levelSelected: number[],
-    requirementsMet: boolean
+    requirementsMet: boolean,
+    baseValue?: number
 }
 
 /**
@@ -370,8 +374,9 @@ export enum PerkNames {
     expertExcrementExpeditor = "Expert excrement expeditor",
     phoenixArmorImplants = "Phoenix armor implants",
     phoenixAssaultEnhancement = "Phoenix assault enhancement",
-    vaultCityTraining = "Vault city training",
-    vaultCityInoculations = "Vault city inoculations"
+    vaultCityTraining = "VC training",
+    vaultCityInoculations = "VC inoculations",
+    zetaScan = "Zeta scan"
 }
 
 /**
@@ -1322,8 +1327,45 @@ export enum DerivedStatsNames {
         name: PerkNames.gainLuck,
         requirements: {
             level: 12,
-            primaryStats: { ...emptyPrimaryStats, luck: 10},
+            primaryStats: { ...emptyPrimaryStats, luck: 10 },
             playerSkills: { ...emptyPlayerSkills }
+        },
+        ranks: 1,
+        maxRanks: 1,
+        levelSelected: [],
+        requirementsMet: false
+    },
+    {
+        name: PerkNames.zetaScan,
+        requirements: {
+            level: 2,
+            primaryStats: { ...emptyPrimaryStats },
+            playerSkills: { ...emptyPlayerSkills }
+        },
+        ranks: 1,
+        maxRanks: 1,
+        levelSelected: [],
+        requirementsMet: false,
+        baseValue: 5
+    },
+    {
+        name: PerkNames.vaultCityInoculations,
+        requirements: {
+            level: 1,
+            primaryStats: { ...emptyPrimaryStats },
+            playerSkills: { ...emptyPlayerSkills, doctor: 75 }
+        },
+        ranks: 1,
+        maxRanks: 1,
+        levelSelected: [],
+        requirementsMet: false
+    },
+    {
+        name: PerkNames.vaultCityTraining,
+        requirements: {
+            level: 1,
+            primaryStats: { ...emptyPrimaryStats },
+            playerSkills: { ...emptyPlayerSkills, doctor: 75 }
         },
         ranks: 1,
         maxRanks: 1,
@@ -2204,4 +2246,32 @@ export const TOOLTIPS: ITooltip[] = [
         subHeading: "Requirements: level 12, ST < 7, AG 5",
         body: "+3 to strength for weapon requirements." 
     },
+    {
+        name: PerkNames.zetaScan,
+        heading: PerkNames.zetaScan,
+        subHeading: "Special perk",
+        body: "A hubologist called the Enlightened One in downtown NCR gives a \"zeta scan\", giving either -1, +1 or +2 to luck." 
+    },
+    {
+        name: PerkNames.vaultCityInoculations,
+        heading: "Vault city inoculations",
+        subHeading: "Special perk. Requirements: doctor 75%, vault city training perk",
+        body: "+10% to poison and radiation resistances." 
+    },
+    {
+        name: PerkNames.vaultCityTraining,
+        heading: "Vault city training",
+        subHeading: "Special perk. Requirements: doctor 75%",
+        body: "+5% to first aid and doctor skills." 
+    },
 ]
+
+/**
+ * Game difficulty effects base skills.
+ */
+
+export enum Difficulty {
+    easy = "Easy",
+    normal = "Normal",
+    hard = "Hard"
+}

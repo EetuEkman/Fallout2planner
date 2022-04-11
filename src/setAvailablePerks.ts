@@ -299,9 +299,35 @@ export default function setAvailablePerks(perks: IPerk[], primaryStats: IPrimary
 
         if (primaryStatsRequirementsMet && playerSkillsRequirementsMet) {
             requirementsMet = true;
-        }        
+        }
 
         perk.requirementsMet = requirementsMet;
+
+        // Vault city inoculations requires vault city training.
+
+        if (perk.name === PerkNames.vaultCityInoculations) {
+            const vaultCityTraining = perks.find(perk => perk.name === PerkNames.vaultCityTraining);
+
+            let vaultCityTrainingSelected = false;
+
+            if (vaultCityTraining) {
+
+                if (vaultCityTraining.ranks === 0) {
+                    vaultCityTrainingSelected = true;
+                }
+                
+            }
+       
+            if (!vaultCityTrainingSelected) {
+                perk.requirementsMet = false;
+            }
+
+            // Both requirements are met.  
+
+            if (requirementsMet && vaultCityTrainingSelected) {
+                perk.requirementsMet = true;
+            }
+        }
 
         return perk;
     });

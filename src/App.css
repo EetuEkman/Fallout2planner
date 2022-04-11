@@ -53,10 +53,10 @@ body {
 }
 
 .flex-container > div {
-    margin-right: 5px;
+    margin-right: 2px;
     display: inline-flex;
     padding: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -531,7 +531,7 @@ body {
     display: flex;
     flex-flow: column wrap;
     width: 190px;
-    height: 550px;
+    height: 525px;
     padding: 5px;
 }
 
@@ -596,9 +596,11 @@ body {
     background-color: black;
     display: flex;
     flex-flow: column wrap;
-    width: 550px;
-    height: 550px;
+    width: 525px;
+    height: 525px;
     padding: 5px;
+    padding-right: 10px;
+    align-items: stretch;
 }
 
 .available-perks-list > div {
@@ -606,14 +608,14 @@ body {
     font-family: "Monofonto";
     height: fit-content;
     display: flex;
-    width: max-content;
+    width: fit-content;
     flex-wrap: nowrap;
 }
 
 .tooltip {
     display: inline-flex;
     padding: 10px;
-    height: max-content;
+    height: fit-content;
     margin-right: 10px;
     background-color: var(--field-drab);
     flex-direction: column;
@@ -622,8 +624,8 @@ body {
 .tooltip-display {
     display: inline-flex;
     padding: 20px;
-    height: 400px;
-    width: 600px;
+    height: 360px;
+    width: 540px;
     margin-right: 10px;
     background-color: black;
     flex-direction: column;

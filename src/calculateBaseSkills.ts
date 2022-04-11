@@ -1,4 +1,4 @@
-import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlayerSkills, IPerk, PerkNames } from "./models";
+import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlayerSkills, IPerk, PerkNames, TraitNames } from "./models";
 
 /**
  * Calculates base skills from primary stats, traits, perks and tagged skills.
@@ -18,17 +18,9 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
 
     // Gifted trait.
 
-    const gifted = traits.find((trait) => trait.name === "Gifted");
+    const gifted = traits.find((trait) => trait.name === TraitNames.gifted);
 
     if (gifted) { modifier -= 10; }
-
-    // Good natured trait.
-
-    const goodNatured = traits.find((trait) => trait.name === "Good natured");
-
-    if (goodNatured) {
-        newBaseSkills = Object.assign(calculateGoodNatured(newBaseSkills));
-    }
 
     newBaseSkills.smallGuns = calculateSmallGuns(primaryStats, taggedSkills) + modifier;
     newBaseSkills.bigGuns = calculateBigGuns(primaryStats, taggedSkills) + modifier;
@@ -48,6 +40,14 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
     newBaseSkills.barter = calculateBarter(primaryStats, taggedSkills) + modifier;
     newBaseSkills.gambling = calculateGambling(primaryStats, taggedSkills) + modifier;
     newBaseSkills.outdoorsman = calculateOutdoorsman(primaryStats, taggedSkills) + modifier;
+
+    // Good natured trait.
+
+    const goodNatured = traits.find((trait) => trait.name === TraitNames.goodNatured);
+
+    if (goodNatured) {  
+        newBaseSkills = Object.assign({}, calculateGoodNatured(newBaseSkills));
+    }
 
     // Perks affecting base skills.
 
@@ -124,6 +124,15 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
                     };
                 }
                 break;
+                case PerkNames.vaultCityTraining:
+                    if (perk.ranks > 0) {
+                        newBaseSkills = {
+                            ...newBaseSkills,
+                            firstAid: newBaseSkills.firstAid + 5,
+                            doctor: newBaseSkills.doctor + 5
+                        };
+                    }
+                    break;
         }
     });
 
@@ -385,7 +394,7 @@ function calculateOutdoorsman(primaryStats: IPrimaryStats, taggedSkills: string[
 }
 
 function calculateGoodNatured(skills: IPlayerSkills): IPlayerSkills {
-    let newSkills: IPlayerSkills = skills;
+    let newSkills: IPlayerSkills = { ...skills };
 
     newSkills.firstAid += 15;
     newSkills.doctor += 15;

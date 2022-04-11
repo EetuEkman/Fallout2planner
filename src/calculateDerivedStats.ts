@@ -126,6 +126,13 @@ export default function calculateDerivedStats(primaryStats: IPrimaryStats, trait
                     newDerivedStats.hitPointsPerLevel += 8;
                 }
                 break;
+            case PerkNames.vaultCityInoculations:
+                if (perk.ranks === 1) {
+                    newDerivedStats.poisonResistance += 10;
+                    newDerivedStats.radiationResistance += 10;
+                }
+
+                break;
         }
     });
 

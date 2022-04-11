@@ -28,7 +28,8 @@ function getDefaultPlayerPerks(perks: IPerk[]): IPerk[] {
 interface IPlayersPerksAction {
     type: string,
     perkName: string,
-    playerLevel: number
+    playerLevel: number,
+    primaryStats: IPrimaryStats
 }
 
 function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk[] {
@@ -60,6 +61,13 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
 
             newPlayersPerks[index].ranks += 1;
 
+            // Save the current luck value to the zeta scan perk.
+
+            if (newPlayersPerks[index].name === PerkNames.zetaScan) {
+
+                newPlayersPerks[index].baseValue = action.primaryStats.luck;
+            }
+
             newPlayersPerks[index].levelSelected.push(action.playerLevel);
 
             break;
@@ -90,7 +98,7 @@ interface IAvailablePerksAction {
     perkName: string
 }
 
-function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : IPerk[] {
+function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction): IPerk[] {
     let newAvailablePerks = [...state];
 
     // Find the index of the perk to mutate.
@@ -118,7 +126,7 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
 
             rank = newAvailablePerks[index].ranks;
 
-            if ( rank + 1 > maxRanks ) {
+            if (rank + 1 > maxRanks) {
                 return newAvailablePerks;
             }
 
@@ -132,7 +140,7 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
 
             rank = newAvailablePerks[index].ranks;
 
-            if ( rank < 0 ) {
+            if (rank < 0) {
                 return newAvailablePerks;
             }
 
@@ -147,7 +155,7 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction) : 
     return newAvailablePerks;
 }
 
-function raisedSkillsReducer(state: IPlayerSkills, action: IRaisedSkillsAction) : IPlayerSkills {
+function raisedSkillsReducer(state: IPlayerSkills, action: IRaisedSkillsAction): IPlayerSkills {
     let newState: IPlayerSkills = Object.assign({}, state);
 
     switch (action.type) {
@@ -163,7 +171,7 @@ function raisedSkillsReducer(state: IPlayerSkills, action: IRaisedSkillsAction) 
     return newState;
 }
 
-function increaseRaisedSkill(skillName: string, amount: number, raisedSkills: IPlayerSkills) : IPlayerSkills {
+function increaseRaisedSkill(skillName: string, amount: number, raisedSkills: IPlayerSkills): IPlayerSkills {
     let newRaisedSkills = raisedSkills;
 
     switch (skillName) {
@@ -227,7 +235,7 @@ function increaseRaisedSkill(skillName: string, amount: number, raisedSkills: IP
     return newRaisedSkills;
 }
 
-function decreaseRaisedSkill(skillName: string, amount: number, raisedSkills: IPlayerSkills) : IPlayerSkills {
+function decreaseRaisedSkill(skillName: string, amount: number, raisedSkills: IPlayerSkills): IPlayerSkills {
     let newRaisedSkills = Object.assign({}, raisedSkills);
 
     switch (skillName) {
@@ -297,23 +305,28 @@ interface IRaisedSkillsAction {
     amount: number
 }
 
- interface IPrimaryStatsAction {
+interface IPrimaryStatsAction {
     type: string,
     payload: string,
     traits: ITrait[],
-    gainPrimaryStatPerk?: string
+    gainPrimaryStatPerk?: string,
+    zetaScanAmount?: number
 }
 
 function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction): IPrimaryStats {
-    let newState: IPrimaryStats = Object.assign({}, state);
+    let newState = {...state};
 
     switch (action.type) {
         case "increase":
             newState = increasePrimaryStat(newState, action.payload, action.traits);
+
             break;
+
         case "decrease":
             newState = decreasePrimaryStat(newState, action.payload, action.traits);
+
             break;
+
         case "small frame":
             if (action.payload === "add") {
                 newState.agility += 1;
@@ -324,6 +337,7 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             }
 
             break;
+
         case "gifted":
             if (action.payload === "add") {
                 newState = increaseAllPrimaryStats(newState);
@@ -332,7 +346,9 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             if (action.payload === "remove") {
                 newState = decreaseAllPrimaryStats(newState);
             }
+
             break;
+
         case "bruiser":
             if (action.payload === "add") {
                 newState.strength += 2;
@@ -341,7 +357,9 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             if (action.payload === "remove") {
                 newState.strength -= 2;
             }
+
             break;
+
         case "gainPerk":
             if (action.payload === "add") {
 
@@ -408,8 +426,38 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             }
 
             break;
+        
+        case "zetaScan":
+            const amount = action.zetaScanAmount;
+
+            if (!amount) { return newState };
+
+            if (action.payload === "add") {
+                switch (amount) {
+                    case 1:
+                        newState.luck += 1;
+                        break;
+                    case 2:
+                        newState.luck += 2;
+                        break;
+                }
+            }
+
+            else if (action.payload === "remove") {
+                switch (amount) {
+                    case 1:
+                        newState.luck -= 1;
+                        break;
+                    case 2:
+                        newState.luck -= 2;
+                        break;
+                }
+            }
+
+            break;
 
         default:
+
             break;
     }
 
@@ -423,16 +471,16 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
  * @returns character's new primary stats.
  */
 
-function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: ITrait[]): IPrimaryStats {
-    let newPrimaryStats: IPrimaryStats = Object.assign({}, primaryStats);
+function increasePrimaryStat(primaryStats: IPrimaryStats, primaryStat: string, traits: ITrait[]): IPrimaryStats {
+    let newPrimaryStats = {...primaryStats};
 
     // Need unspent primary stat points
 
     if (primaryStats.unspentPoints === 0) {
         return newPrimaryStats;
     }
-
-    switch (stat) {
+    
+    switch (primaryStat) {
         case "strength":
             if (primaryStats.strength < 10) {
                 newPrimaryStats.strength += 1;
@@ -440,6 +488,7 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
         case "perception":
             if (primaryStats.perception < 10) {
                 newPrimaryStats.perception += 1;
@@ -447,6 +496,7 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
         case "endurance":
             if (primaryStats.endurance < 10) {
                 newPrimaryStats.endurance += 1;
@@ -454,6 +504,7 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
         case "charisma":
             if (primaryStats.charisma < 10) {
                 newPrimaryStats.charisma += 1;
@@ -461,12 +512,14 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
         case "intelligence":
             if (primaryStats.intelligence < 10) {
                 newPrimaryStats.intelligence += 1;
                 newPrimaryStats.unspentPoints -= 1;
             }
             break;
+
         case "agility":
             if (primaryStats.agility < 10) {
                 newPrimaryStats.agility += 1;
@@ -474,6 +527,7 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
         case "luck":
             if (primaryStats.luck < 10) {
                 newPrimaryStats.luck += 1;
@@ -481,6 +535,14 @@ function increasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
             }
 
             break;
+
+        // Increase the unspent stat points.
+
+        case "unspentPoint":
+            newPrimaryStats.unspentPoints += 1;
+
+            break;
+
         default:
     }
 
@@ -511,8 +573,6 @@ function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
         minimumValue = 2;
     }
 
-    // Initialize
-
     let newState: IPrimaryStats = Object.assign({}, primaryStats);
 
     switch (stat) {
@@ -532,30 +592,35 @@ function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
                 newState.unspentPoints += 1;
             }
             break;
+
         case "perception":
             if (primaryStats.perception > minimumValue) {
                 newState.perception -= 1;
                 newState.unspentPoints += 1;
             }
             break;
+
         case "endurance":
             if (primaryStats.endurance > minimumValue) {
                 newState.endurance -= 1;
                 newState.unspentPoints += 1;
             }
             break;
+
         case "charisma":
             if (primaryStats.charisma > minimumValue) {
                 newState.charisma -= 1;
                 newState.unspentPoints += 1;
             }
             break;
+
         case "intelligence":
             if (primaryStats.intelligence > minimumValue) {
                 newState.intelligence -= 1;
                 newState.unspentPoints += 1;
             }
             break;
+
         case "agility":
             // Look for small frame trait
 
@@ -573,19 +638,28 @@ function decreasePrimaryStat(primaryStats: IPrimaryStats, stat: string, traits: 
                 newState.unspentPoints += 1;
             }
             break;
+
         case "luck":
             if (primaryStats.luck > minimumValue) {
                 newState.luck -= 1;
                 newState.unspentPoints += 1;
             }
             break;
+
+        // Decrease unspent stat points.
+
+        case "unspentPoint":
+            newState.unspentPoints -= 1;
+
+            break;
+
         default:
     }
 
     return newState;
 }
 
-function increaseAllPrimaryStats(primaryStats: IPrimaryStats) : IPrimaryStats {
+function increaseAllPrimaryStats(primaryStats: IPrimaryStats): IPrimaryStats {
     let newPrimaryStats = Object.assign({}, primaryStats);
 
     newPrimaryStats.strength += 1;
@@ -599,7 +673,7 @@ function increaseAllPrimaryStats(primaryStats: IPrimaryStats) : IPrimaryStats {
     return newPrimaryStats;
 }
 
-function decreaseAllPrimaryStats(primaryStats: IPrimaryStats) : IPrimaryStats {
+function decreaseAllPrimaryStats(primaryStats: IPrimaryStats): IPrimaryStats {
     let newPrimaryStats = Object.assign({}, primaryStats);
 
     newPrimaryStats.strength -= 1;
@@ -639,10 +713,10 @@ function getDefaultPrimaryStats(): IPrimaryStats {
  * @returns the skill point cost.
  */
 
-function getSkillCost(skillValue: number) : number {
+function getSkillCost(skillValue: number): number {
     let cost: number;
 
-    if(skillValue <= 100) {
+    if (skillValue <= 100) {
         cost = 1;
     } else if (skillValue >= 101 && skillValue <= 125) {
         cost = 2;
@@ -660,7 +734,7 @@ function getSkillCost(skillValue: number) : number {
 }
 
 function App() {
-    
+
     const [primaryStats, primaryStatsDispatch] = useReducer(primaryStatsReducer, getDefaultPrimaryStats());
 
     const [playerLevel, setplayerLevel] = useState(1);
@@ -679,7 +753,7 @@ function App() {
 
     // Traits are added or removed from an array.
 
-    const [traits, setTraits] = useState(emptyTraits);
+    const [traits, setTraits] = useState([...emptyTraits]);
 
     const [derivedStats, setDerivedStats] = useState(derivedStatsDefault);
 
@@ -1868,13 +1942,13 @@ function App() {
     const handleTagClick = (event: MouseEvent<HTMLButtonElement>) => {
         let skillName = event.currentTarget.getAttribute("data-name")!;
 
-        if(!skillName) { return; }
+        if (!skillName) { return; }
 
         // Check tagged skills for the skill.
 
         const index = taggedSkills.findIndex((taggedSkill) => taggedSkill === skillName);
 
-        if (index !== -1 ) {
+        if (index !== -1) {
 
             // Prevent already tagged skills being removed with Tag! perk.
 
@@ -1884,7 +1958,7 @@ function App() {
 
             // Skill is already tagged, remove the tag.
 
-            setTaggedSkills(taggedSkills =>[
+            setTaggedSkills(taggedSkills => [
                 ...taggedSkills.slice(0, index),
                 ...taggedSkills.slice(index + 1)
             ])
@@ -1937,7 +2011,7 @@ function App() {
 
         let traitName = event.currentTarget.getAttribute("data-name");
 
-        // DOM can be manipulated
+        // DOM can be manipulated.
 
         if (!traitName) { return; }
 
@@ -1945,45 +2019,37 @@ function App() {
 
         // Find the trait to be added to the selected traits from all the traits.
 
-        const trait: ITrait = TRAITS.find((trait) => trait.name === traitName)!;
-
-        // DOM can be manipulated
+        const trait = TRAITS.find(trait => trait.name === traitName);
 
         if (!trait) { return; }
 
         // Check if the trait already exists in the character's traits.
 
-        const found = traits.find((element) => trait.name === element.name);
+        const found = traits.find(element => trait.name === element.name);
 
         if (found) {
-            
+
             // Remove the primary stat effects.
 
             if (trait.name === TraitNames.smallFrame) {
-                primaryStatsDispatch({type: "small frame", payload: "remove", traits: traits});
+                primaryStatsDispatch({ type: "small frame", payload: "remove", traits: traits });
             }
 
             if (trait.name === TraitNames.gifted) {
-                primaryStatsDispatch({type: "gifted", payload: "remove", traits: traits});
+                primaryStatsDispatch({ type: "gifted", payload: "remove", traits: traits });
             }
 
             if (trait.name === TraitNames.bruiser) {
-                primaryStatsDispatch({type: "bruiser", payload: "remove", traits: traits});
+                primaryStatsDispatch({ type: "bruiser", payload: "remove", traits: traits });
             }
 
             // Remove the trait from the character's traits.
 
-            setTraits(traits => traits.filter((trait) => trait.name !== traitName));
-
-            setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
-
-            setDerivedStats(derivedStats => Object.assign(derivedStats, calculateDerivedStats(primaryStats, traits, playersPerks)));
-
-            forceRender(bool => !bool);
+            setTraits(traits => traits.filter(trait => trait.name !== traitName));
         }
 
         if (!found) {
-            // Maximum traits 2.
+            // Limit the maximum selected traits to 2.
 
             if (traits.length >= 2) { return; };
 
@@ -1991,39 +2057,30 @@ function App() {
 
             selectedTraits = selectedTraits.concat(traits);
 
-            // Push the new trait into the selected traits.
+            // Add the new trait into the selected traits.
 
             selectedTraits.push(trait);
 
             // Primary stats effects.
 
-            if(trait.name === TraitNames.smallFrame)
-            {
-                primaryStatsDispatch({type: "small frame", payload: "add", traits: selectedTraits});
+            if (trait.name === TraitNames.smallFrame) {
+                primaryStatsDispatch({ type: "small frame", payload: "add", traits: selectedTraits });
             }
 
             if (trait.name === TraitNames.gifted) {
-                primaryStatsDispatch({type: "gifted", payload: "add", traits: traits});
+                primaryStatsDispatch({ type: "gifted", payload: "add", traits: traits });
             }
 
             if (trait.name === TraitNames.bruiser) {
-                primaryStatsDispatch({type: "bruiser", payload: "add", traits: traits});
+                primaryStatsDispatch({ type: "bruiser", payload: "add", traits: traits });
             }
 
-            // Update the state
-
-            setTraits(traits => Object.assign(traits, selectedTraits));
-
-            setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
-
-            setDerivedStats(derivedStats => Object.assign(derivedStats, calculateDerivedStats(primaryStats, traits, playersPerks)));
-
-            forceRender(bool => !bool);
+            setTraits(traits => selectedTraits);
         }
     }
 
     const handlePrimaryStatClick = (event: MouseEvent) => {
-        //if (playerLevel > 1) return;
+        if (playerLevel > 1) { return };
 
         const type: string = event.currentTarget.getAttribute("data-type")!;
 
@@ -2064,7 +2121,9 @@ function App() {
 
         if (requirementsMet === "false") { return; }
 
-        if (perkPoints <= 0) { return; }
+        // No perk points. Some perks such as zeta scan are not gained by leveling up and do not require perk points.
+
+        if (perkPoints <= 0 && perkName !== PerkNames.zetaScan) { return; }
 
         const index = availablePerks.findIndex((availablePerk) => availablePerk.name === perkName);
 
@@ -2072,17 +2131,21 @@ function App() {
 
         // Remove a rank from the perk in the available perks.
 
-        const removeAction : IAvailablePerksAction = { type: "remove", perkName: perkName}
+        const removeAction: IAvailablePerksAction = { type: "remove", perkName: perkName }
 
         availablePerksDispatch(removeAction);
 
         // Add a rank to the perk in the character's perks.
 
-        const addAction : IPlayersPerksAction = { type: "add", perkName: perkName, playerLevel: playerLevel}
+        const addAction: IPlayersPerksAction = { type: "add", perkName: perkName, primaryStats: primaryStats, playerLevel: playerLevel }
 
         playersPerksDispatch(addAction);
 
-        setPerkPoints(perkPoints => perkPoints - 1);
+        // Some perks such as zeta scan are not gained by leveling up and do not require perk points.
+
+        if (perkName !== PerkNames.zetaScan && perkName !== PerkNames.vaultCityTraining && perkName !== PerkNames.vaultCityInoculations) {
+            setPerkPoints(perkPoints => perkPoints - 1);
+        }
 
         // Choosing a here and now perk grants an immediate character level.
 
@@ -2097,10 +2160,37 @@ function App() {
         // Gain primary stat perks increase a primary stat.
 
         if (perkName.includes("Gain")) {
-            let primaryStatsAction: IPrimaryStatsAction = {type: "gainPerk", payload: "add", gainPrimaryStatPerk: perkName, traits: traits};
+            let primaryStatsAction: IPrimaryStatsAction = { type: "gainPerk", payload: "add", gainPrimaryStatPerk: perkName, traits: traits };
 
             primaryStatsDispatch(primaryStatsAction);
         }
+
+        // Zeta scan effects.
+
+        if (perkName === PerkNames.zetaScan) {
+
+            if (primaryStats.luck < 9) {
+
+                // If luck is under 9, zeta scan increases luck by 2.
+
+                const increaseLuck: IPrimaryStatsAction = { type: "zetaScan", payload: "add", zetaScanAmount: 2, traits: traits };
+
+                primaryStatsDispatch(increaseLuck);
+            }
+            
+            else if (primaryStats.luck === 9) {
+
+                // If luck is 9, increase luck by 1.
+
+                const increaseLuck: IPrimaryStatsAction = { type: "zetaScan", payload: "add", zetaScanAmount: 1, traits: traits };
+
+                primaryStatsDispatch(increaseLuck);
+        
+            } 
+
+            // If luck is 10, do nothing.
+        }
+
     }
 
     // Called when user clicks a selected perk.
@@ -2130,27 +2220,61 @@ function App() {
 
         if (index === -1) { return; }
 
+        // If the perk is zeta scan.
+
+        if (perkName === PerkNames.zetaScan) {
+            if (playersPerks[index].baseValue) {
+
+                // Check the base value of luck before the perk was selected.
+
+                if (playersPerks[index].baseValue! < 9) {
+
+                    const decreaseLuck: IPrimaryStatsAction = { type: "zetaScan", payload: "remove", zetaScanAmount: 2, traits: traits };
+
+                    // Decrease luck by 2.
+
+                    primaryStatsDispatch(decreaseLuck);
+                }
+
+                else if (playersPerks[index].baseValue! === 9) {
+
+                    // Decrease luck by 1.
+
+                    const decreaseLuck: IPrimaryStatsAction = { type: "zetaScan", payload: "remove", zetaScanAmount: 1, traits: traits };
+
+                    primaryStatsDispatch(decreaseLuck);
+                }
+
+                // If the base luck was 10, do nothing.
+            }
+
+        }
+
         // Remove a rank from the perk in the character's perks.
 
-        const removeAction : IPlayersPerksAction = { type: "remove", perkName: perkName, playerLevel: playerLevel}
+        const removeAction: IPlayersPerksAction = { type: "remove", perkName: perkName, primaryStats: primaryStats, playerLevel: playerLevel }
 
         playersPerksDispatch(removeAction);
 
         // Add a rank to the perk in the available perks.
 
-        const addAction : IAvailablePerksAction = { type: "add", perkName: perkName}
+        const addAction: IAvailablePerksAction = { type: "add", perkName: perkName }
 
         availablePerksDispatch(addAction);
 
         // Refund a perk point.
 
-        setPerkPoints(perkPoints => perkPoints + 1);
+        // Some perks such as zeta scan are not gained by leveling up and do not require perk points so do not refund perk points.
+
+        if (perkName !== PerkNames.zetaScan && perkName !== PerkNames.vaultCityTraining && perkName !== PerkNames.vaultCityInoculations) {
+            setPerkPoints(perkPoints => perkPoints + 1);
+        }
 
         // "Gain"-perks, such as Gain strength, increase a primary stat.
         // Removing the "Gain"-perk decreases a primary stat.
 
         if (perkName.includes("Gain")) {
-            let primaryStatsAction: IPrimaryStatsAction = {type: "gainPerk", payload: "remove", gainPrimaryStatPerk: perkName, traits: traits};
+            let primaryStatsAction: IPrimaryStatsAction = { type: "gainPerk", payload: "remove", gainPrimaryStatPerk: perkName, traits: traits };
 
             primaryStatsDispatch(primaryStatsAction);
         }
@@ -2169,7 +2293,7 @@ function App() {
 
         // Create downloadable file.
 
-        const blob = new Blob([printablePrimaryStats, printableTraits, printablePerks], { type: "text/plain;charset=utf-8", endings: "native"});
+        const blob = new Blob([printablePrimaryStats, printableTraits, printablePerks], { type: "text/plain;charset=utf-8", endings: "native" });
 
         const fileDownloadUrl = URL.createObjectURL(blob);
 
@@ -2227,9 +2351,9 @@ function App() {
     // Re-calculate on change.
 
     useEffect(() => {
-        setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
+        setBaseSkills(baseSkills => Object.assign({}, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
 
-        setDerivedStats(derivedStats => Object.assign(derivedStats, calculateDerivedStats(primaryStats, traits, playersPerks)));
+        setDerivedStats(derivedStats => Object.assign({}, calculateDerivedStats(primaryStats, traits, playersPerks)));
 
         forceRender(bool => !bool);
     }, [primaryStats, traits, playersPerks, taggedSkills]);
@@ -2269,7 +2393,7 @@ function App() {
                 handleAvailablePerkClick={handleAvailablePerkClick}
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
-            
+
             <div id="footer">
                 <div className="tooltip">
                     <div className="tooltip-display">
@@ -2284,7 +2408,7 @@ function App() {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     );
 }

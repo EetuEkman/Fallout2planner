@@ -43,8 +43,8 @@ export default function Traits({ traits, handleClick }: ITraitsProps): JSX.Eleme
                 <div className="trait" data-name="Gifted" data-tooltip={TraitNames.gifted} onClick={handleClick}>Gifted</div>}
 
             {traits.find((trait) => trait.name === "Good natured") ?
-                <div className="trait selected" data-name="Good natured" data-tooltip={TraitNames.goodNatured} onClick={handleClick}>Good natured</div> :
-                <div className="trait" data-name="Good natured" data-tooltip={TraitNames.goodNatured} onClick={handleClick}>Good natured</div>}
+                <div className="trait selected" data-name={TraitNames.goodNatured} data-tooltip={TraitNames.goodNatured} onClick={handleClick}>Good natured</div> :
+                <div className="trait" data-name={TraitNames.goodNatured} data-tooltip={TraitNames.goodNatured} onClick={handleClick}>Good natured</div>}
 
             {traits.find((trait) => trait.name === "Heavy handed") ?
                 <div className="trait selected" data-name="Heavy handed" data-tooltip={TraitNames.heavyHanded} onClick={handleClick}>Heavy handed</div> :

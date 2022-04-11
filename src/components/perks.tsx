@@ -36,11 +36,11 @@ export default function Perks({ playersPerks, availablePerks, perkPoints, player
                     offeredPerks.map((perk, index) => {
                         let jsx;
 
-                        // Only render perks with ranks left
+                        // Only render perks with ranks left.
 
                         (perk.ranks > 0) ?
 
-                            // Render perks where requirements are not met dark green and without an event handler
+                            // Render perks where requirements are not met dark green.
 
                             perk.requirementsMet ?
                                 jsx = <div key={index} onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"true"}>{perk.name} {perk.ranks}</div>
