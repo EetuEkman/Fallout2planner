@@ -11,6 +11,7 @@
     --steel-gray: #71797E;
     --olive-drab-7: #3c341f;
     --zinwaldite-brown: #2c1608;
+    --dark-yellow: #9b870c;
 }
 
 @font-face {
@@ -706,4 +707,66 @@ hr {
     bottom: 0px;
     background-color: var(--field-drab);
     border: solid 1px black;
+}
+
+.difficulty-container {
+    display: inline-flex;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--olive-drab-7);
+    padding: 5px;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-left: -10px;
+    margin-right: 5px;
+}
+
+.difficulty-container > h4 {
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    font-weight: 400;
+}
+
+.difficulty-labels {
+    display: flex;
+    justify-content: space-between;
+    height: 32px;
+    align-items: flex-end;
+    margin-bottom: -21px;
+}
+
+.difficulty-labels > span {
+    display: inline-flex;
+    width: fit-content;
+    height: fit-content;
+    color: var(--transparent-gold);
+    font-family: "Slater Industrial";
+    font-size: 0.8em;
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
+.difficulty-normal {
+    align-self: flex-start;
+}
+
+#knob-container {
+    width: 50px;
+    height: 50px;
+    transform-origin: center;
+    margin-left: -5px;
+}
+
+#knob {
+    fill: var(--smoky-black);
+    stroke: black;
+    stroke-width: 2px;
+}
+
+#knob-line {
+    stroke: white;
+    stroke-width: 3;
+    filter: opacity(60%);
 }

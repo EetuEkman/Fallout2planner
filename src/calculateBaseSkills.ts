@@ -1,4 +1,4 @@
-import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlayerSkills, IPerk, PerkNames, TraitNames } from "./models";
+import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlayerSkills, IPerk, PerkNames, TraitNames, Difficulty } from "./models";
 
 /**
  * Calculates base skills from primary stats, traits, perks and tagged skills.
@@ -9,7 +9,7 @@ import { IPlayerSkills, IPrimaryStats, ITrait, PlayerSkillNames, getDefaultPlaye
  * @returns calculated base skills.
  */
 
-export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits: ITrait[], taggedSkills: string[], playersPerks: IPerk[]): IPlayerSkills {
+export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits: ITrait[], taggedSkills: string[], playersPerks: IPerk[], difficulty: string): IPlayerSkills {
     let newBaseSkills: IPlayerSkills = getDefaultPlayerSkills();
 
     // Modifier applied to all skills.
@@ -18,9 +18,18 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
 
     // Gifted trait.
 
-    const gifted = traits.find((trait) => trait.name === TraitNames.gifted);
+    const gifted = traits.find(trait => trait.name === TraitNames.gifted);
 
     if (gifted) { modifier -= 10; }
+
+    switch (difficulty) {
+        case Difficulty.easy:
+            modifier += 20;
+            break;
+        case Difficulty.hard:
+            modifier -= 10;
+            break;
+    }
 
     newBaseSkills.smallGuns = calculateSmallGuns(primaryStats, taggedSkills) + modifier;
     newBaseSkills.bigGuns = calculateBigGuns(primaryStats, taggedSkills) + modifier;
@@ -43,10 +52,10 @@ export default function calculateBaseSkills(primaryStats: IPrimaryStats, traits:
 
     // Good natured trait.
 
-    const goodNatured = traits.find((trait) => trait.name === TraitNames.goodNatured);
+    const goodNatured = traits.find(trait => trait.name === TraitNames.goodNatured);
 
     if (goodNatured) {  
-        newBaseSkills = Object.assign({}, calculateGoodNatured(newBaseSkills));
+        newBaseSkills = calculateGoodNatured(newBaseSkills);
     }
 
     // Perks affecting base skills.

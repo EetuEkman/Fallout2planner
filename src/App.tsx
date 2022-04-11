@@ -3,7 +3,7 @@ import "./App.css";
 import PrimaryStats from "./components/primaryStats";
 import PlayerSkills from "./components/playerSkills";
 import DerivedStats from "./components/derivedStats";
-import { IPrimaryStats, IPlayerSkills, ITrait, TRAITS, getEmptyPlayerSkills, getDefaultPlayerSkills, PlayerSkillNames, IPerk, PERKS, PerkNames, TOOLTIPS, TraitNames } from "./models";
+import { IPrimaryStats, IPlayerSkills, ITrait, TRAITS, getEmptyPlayerSkills, getDefaultPlayerSkills, PlayerSkillNames, IPerk, PERKS, PerkNames, TOOLTIPS, TraitNames, Difficulty } from "./models";
 import calculateBaseSkills from "./calculateBaseSkills";
 import calculateDerivedStats, { derivedStatsDefault } from "./calculateDerivedStats";
 import { calculateFinalSkills } from "./calculateFinalSkills";
@@ -772,6 +772,10 @@ function App() {
     const [tooltipSubHeading, setTooltipSubHeading] = useState(TOOLTIPS[0].subHeading);
 
     const [tooltipBody, setTooltipBody] = useState(TOOLTIPS[0].body);
+
+    const [difficulty, setDifficulty] = useState(String(Difficulty.normal));
+
+    const [difficultyDirection, setDifficultyDirection] = useState(true);
 
     const [, forceRender] = useState(false);
 
@@ -1963,7 +1967,7 @@ function App() {
                 ...taggedSkills.slice(index + 1)
             ])
 
-            setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
+            setBaseSkills(baseSkills => Object.assign({}, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks, difficulty)));
 
             // Refund a tag point.
 
@@ -1988,7 +1992,7 @@ function App() {
 
         setTagPoints(tagPoints => tagPoints - 1)
 
-        setBaseSkills(baseSkills => Object.assign(baseSkills, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
+        setBaseSkills(baseSkills => Object.assign({}, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks, difficulty)));
 
         forceRender(bool => !bool);
     }
@@ -2355,17 +2359,37 @@ function App() {
         setTooltipBody(body => tooltip.body);
     }
 
+    const handleDifficultyClick = (event: MouseEvent) => {
+        if (difficulty === Difficulty.normal && difficultyDirection) {
+            setDifficulty(difficulty => Difficulty.hard);
+        }
+
+        if (difficulty === Difficulty.hard) {
+            setDifficulty(difficulty => Difficulty.normal);
+            setDifficultyDirection(direction => !direction);
+        }
+
+        if (difficulty === Difficulty.normal && !difficultyDirection) {
+            setDifficulty(difficulty => Difficulty.easy);
+        }
+
+        if (difficulty === Difficulty.easy) {
+            setDifficulty(difficulty => Difficulty.normal);
+            setDifficultyDirection(direction => !direction);
+        }
+    }
+
     // Base skills and derived stats are calculated from primary stats, traits, perks and tagged skills.
 
     // Re-calculate on change.
 
     useEffect(() => {
-        setBaseSkills(baseSkills => Object.assign({}, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks)));
+        setBaseSkills(baseSkills => Object.assign({}, calculateBaseSkills(primaryStats, traits, taggedSkills, playersPerks, difficulty)));
 
         setDerivedStats(derivedStats => Object.assign({}, calculateDerivedStats(primaryStats, traits, playersPerks)));
 
         forceRender(bool => !bool);
-    }, [primaryStats, traits, playersPerks, taggedSkills]);
+    }, [primaryStats, traits, playersPerks, taggedSkills, difficulty]);
 
     return (
         <div className="flex-container" id="App">
@@ -2415,6 +2439,38 @@ function App() {
                         <button onClick={print}></button>
                         <div>Print</div>
                     </div>
+                </div>
+                <div className="difficulty-container">
+                    <h4>game difficulty</h4>
+                    <div className="difficulty-labels">
+                        <span className="difficulty-easy">easy</span>
+                        <span className="difficulty-normal">normal</span>
+                        <span className="difficulty-hard">hard</span>
+                    </div>
+
+                    {
+                        difficulty === Difficulty.easy ?
+                            <svg id="knob-container" style={{"transform": "rotate(-50deg)"}} onClick={handleDifficultyClick}>
+                                <circle id="knob" cx="25" cy="25" r="15"></circle>
+                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
+                            </svg> : null
+                    }
+
+                    {
+                        difficulty === Difficulty.normal ?
+                            <svg id="knob-container" onClick={handleDifficultyClick}>
+                                <circle id="knob" cx="25" cy="25" r="15"></circle>
+                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
+                            </svg> : null
+                    }
+
+                    {
+                        difficulty === Difficulty.hard ?
+                            <svg id="knob-container" style={{"transform": "rotate(50deg)"}} onClick={handleDifficultyClick}>
+                                <circle id="knob" cx="25" cy="25" r="15"></circle>
+                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
+                            </svg> : null
+                    }
                 </div>
             </div>
 
