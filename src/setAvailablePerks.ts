@@ -253,6 +253,7 @@ export default function setAvailablePerks(perks: IPerk[], primaryStats: IPrimary
         // Magnetic personality requires charisma < 10
 
         if (perk.name === PerkNames.magneticPersonality) {
+
             if (primaryStats.charisma < requiredPrimaryStats.charisma) {
                 requirementsMet = true;
 
@@ -260,6 +261,11 @@ export default function setAvailablePerks(perks: IPerk[], primaryStats: IPrimary
 
                 return perk;
             }
+            requirementsMet = false;
+
+            perk.requirementsMet = requirementsMet;
+
+            return perk;
         }
 
         // Weapon handling requires strength < 7
