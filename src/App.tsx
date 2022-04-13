@@ -10,6 +10,7 @@ import { calculateFinalSkills } from "./calculateFinalSkills";
 import Traits from "./components/traits";
 import Perks from "./components/perks";
 import { getPrintablePrimaryStats, getPrintableTraits, getPrintablePerks } from "./createPrints";
+import Footer from "./components/footer";
 
 /**
  * Returns supplied perks with ranks set to 0.
@@ -2295,7 +2296,7 @@ function App() {
 
     // Create and download a text file containing character's primary stats, traits and perks.
 
-    const print = () => {
+    const handlePrintClick = () => {
         // Get primary stats, traits and perks in printable form.
 
         const printablePrimaryStats = getPrintablePrimaryStats(primaryStats);
@@ -2427,52 +2428,14 @@ function App() {
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
 
-            <div id="footer">
-                <div className="tooltip">
-                    <div className="tooltip-display">
-                        <h2>{tooltipHeading}</h2>
-                        {tooltipSubHeading.length > 0 ? <span>{tooltipSubHeading}</span> : <span>&nbsp;</span>}
-                        <hr></hr>
-                        <p>{tooltipBody}</p>
-                    </div>
-                    <div className="print-button-container">
-                        <button onClick={print}></button>
-                        <div>Print</div>
-                    </div>
-                </div>
-                <div className="difficulty-container">
-                    <h4>game difficulty</h4>
-                    <div className="difficulty-labels">
-                        <span className="difficulty-easy">easy</span>
-                        <span className="difficulty-normal">normal</span>
-                        <span className="difficulty-hard">hard</span>
-                    </div>
-
-                    {
-                        difficulty === Difficulty.easy ?
-                            <svg id="knob-container" style={{"transform": "rotate(-50deg)"}} onClick={handleDifficultyClick}>
-                                <circle id="knob" cx="25" cy="25" r="15"></circle>
-                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
-                            </svg> : null
-                    }
-
-                    {
-                        difficulty === Difficulty.normal ?
-                            <svg id="knob-container" onClick={handleDifficultyClick}>
-                                <circle id="knob" cx="25" cy="25" r="15"></circle>
-                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
-                            </svg> : null
-                    }
-
-                    {
-                        difficulty === Difficulty.hard ?
-                            <svg id="knob-container" style={{"transform": "rotate(50deg)"}} onClick={handleDifficultyClick}>
-                                <circle id="knob" cx="25" cy="25" r="15"></circle>
-                                <line id="knob-line" x1="25" y1="24" x2="25" y2="11"></line>
-                            </svg> : null
-                    }
-                </div>
-            </div>
+            <Footer
+                difficulty={difficulty}
+                tooltipHeading={tooltipHeading}
+                tooltipSubHeading={tooltipSubHeading}
+                tooltipBody={tooltipBody}
+                handleDifficultyClick={handleDifficultyClick}
+                handlePrintClick={handlePrintClick}
+            ></Footer>
 
         </div>
     );

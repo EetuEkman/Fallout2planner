@@ -2,7 +2,7 @@
  * Primary stats are strength, perception, endurance, charisma, intelligence, agility and luck.
  * Unspent stat points are also included.
  * 
- * Primary stats are used to calculate derived stats such as action points and base for skills like small guns.
+ * Primary stats are used to calculate derived stats such as action points and the base level for skills like small guns.
  * 
  * Some perks also have primary stat requirements.
  */
@@ -19,7 +19,7 @@ export interface IPrimaryStats {
 }
 
 /**
- * Define names for player skills.
+ * Defines names for player skills.
  */
 
 export enum PlayerSkillNames {
@@ -44,7 +44,7 @@ export enum PlayerSkillNames {
 }
 
 /**
- * Hold the values of player skills, such as small guns.
+ * Holds the values of skills, such as small guns.
  */
 
 export interface IPlayerSkills {
@@ -104,7 +104,7 @@ export interface ITrait {
 }
 
 /**
- * Define names for traits.
+ * Defines the names for the traits.
  */
 
 export enum TraitNames {
@@ -179,7 +179,7 @@ export function getEmptyPlayerSkills(): IPlayerSkills {
 }
 
 /**
- * Default base skills calculated with 5-5-5-5-5-5-5 primary stats.
+ * Returns the base skills calculated with 5-5-5-5-5-5-5 primary stats.
  */
 
 export function getDefaultPlayerSkills() : IPlayerSkills {
@@ -208,7 +208,7 @@ export function getDefaultPlayerSkills() : IPlayerSkills {
 }
 
 /**
- * Returns skills with 0 values.
+ * Returns skills filled with 0 values.
  */
 
 const emptyPlayerSkills: IPlayerSkills = {
@@ -233,7 +233,7 @@ const emptyPlayerSkills: IPlayerSkills = {
 }
 
 /**
- * Returns primary stats with 0 values.
+ * Returns primary stats filled with 0 values.
  */
 
 const emptyPrimaryStats: IPrimaryStats = {
@@ -288,7 +288,7 @@ export interface IPerkRequirements {
 }
 
 /**
- * Define all perk names.
+ * Defines all the perk names.
  */
 
 export enum PerkNames {
@@ -380,7 +380,7 @@ export enum PerkNames {
 }
 
 /**
- * Define all derived stat names.
+ * Defines all the derived stat names.
  */
 
 export enum DerivedStatsNames {
@@ -408,6 +408,14 @@ export enum DerivedStatsNames {
 
 /**
  * Contains all the perks.
+ * 
+ * Requirements for the perks are defined here.
+ * 
+ * Ranks are set to the default maximum rank.
+ * 
+ * Array for when the perk has been selected is initialized.
+ * 
+ * Requirements met are set to false.
  */
 
  export const PERKS: IPerk[] = [
@@ -1375,7 +1383,7 @@ export enum DerivedStatsNames {
 ]
 
 /**
- * Define all the primary stat names.
+ * Defines all the primary stat names.
  */
 
 export enum PrimaryStatNames {
@@ -1394,6 +1402,8 @@ export enum PrimaryStatNames {
  * Name is used for identification.
  * 
  * Heading contains the heading for the tooltip.
+ * 
+ * SubHeading contains information like perk requirements.
  * 
  * Body contains the description used in tooltip body.
  */
@@ -1490,10 +1500,10 @@ export const TOOLTIPS: ITooltip[] = [
         body: "+2 to healing rate, radiation and poison resistances start at 0%."
     },
     {
-        name: TraitNames.fastMetabolism,
+        name: TraitNames.fastShot,
         heading: "Fast shot",
         subHeading: "",
-        body: "Action point costs for all ranged weapons are reduced by 1 AP. The player cannot make called shots to body parts."
+        body: "Action point costs for all ranged weapons are reduced by 1 AP. Player cannot make called shots to body parts."
     },
     {
         name: TraitNames.finesse,
@@ -1739,7 +1749,7 @@ export const TOOLTIPS: ITooltip[] = [
         name: DerivedStatsNames.criticalDamageModifier,
         heading: DerivedStatsNames.criticalDamageModifier,
         subHeading: "Traits: heavy handed. Perks: better criticals.",
-        body: "On a critical hit, a random number between 1 and 100 is generated. A creature and body part specific critical hit table is then consulted. This modifier is added to the random number generated. A roll of under 20 hurts, but a modified roll of over 100 usually results in an instant death."
+        body: "On a critical hit, a random number between 1 and 100 is generated. A creature and body part specific critical hit table is then consulted. This modifier is added to the random number generated. The higher roll is better."
     },
     {
         name: DerivedStatsNames.perkRate,

@@ -597,8 +597,8 @@ body {
     background-color: black;
     display: flex;
     flex-flow: column wrap;
-    width: 525px;
-    height: 525px;
+    width: 535px;
+    height: 535px;
     padding: 5px;
     padding-right: 10px;
     align-items: stretch;
@@ -625,9 +625,8 @@ body {
 .tooltip-display {
     display: inline-flex;
     padding: 20px;
-    height: 360px;
+    height: 250px;
     width: 540px;
-    margin-right: 10px;
     background-color: black;
     flex-direction: column;
 }
@@ -638,6 +637,7 @@ body {
     margin-bottom: -1px;
     white-space: nowrap;
     align-self: flex-start;
+    margin-top: 0px;
 }
 
 .tooltip-display > span {
@@ -709,6 +709,13 @@ hr {
     border: solid 1px black;
 }
 
+.utility-container {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
 .difficulty-container {
     display: inline-flex;
     height: fit-content;
@@ -719,11 +726,12 @@ hr {
     padding: 5px;
     border: 1px solid black;
     margin-top: 10px;
-    margin-left: -10px;
-    margin-right: 5px;
+    padding-bottom: 0px;
 }
 
 .difficulty-container > h4 {
+    margin-top: 0px;
+    margin-bottom: 10px;
     color: var(--transparent-gold);
     font-family: "Slater Industrial";
     font-weight: 400;
@@ -756,7 +764,6 @@ hr {
     width: 50px;
     height: 50px;
     transform-origin: center;
-    margin-left: -5px;
 }
 
 #knob {
