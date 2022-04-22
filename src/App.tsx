@@ -776,6 +776,8 @@ function App() {
 
     const [difficulty, setDifficulty] = useState(String(Difficulty.normal));
 
+    // The difficulty knob switches from normal to hard, hard to normal, normal to easy, easy to normal.
+
     const [difficultyDirection, setDifficultyDirection] = useState(true);
 
     const [, forceRender] = useState(false);
@@ -813,6 +815,10 @@ function App() {
     };
 
     const levelUp = () => {
+        // Max level 99.
+        
+        if (playerLevel >= 99) { return; }
+
         // Get the skill rate.
 
         const skillRate = derivedStats.skillRate;
@@ -2359,6 +2365,11 @@ function App() {
 
         setTooltipBody(body => tooltip.body);
     }
+
+    /**
+     * Change the difficulty setting.
+     * @param event the mouse event when the user clicks the SVG element.
+     */
 
     const handleDifficultyClick = (event: MouseEvent) => {
         if (difficulty === Difficulty.normal && difficultyDirection) {

@@ -177,42 +177,53 @@ body {
 
 .level {
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
-    height: 40px;
+    height: fit-content;
     align-items: center;
-    padding-right: 10px;
+    padding-right: 8px;
+    margin-top: 5px;
 }
 
-.level-text {
+.level-display {
     background-color: black;
     color: lawngreen;
     font-family: "Monofonto";
-    height: 20px;
-    margin-right: 5px;
-    width: 100px;
+    width:fit-content;
+    height:fit-content;  
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-right: 4px;
+}
+
+.level-display > span {
+    display: flex;
+    width: 160px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
 }
 
 .level-button-container {
-    min-width: 22px;
-    max-width: 22px;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4px;
 }
 
 .level-button {
     background-color: var(--field-drab);
-    color: gold;
+    color: var(--transparent-gold);
     border: 1px;
     border-style: solid;
     border-color: black;
     border-radius: 5px;
-    display: block;
-    width: 20px;
-    height: 20px;
-    filter: brightness(110%);
+    width: 24px;
+    height: 24px;
     text-align: center;
-    margin: auto;
     font-family: "Slater Industrial";
     display: flex;
     justify-content: center;
@@ -240,8 +251,6 @@ body {
     justify-content: flex-start;
     border: 5px var(--field-drab) solid;
 }
-
-
 
 .derived-stats > h3 {
     color: orange;
@@ -435,10 +444,6 @@ body {
     order: 3;
 }
 
-.level {
-    grid-area: level;
-}
-
 .traits {
     background-color: var(--field-drab);
     padding: 10px;
@@ -472,12 +477,6 @@ body {
     padding: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .traits > div.selected {

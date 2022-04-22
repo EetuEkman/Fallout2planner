@@ -69,6 +69,89 @@ function formatPrimaryStat(primaryStat: number) : string {
     return valueToDisplay;
 }
 
+/**
+ * Returns experience points required for given level.
+ * @param level character level.
+ * @returns required experience points.
+ */
+
+function requiredExperience(level: number): number {
+    let experience: number;
+
+    switch (level) {
+        case 0:
+            experience = 0;
+            break;
+        case 1:
+            experience = 0;
+            break;
+        case 2:
+            experience = 1000;
+            break;
+        case 3:
+            experience = 3000;
+            break;
+        case 4:
+            experience = 6000;
+            break;
+        case 5:
+            experience = 10000;
+            break;
+        case 6:
+            experience = 15000;
+            break;
+        case 7:
+            experience = 21000;
+            break;
+        case 8:
+            experience = 28000;
+            break;
+        case 9:
+            experience = 36000;
+            break;
+        case 10:
+            experience = 45000;
+            break;
+        case 11:
+            experience = 55000;
+            break;
+        case 12:
+            experience = 66000;
+            break;
+        case 13:
+            experience = 78000;
+            break;
+        case 14:
+            experience = 91000;
+            break;
+        case 15:
+            experience = 105000;
+            break;
+        case 16:
+            experience = 120000;
+            break;
+        case 17:
+            experience = 136000;
+            break;
+        case 18:
+            experience = 153000;
+            break;
+        case 19:
+            experience = 171000;
+            break;
+        case 20:
+            experience = 190000;
+            break;
+        case 21:
+            experience = 210000;
+            break;
+        default:
+            experience = (level * (level - 1) / 2) * 1000;
+    }
+
+    return experience;
+}
+
 interface IPrimaryStatsProps {
     primaryStats: IPrimaryStats,
     handleClick: MouseEventHandler,
@@ -167,7 +250,11 @@ function PrimaryStats({primaryStats, playerLevel, handleClick, handleTooltipClic
                 </div></div>
             <div className="primary-stat unspent-stat-points"><span className="primary-stat-name unspent-stat-points">Unspent stat points</span><span className="primary-stat-value unspent-stat-points">{formatPrimaryStat(primaryStats.unspentPoints)}</span></div>
             <div className="level">
-                <span className="level-text">Level {playerLevel}</span>
+                <div className="level-display">
+                    <span>Level {playerLevel}</span>
+                    <span>Experience {requiredExperience(playerLevel).toLocaleString()}</span>
+                </div>
+                
                 <div className="level-button-container">
                     <button className="level-button" onClick={handlePlayerLevelUpClick}>+</button>
                 </div>
