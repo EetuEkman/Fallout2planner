@@ -1,13 +1,13 @@
 :root {
-    --field-drab: rgb(108,84,30);
-    --transparent-gold: rgba(255,215,0,0.5);
-    --onyx: rgb(52,56,57);
-    --smoky-black: rgb(16,12,8);
-    --dark-charcoal: rgb(51,51,51);
-    --black-leather-jacket: rgb(37,53,41);
-    --raisin-black: rgb(36,33,36);
-    --jet: rgb(52,52,52);
-    --kombu-green: rgb(53,66,48);
+    --field-drab: rgb(108, 84, 30);
+    --transparent-gold: rgba(255, 215, 0, 0.5);
+    --onyx: rgb(52, 56, 57);
+    --smoky-black: rgb(16, 12, 8);
+    --dark-charcoal: rgb(51, 51, 51);
+    --black-leather-jacket: rgb(37, 53, 41);
+    --raisin-black: rgb(36, 33, 36);
+    --jet: rgb(52, 52, 52);
+    --kombu-green: rgb(53, 66, 48);
     --steel-gray: #71797E;
     --olive-drab-7: #3c341f;
     --zinwaldite-brown: #2c1608;
@@ -33,6 +33,12 @@
     src: local("Monofonto"), url("./fonts/monofonto.otf") format("opentype");
 }
 
+@font-face {
+    font-family: "Impact Label";
+    font-style: normal;
+    src: local("Impact Label"), url("./fonts/ImpactLabel.ttf") format("truetype");
+}
+
 * {
     box-sizing: border-box;
 }
@@ -51,6 +57,7 @@ body {
     padding: 10px;
     justify-content: flex-start;
     align-items: stretch;
+    border-radius: 0.2%;
 }
 
 .flex-container > div {
@@ -65,6 +72,7 @@ body {
     -ms-user-select: none;
     user-select: none;
     border: solid 1px black;
+    border-radius: 0.5%;
 }
 
 .primary-stats {
@@ -92,8 +100,10 @@ body {
 .primary-stat-name {
     color: var(--transparent-gold);
     font-family: "Slater Industrial";
+    font-weight: 600;
     width: 50%;
     margin-right: 5px;
+    filter: opacity(80%);
 }
 
 .primary-stat-name.unspent-stat-points {
@@ -147,32 +157,26 @@ body {
 .primary-stats-buttons {
     min-width: 22px;
     max-width: 22px;
-    display: inline-block;
-    margin-right: 5px;
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .primary-stat-button {
+    width: 20px;
+    height: 20px;
     background-color: var(--field-drab);
     color: var(--transparent-gold);
-    border: 1px;
-    border-style: solid;
-    border-color: black;
+    border: 1px solid black;
     border-radius: 5px;
-    min-width: 20px;
-    min-height: 20px;
-    max-width: 20px;
-    max-height: 20px;
-    text-align: center;
-    margin: auto;
-    font-family: "Slater Industrial";
-    display: flex;
-    justify-content: center;
+    font-family: "Monofonto";
     outline: 1px solid grey;
     margin-bottom: 1px;
+    filter: brightness(90%);
+    
 }
 
 .primary-stat-button:active {
-    filter:brightness(90%)
+    filter: brightness(75%)
 }
 
 .level {
@@ -189,14 +193,15 @@ body {
     background-color: black;
     color: lawngreen;
     font-family: "Monofonto";
-    width:fit-content;
-    height:fit-content;  
+    width: fit-content;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 2px;
     padding-left: 4px;
     padding-right: 4px;
+    margin-top: 5px;
     margin-right: 4px;
 }
 
@@ -215,23 +220,23 @@ body {
 }
 
 .level-button {
+    display: flex;
+    width: 22px;
+    height: 22px;
     background-color: var(--field-drab);
     color: var(--transparent-gold);
-    border: 1px;
-    border-style: solid;
-    border-color: black;
+    border: 1px solid black;
     border-radius: 5px;
-    width: 24px;
-    height: 24px;
     text-align: center;
-    font-family: "Slater Industrial";
-    display: flex;
+    font-family: "Monofonto";
     justify-content: center;
     outline: 1px solid grey;
+    margin: auto;
+    filter: brightness(90%);
 }
 
 .level-button:active {
-    filter: brightness(90%);
+    filter: brightness(75%);
 }
 
 .derived-stats {
@@ -269,7 +274,7 @@ body {
     justify-content: flex-start;
     flex-wrap: nowrap;
     padding: 1px;
-    color:lawngreen;
+    color: lawngreen;
     justify-content: flex-start;
     margin-right: 10px;
 }
@@ -351,7 +356,7 @@ body {
 }
 
 .skill-name.tagged {
-    color:azure;
+    color: azure;
 }
 
 .skill-value {
@@ -393,6 +398,7 @@ body {
     width: 25px;
     height: 20px;
     outline: 1px solid grey;
+    font-family: "Monofonto";
 }
 
 .tag-button-container > button:active {
@@ -459,13 +465,14 @@ body {
 }
 
 .traits > h3 {
+    display: flex;
     color: var(--transparent-gold);
     font-family: "Slater Industrial";
-    font-weight: 400;
+    font-weight: 600;
     margin-top: 5px;
     margin-bottom: 10px;
     justify-content: center;
-    display: flex;
+    filter: opacity(80%);
 }
 
 .traits > div {
@@ -520,10 +527,12 @@ body {
     display: inline;
     color: var(--transparent-gold);
     font-family: "Slater Industrial";
+    font-weight: 600;
     height: fit-content;
     width: fit-content;
     text-size-adjust: auto;
     white-space: nowrap;
+    filter: opacity(80%);
 }
 
 .players-perks-list {
@@ -564,7 +573,9 @@ body {
     height: fit-content;
     width: fit-content;
     margin-right: auto;
-    margin-left: 10px
+    margin-left: 10px;
+    font-weight: 600;   
+    filter: opacity(80%);
 }
 
 .perk-points-heading {
@@ -575,6 +586,8 @@ body {
     font-family: "Slater Industrial";
     margin-right: 5px;
     padding: 2px;
+    font-weight: 600;   
+    filter: opacity(80%);
 }
 
 .perk-points {
@@ -661,6 +674,23 @@ hr {
     width: 100%;
 }
 
+
+
+#footer {
+    display: inline-flex;
+    position: sticky;
+    bottom: 0px;
+    background-color: var(--field-drab);
+    border: solid 1px black;
+}
+
+.utility-container {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
 .print-button-container {
     display: inline-flex;
     width: fit-content;
@@ -672,6 +702,7 @@ hr {
     background-color: var(--olive-drab-7);
     border: solid 1px black;
     margin-top: 10px;
+    border-radius: 3%;
 }
 
 .print-button-container > div {
@@ -697,22 +728,7 @@ hr {
 }
 
 .print-button-container > button:active {
-    filter:brightness(80%)
-}
-
-#footer {
-    display: inline-flex;
-    position: sticky;
-    bottom: 0px;
-    background-color: var(--field-drab);
-    border: solid 1px black;
-}
-
-.utility-container {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    filter: brightness(80%)
 }
 
 .difficulty-container {
@@ -726,6 +742,7 @@ hr {
     border: 1px solid black;
     margin-top: 10px;
     padding-bottom: 0px;
+    border-radius: 3%;
 }
 
 .difficulty-container > h4 {
@@ -775,4 +792,57 @@ hr {
     stroke: white;
     stroke-width: 3;
     filter: opacity(60%);
+}
+
+.reset-button-container {
+    display: inline-flex;
+    width: fit-content;
+    justify-content: flex-end;
+    height: 40px;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.reset-button-container > div {
+    background-color: var(--olive-drab-7);
+    display: inline-flex;
+    padding: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid black;
+    border-radius: 4%;
+}
+
+.reset-button-container > div > div {
+    font-family: "Impact Label";
+    color: blue;
+    font-size: 1.2em;
+    text-shadow: -1px 1px 0 lightgray,
+        1px 1px 0 white,
+        1px -1px 0 lightgray,
+        -1px -1px 0 lightgray;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(1deg);
+    z-index: 2;
+    padding-right: 1px;
+}
+
+.reset-button-container > button {
+    background-color: darkred;
+    border: solid 1px black;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+    outline: 2px solid grey;
+}
+
+.reset-button-container > button:active {
+    filter: brightness(80%)
 }

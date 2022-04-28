@@ -42,7 +42,7 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
 
     // Perk not found.
 
-    if (index === -1) { return newPlayersPerks; }
+    if (index === -1 && action.type !== "reset") { return newPlayersPerks; }
 
     let rank: number;
 
@@ -88,7 +88,10 @@ function playersPerksReducer(state: IPerk[], action: IPlayersPerksAction): IPerk
             newPlayersPerks[index].levelSelected.pop();
 
             break;
-        default:
+        case "reset":
+            newPlayersPerks = getDefaultPlayerPerks(PERKS);
+
+            break;
     }
 
     return newPlayersPerks;
@@ -150,7 +153,10 @@ function availablePerksReducer(state: IPerk[], action: IAvailablePerksAction): I
             newAvailablePerks[index].ranks -= 1;
 
             break;
-        default:
+        case "reset":
+            newAvailablePerks = [...PERKS];
+
+            break;
     }
 
     return newAvailablePerks;
@@ -165,6 +171,9 @@ function raisedSkillsReducer(state: IPlayerSkills, action: IRaisedSkillsAction):
             break;
         case "decrease":
             newState = decreaseRaisedSkill(action.skillName, action.amount, newState);
+            break;
+        case "reset":
+            newState = getEmptyPlayerSkills();
             break;
         default:
     }
@@ -315,7 +324,7 @@ interface IPrimaryStatsAction {
 }
 
 function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction): IPrimaryStats {
-    let newState = {...state};
+    let newState = { ...state };
 
     switch (action.type) {
         case "increase":
@@ -325,6 +334,12 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
 
         case "decrease":
             newState = decreasePrimaryStat(newState, action.payload, action.traits);
+
+            break;
+
+        case "reset":
+
+            newState = getDefaultPrimaryStats();
 
             break;
 
@@ -427,7 +442,7 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             }
 
             break;
-        
+
         case "zetaScan":
             const amount = action.zetaScanAmount;
 
@@ -458,8 +473,6 @@ function primaryStatsReducer(state: IPrimaryStats, action: IPrimaryStatsAction):
             break;
 
         default:
-
-            break;
     }
 
     return newState;
@@ -689,8 +702,7 @@ function decreaseAllPrimaryStats(primaryStats: IPrimaryStats): IPrimaryStats {
 }
 
 /**
- * Returns primary stats state with default values.
- * @returns the default primary stats
+ * Returns primary stats filled with 5's.
  */
 
 function getDefaultPrimaryStats(): IPrimaryStats {
@@ -2391,6 +2403,44 @@ function App() {
         }
     }
 
+    const handleResetClick = (event: MouseEvent) => {
+        setplayerLevel(1);
+
+        setTagPoints(3);
+
+        setTaggedSkills([]);
+
+        setPerkPoints(0);
+
+        // Reset all the character's perks.
+
+        const playersPerksAction: IPlayersPerksAction = { type: "reset", perkName: "", playerLevel: 1, primaryStats: primaryStats };
+
+        playersPerksDispatch(playersPerksAction);
+
+        // Reset all the available perks.
+
+        const availablePerksAction: IAvailablePerksAction = { type: "reset", perkName: "" };
+
+        availablePerksDispatch(availablePerksAction);
+
+        // Remove all traits.
+
+        setTraits([]);
+
+        // Set primary stats to 5. Set primary stat points to 5.
+
+        const primaryStatsAction: IPrimaryStatsAction = { type : "reset", payload: "", traits: traits }
+
+        primaryStatsDispatch(primaryStatsAction);
+
+        // Set raised skills to 0.
+
+        const raisedSkillsAction: IRaisedSkillsAction = { type: "reset", skillName: "", amount: 0 };
+
+        raisedSkillsDispatch(raisedSkillsAction);
+    }
+
     // Base skills and derived stats are calculated from primary stats, traits, perks and tagged skills.
 
     // Re-calculate on change.
@@ -2438,7 +2488,6 @@ function App() {
                 handleAvailablePerkClick={handleAvailablePerkClick}
                 handlePlayersPerkClick={handlePlayersPerkClick}>
             </Perks>
-
             <Footer
                 difficulty={difficulty}
                 tooltipHeading={tooltipHeading}
@@ -2446,7 +2495,8 @@ function App() {
                 tooltipBody={tooltipBody}
                 handleDifficultyClick={handleDifficultyClick}
                 handlePrintClick={handlePrintClick}
-            ></Footer>
+                handleResetClick={handleResetClick}>
+            </Footer>
 
         </div>
     );

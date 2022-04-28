@@ -8,13 +8,15 @@ interface IFooterProps {
     tooltipBody: string,
     difficulty: string,
     handlePrintClick: MouseEventHandler<HTMLButtonElement>,
-    handleDifficultyClick: MouseEventHandler<SVGElement>
+    handleDifficultyClick: MouseEventHandler<SVGElement>,
+    handleResetClick: MouseEventHandler<HTMLButtonElement>,
+    children?: React.ReactNode
 }
 /**
  * Component fixed to the bottom of the screen, containing tooltip, difficulty settings and a button to print out the character.
  */
 
-export default function Footer({ tooltipHeading, tooltipSubHeading, tooltipBody, difficulty, handleDifficultyClick, handlePrintClick }: IFooterProps): JSX.Element {
+export default function Footer({ tooltipHeading, tooltipSubHeading, tooltipBody, difficulty, handleDifficultyClick, handlePrintClick, handleResetClick }: IFooterProps): JSX.Element {
     return (
         <div id="footer">
 
@@ -53,6 +55,13 @@ export default function Footer({ tooltipHeading, tooltipSubHeading, tooltipBody,
                 <div className="print-button-container">
                     <button onClick={handlePrintClick}></button>
                     <div>Print</div>
+                </div>
+
+                <div className="reset-button-container">
+                    <div>
+                        <div>Reset</div>
+                    </div>
+                    <button onClick={handleResetClick}></button>
                 </div>
             </div>
         </div>
