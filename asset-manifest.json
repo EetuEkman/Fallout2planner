@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/fallout2planner/static/css/main.40967757.css",
-    "main.js": "/fallout2planner/static/js/main.2431add5.js",
-    "static/media/SlaterIndustrial.ttf": "/fallout2planner/static/media/SlaterIndustrial.287b48265b755596e8c9.ttf",
-    "static/media/ImpactLabel.ttf": "/fallout2planner/static/media/ImpactLabel.36291f94abca07ee020d.ttf",
-    "static/media/Overseer.otf": "/fallout2planner/static/media/Overseer.54a61ac5f3bdb7ec0121.otf",
-    "static/media/monofonto.otf": "/fallout2planner/static/media/monofonto.795fa9100f450a32e7ea.otf",
-    "index.html": "/fallout2planner/index.html",
-    "main.40967757.css.map": "/fallout2planner/static/css/main.40967757.css.map",
-    "main.2431add5.js.map": "/fallout2planner/static/js/main.2431add5.js.map"
+    "main.css": "/Fallout2planner/static/css/main.005d9cb0.css",
+    "main.js": "/Fallout2planner/static/js/main.2431add5.js",
+    "static/media/SlaterIndustrial.ttf": "/Fallout2planner/static/media/SlaterIndustrial.287b48265b755596e8c9.ttf",
+    "static/media/ImpactLabel.ttf": "/Fallout2planner/static/media/ImpactLabel.36291f94abca07ee020d.ttf",
+    "static/media/Overseer.otf": "/Fallout2planner/static/media/Overseer.54a61ac5f3bdb7ec0121.otf",
+    "static/media/monofonto.otf": "/Fallout2planner/static/media/monofonto.795fa9100f450a32e7ea.otf",
+    "index.html": "/Fallout2planner/index.html",
+    "main.005d9cb0.css.map": "/Fallout2planner/static/css/main.005d9cb0.css.map",
+    "main.2431add5.js.map": "/Fallout2planner/static/js/main.2431add5.js.map"
   },
   "entrypoints": [
-    "static/css/main.40967757.css",
+    "static/css/main.005d9cb0.css",
     "static/js/main.2431add5.js"
   ]
 }
