@@ -6,9 +6,11 @@ Fallout 2 is a video game developed by Black Isle studios.
 
 The app is coded using typescript and bootstrapped with create-react-app.
 
-## Installation
+App is hosted on github pages: <https://eetuekman.github.io/Fallout2planner>
 
-Node package manager is required for installation.
+## Testing
+
+Node package manager is required for testing the app.
 
 After downloading the repository, install dependencies while in the project folder with the command `npm install`.
 
