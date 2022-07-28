@@ -2454,40 +2454,45 @@ function App() {
     }, [primaryStats, traits, playersPerks, taggedSkills, difficulty]);
 
     return (
-        <div className="flex-container" id="App">
-            <PrimaryStats
-                primaryStats={primaryStats}
-                playerLevel={playerLevel}
-                handleClick={handlePrimaryStatClick}
-                handleTooltipClick={handleTooltipClick}
-                handlePlayerLevelUpClick={handlePlayerLevelUpClick}></PrimaryStats>
-            <DerivedStats
-                derivedStats={derivedStats}
-                playersPerks={playersPerks}
-                traits={traits}
-                onClick={handleTooltipClick}>
-            </DerivedStats>
-            <PlayerSkills baseSkills={baseSkills}
-                raisedSkills={raisedSkills}
-                handleTagClick={handleTagClick}
-                handleSkillValueClick={handleSkillValueClick}
-                playerLevel={playerLevel}
-                skillPoints={skillPoints}
-                taggedSkills={taggedSkills}
-                tagPoints={tagPoints}
-                handleTooltipClick={handleTooltipClick}>
-            </PlayerSkills>
-            <Traits handleClick={handleTraitClick} traits={traits}></Traits>
-            <Perks playersPerks={playersPerks}
-                availablePerks={availablePerks}
-                perkPoints={perkPoints}
-                playerLevel={playerLevel}
-                primaryStats={primaryStats}
-                baseSkills={baseSkills}
-                raisedSkills={raisedSkills}
-                handleAvailablePerkClick={handleAvailablePerkClick}
-                handlePlayersPerkClick={handlePlayersPerkClick}>
-            </Perks>
+
+        <div className="grid-container" id="App">
+            
+            <div className="flex-container">
+                <PrimaryStats
+                    primaryStats={primaryStats}
+                    playerLevel={playerLevel}
+                    handleClick={handlePrimaryStatClick}
+                    handleTooltipClick={handleTooltipClick}
+                    handlePlayerLevelUpClick={handlePlayerLevelUpClick}></PrimaryStats>
+                <DerivedStats
+                    derivedStats={derivedStats}
+                    playersPerks={playersPerks}
+                    traits={traits}
+                    onClick={handleTooltipClick}>
+                </DerivedStats>
+                <PlayerSkills baseSkills={baseSkills}
+                    raisedSkills={raisedSkills}
+                    handleTagClick={handleTagClick}
+                    handleSkillValueClick={handleSkillValueClick}
+                    playerLevel={playerLevel}
+                    skillPoints={skillPoints}
+                    taggedSkills={taggedSkills}
+                    tagPoints={tagPoints}
+                    handleTooltipClick={handleTooltipClick}>
+                </PlayerSkills>
+                <Traits handleClick={handleTraitClick} traits={traits}></Traits>
+                <Perks playersPerks={playersPerks}
+                    availablePerks={availablePerks}
+                    perkPoints={perkPoints}
+                    playerLevel={playerLevel}
+                    primaryStats={primaryStats}
+                    baseSkills={baseSkills}
+                    raisedSkills={raisedSkills}
+                    handleAvailablePerkClick={handleAvailablePerkClick}
+                    handlePlayersPerkClick={handlePlayersPerkClick}>
+                </Perks>
+            </div>
+
             <Footer
                 difficulty={difficulty}
                 tooltipHeading={tooltipHeading}
@@ -2499,6 +2504,7 @@ function App() {
             </Footer>
 
         </div>
+
     );
 }
 
