@@ -45,7 +45,7 @@ export default function Perks({ playersPerks, availablePerks, perkPoints, player
                             perk.requirementsMet ?
                                 jsx = <div key={index} onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"true"}>{perk.name} {perk.ranks}</div>
                                 :
-                                jsx = <div key={index} style={{ "color": "darkgreen" }} onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"false"}>{perk.name} {perk.ranks}</div>
+                                jsx = <div key={index} className="unavailable-perk" onClick={handleAvailablePerkClick} data-perk-name={perk.name} data-requirements-met={"false"}>{perk.name} {perk.ranks}</div>
                             :
                             jsx = null;
 

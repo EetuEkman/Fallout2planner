@@ -32,7 +32,7 @@ export default function PlayersPerks({ playersPerks, handlePlayerPerkClick }: IP
                             // Render all the levels of the perk
 
                             jsx = perk.levelSelected.map((levelSelected, index) => {
-                                return <div key={index} style={{ "color": "orange" }}>Level {levelSelected.toString()}</div>
+                                return <div key={index} className="level-selected">Level {levelSelected.toString()}</div>
                             })
 
                             jsx.push(<div key={perk.name} onClick={handlePlayerPerkClick} data-perk-name={perk.name}>{perk.name + " " + perk.ranks.toString()}</div>)
